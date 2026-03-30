@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background-color:#f6f7f8
+}
+
+.topo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: rgb(236, 203, 15);
+    border-bottom: 1px solid #ddd;
+    
+}
+
+.logo-area{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%
+}
+
+.logo-text{
+    font-weight: bold;
+    color: rgb(216, 179, 13);
+}
+
+.login-bnt:hover{
+    opacity: 0.8;
+}
+
+.layout{
+    display: center;
+}
+
+.sidebar{
+    width: 150px;
+    background: white;
+    padding: 2px;
+    height: 50vh;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar ul{
+    list-style: none;
+    padding: 20px 15px;
+}
+
+.sidebar li{
+    margin-bottom: 10px;
+}
+.botao1{
+    background-color: rgb(243, 209, 14);
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 0px;
+    cursor: pointer;
+    
+}
+.botao2{
+    background-color: rgb(243, 209, 14);
+    color: black;
+    padding: 10px 26px;
+    font-size: 15px;
+    border-radius: 0px;
+    cursor: pointer;
+    
+}
+.botao3{
+    background-color: rgb(243, 209, 14);
+    color: rgb(0, 0, 0);
+    padding: 10px 22px;
+    font-size: 15px;
+    border-radius: 0px;
+    cursor: pointer;
+    
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: rgb(209, 195, 4);
+    padding: 88px;
+    display: block;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+
+.feed{
+    flex: 1;
+    padding: 30px;
+}
+
+.post{
+    display: flex;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0,0.05);
+}
+
+.votos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.modal-botoes button{
+    background-color: rgb(255, 217, 0);
+    color: black;
+    padding: 5px 10px;
+    font-size:10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.modal-content{
+    
+
+
+}
