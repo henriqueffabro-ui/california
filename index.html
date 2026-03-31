@@ -8,7 +8,7 @@
     <body>
         <header class="topo">
         <h1> Isumagi </h1>
-        <input type="text" placeholder="Pesquise ideias!">
+        <input type="text" id="pesquisa" placeholder="Pesquise ideias!">
         </header>
         <div class="container">
             <aside class="sidebar">
@@ -22,26 +22,23 @@
             <main class="feed"></main>
             <aside class="sidebar-esquerda">
                 <div class="card">
-                    <p> Onde suas ideias ajudam outros! </p>
+                    
                 </div>
             </aside>
         </div>
+
+
         <div class="modal" id="modalPost">
             <div class="modal-content">
                 <h2> Nova ideia </h2>
-                <select id="autor">
-                
-                </select>
-                <input type="text" id="titulo" placeholder="Título">
-                <textarea id=" descricao" placeholder="Descrição"></textarea>
-
+                <input id="titulo" type="text" placeholder="Seu Título aqui!">
+                <textarea id="descricao" placeholder="Descrição"></textarea>
                 <div class="modal-botoes">
                     <button class="botao4" onclick="criarPost()">Postar</button>
                     <button class="botao5" onclick="fecharModal()">Canelar</button>
                 </div>
             </div>
         </div>
-        <h1> nathan meu beloved </h1>
         <script src="script.js"></script>        
     </body>
     </html>
