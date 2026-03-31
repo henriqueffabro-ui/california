@@ -49,57 +49,5 @@
 
 /* emi */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
 
-body{
-    background-color:#f6f7f8
-}
-
-.topo{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: rgb(236, 203, 15);
-    border-bottom: 1px solid #ddd;
-    
-}
-
-.logo-area{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo{
-    width: 40px;
-    height: 40px;
-    border-radius: 50%
-}
-
-.logo-text{
-    font-weight: bold;
-    color: rgb(216, 179, 13);
-}
-
-.login-bnt:hover{
-    opacity: 0.8;
-}
-
-.layout{
-    display: center;
-}
-
-.sidebar{
-    width: 150px;
-    background: white;
-    padding: 2px;
-    height: 50vh;
-    border-right: 1px solid #ddd;
-}
 
