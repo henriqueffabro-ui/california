@@ -78,8 +78,45 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
     <h1>Boas-vindas, <?php echo $_SESSION['nome']; ?>!</h1><br>
     
     <!-- emi -->
+    <head>
+        <meta charset="UTF-8">
+        <tittle> Isumagi </tittle>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <header class="topo">
+        <h1> Isumagi </h1>
+        <input type="text" id="pesquisa" placeholder="Pesquise ideias!">
+        </header>
+        <div class="container">
+            <aside class="sidebar">
+                <ul>
+                    <li> <button class="botao1">Pág inicial</button> </li>
+                    <li> <button class="botao2">Explorar</button> </li>
+                    <li> <button class="botao3">Seguindo</button> </li>
+                </ul>
+            </aside>
 
-  
+            <main class="feed"></main>
+            <aside class="sidebar-esquerda">
+                <div class="card">
+                    
+                </div>
+            </aside>
+        </div>
+
+
+        <div class="modal" id="modalPost">
+            <div class="modal-content">
+                <h2> Nova ideia </h2>
+                <input id="titulo" type="text" placeholder="Seu Título aqui!">
+                <textarea id="descricao" placeholder="Descrição"></textarea>
+                <div class="modal-botoes">
+                    <button class="botao4" onclick="criarPost()">Postar</button>
+                    <button class="botao5" onclick="fecharModal()">Canelar</button>
+                </div>
+            </div>
+        </div>
 
     <a href="sair.php">Sair</a>
 
