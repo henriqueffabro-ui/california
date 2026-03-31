@@ -79,35 +79,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
     
     <!-- emi -->
 
-    <header class="topo">
-        <h1> Isumagi </h1>
-        <input type="text" placeholder="Pesquise ideias!">
-        </header>
-        <div class="container">
-            <aside class="sidebar">
-                <ul>
-                    <li> <button class="botao1">Pág inicial</button> </li>
-                    <li> <button class="botao2">Explorar</button> </li>
-                    <li> <button class="botao3">Seguindo</button> </li>
-                </ul>
-            </aside>
-
-            <main class="feed"></main>
-            <aside class="sidebar-esquerda">
-                <div class="card">
-                    <p> Onde suas ideias ajudam outros! </p>
-                </div>
-            </aside>
-        </div>
-        <div class="modal" id="modalPost">
-            <div class="modal-content">
-                <h2> Nova ideia </h2>
-                <select id="autor">
-                
-                </select>
-                
-            </div>
-        </div>
+  
 
     <a href="sair.php">Sair</a>
 
