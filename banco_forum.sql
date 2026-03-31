@@ -1,0 +1,180 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Tempo de geração: 31/03/2026 às 02:11
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Banco de dados: `banco_forum`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `imagens`
+--
+
+CREATE TABLE `imagens` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `id_post` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `imagens`
+--
+
+INSERT INTO `imagens` (`id`, `nome`, `id_post`) VALUES
+(1, '69c7d73c70087.', 5),
+(3, '69c7d8c548ef3.', 7),
+(4, '69c7d8f8bbf20.', 8),
+(12, '69c7db01b815f.jpg', 14),
+(13, '69c9bbd01b773.jpg', 15),
+(14, '69c9bbe40658b.jpg', 16),
+(15, '69c9bbe4094c1.jpg', 16),
+(16, '69c9bc15042e6.jpg', 17),
+(17, '69c9bc150526a.jpg', 17),
+(18, '69ca7a90d0904.jpg', 18),
+(19, '69ca7ae22ae0a.jpg', 19),
+(20, '69ca7cbb29d86.jpg', 20),
+(21, '69ca7cbb2b084.jpg', 20),
+(22, '69cb09e6dc016.jpg', 21),
+(23, '69cb0a7c31a7d.jpg', 22);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `postagens`
+--
+
+CREATE TABLE `postagens` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(200) NOT NULL,
+  `descricao` text NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `data` datetime DEFAULT current_timestamp(),
+  `editado` int(100) DEFAULT NULL,
+  `upvotes` int(100) DEFAULT NULL,
+  `downvotes` int(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `postagens`
+--
+
+INSERT INTO `postagens` (`id`, `titulo`, `descricao`, `id_usuario`, `data`, `editado`, `upvotes`, `downvotes`) VALUES
+(5, 'qq', 'qqq', 1, '2026-03-28 10:27:24', NULL, NULL, NULL),
+(7, 'qqqqsss', 'qqqq', 1, '2026-03-28 10:33:57', 1, NULL, NULL),
+(8, 'wwwddd', 'sss', 1, '2026-03-28 10:34:48', 1, NULL, NULL),
+(14, 'imagens', 'brabo', 1, '2026-03-28 10:43:29', NULL, NULL, NULL),
+(15, 'ee', 'eee', 1, '2026-03-29 20:54:56', NULL, NULL, NULL),
+(16, 'qqq', 'qqq', 1, '2026-03-29 20:55:16', NULL, NULL, NULL),
+(17, 'ss', 'ss', 1, '2026-03-29 20:56:05', NULL, NULL, NULL),
+(18, '', '', 1, '2026-03-30 10:28:48', NULL, NULL, NULL),
+(19, '', '', 1, '2026-03-30 10:30:10', NULL, NULL, NULL),
+(20, '', 'aaa', 1, '2026-03-30 10:38:03', 1, NULL, NULL),
+(21, 'www', 'www', 1, '2026-03-30 20:40:22', NULL, NULL, NULL),
+(22, 'oaoaoa', 'ssssssss', 1, '2026-03-30 20:42:52', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `senha` varchar(200) NOT NULL,
+  `data_criacao` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_criacao`) VALUES
+(1, 'chiquinho_gaviao', 'gaviaochico@gmail.com', 'california', '2026-03-28 10:06:43'),
+(2, 'Henrique', 'henriqueffabro@gmail.com', 'california', '2026-03-28 10:42:04');
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices de tabela `imagens`
+--
+ALTER TABLE `imagens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_post` (`id_post`);
+
+--
+-- Índices de tabela `postagens`
+--
+ALTER TABLE `postagens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Índices de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `imagens`
+--
+ALTER TABLE `imagens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT de tabela `postagens`
+--
+ALTER TABLE `postagens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `imagens`
+--
+ALTER TABLE `imagens`
+  ADD CONSTRAINT `imagens_ibfk_1` FOREIGN KEY (`id_post`) REFERENCES `postagens` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `postagens`
+--
+ALTER TABLE `postagens`
+  ADD CONSTRAINT `postagens_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
