@@ -152,8 +152,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         echo "<p class='card-text'>" . $row["descricao"] . "</p>"; //mostra a descrição da postagem
                         echo "<h5 class='card-user'> Postado por: " . $row["nome"] . "</h5>";
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
-                        echo "<button id='bUpvotes' class='btn btn-success'>Upvotes: " . $row["upvotes"] . "</button>"; //mostra o número de upvotes da postagem
-                        echo "<button id='bDownvotes' class='btn btn-danger'>Downvotes: " . $row["downvotes"] . "</button>"; //mostra o número de downvotes da postagem
+                        echo "<button onclick= votarUp()  id='bUpvotes' class='btn btn-success'>Upvotes: " . $row["upvotes"] . "</button>"; //mostra o número de upvotes da postagem
+                        echo "<button onclick= votarDown() id='bDownvotes' class='btn btn-danger'>Downvotes: " . $row["downvotes"] . "</button>"; //mostra o número de downvotes da postagem
                         
                         echo"<br>"; //quebra de linha
                         $id_post = $row['id'];
@@ -190,67 +190,11 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         <button onclick="cancelar()">Cancelar</button>
     </div>
     </div>
-    <script>
+
+    
+    <script src="sistema.js"></script>
 
         
-        
-
-
-
-        function mostrarImg(){ //ao clicar no botão de img, aciona o input, que por sua vez aciona essa função
-            
-                
-
-            const input = document.getElementById('fileInput'); //pega o elemento input
-
-            //const nome = input.files[0]?.name || "Nenhum arquivo selecionado"; mostra o nome da img na tela, 
-            //document.getElementById('nomeArquivo').innerText = nome;           mas pode ser util no banco de dados para salvar o nome da img, caso queira fazer isso futuramente
-
-            const imgpreview = document.getElementById('imgpreview'); //pega a div onde ficam as imgs na tela
-
-            
-
-            for(let i = 0; i < input.files.length; i++){ //percorre todas as imgs
-                const arquivo = input.files[i]; //pega a img atual, de acordo com o índice do for
-            
-                if(arquivo.type.startsWith("image/")){ //verifica se o arquivo é img
-
-                    const img = document.createElement("img"); //cria uma tag img
-                    img.src = URL.createObjectURL(arquivo); //insere no src da img o caminho da img atual
-                    img.style.display = "block"; //ativa a exibição da img
-                    img.style.width = "200px"; 
-                    img.style.height = "auto"; //esses 2 são tamanho da img
-
-                    img.style.marginRight = "10px"; //essa é a margem, a img vai para a direita
-
-                    imgpreview.appendChild(img); //appendChild insere a img dentro da div imgpreview, e mostra tudo na tela
-                }
-            }
-            
-        }
-
-        function editarPostagem(id) {
-            window.location.href = 'editarPostagem.php?id=' + id;
-        }
-
-        //function excluirPostagem(id) {
-        //    window.location.href = 'excluirPostagem.php?id=' + id;
-        //}
-
-        function excluirPostagem(id) {
-            document.getElementById('confirmBox').style.display = 'flex';
-            document.getElementById('confirmBox').dataset.id = id; // Armazena o ID da postagem a ser excluída
-        }
-
-        function confirmar() {
-           var id = document.getElementById('confirmBox').dataset.id; // Recupera o ID da postagem a ser excluída
-           window.location.href = 'excluirPostagem.php?id=' + id;
-        }
-
-        function cancelar() {
-            document.getElementById('confirmBox').style.display = 'none'; // Esconde a caixa de confirmação
-        }
-
-    </script>
+       
 </body>
 </html>
