@@ -163,7 +163,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
                         $temImagem = false;
 
-                        if ($result_img->num_rows > 0) { // verifica se há imagens associadas à postagem
+                        if ($result_img->num_rows > 0) { // verifica se há alguma nesse campo no banco de dados
                             while($img = $result_img->fetch_assoc()){ //percorre todas as imgs associadas à postagem
                                 if (!empty($img['nome']) && file_exists("uploads/".$img['nome'])) { //verifica se realmente existe img
                                     echo "<img src='uploads/".$img['nome']."' width='200' style='margin-left: 10px;'>"; //coloca na tela

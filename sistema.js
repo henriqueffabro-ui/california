@@ -5,12 +5,19 @@ let votedDown = false;
 
 
 function votarUp() {
-    if (!votedUp) {
+    if (!votedUp && !votedDown) {
         upvotes = upvotes + 1;
         alert(upvotes);
         votedUp = true;
     }
-    else {
+    else if (votedDown && !votedUp) {
+        downvotes = downvotes - 1;
+        upvotes = upvotes + 1;
+        votedDown = false;
+        votedUp = true;
+        alert(upvotes);
+    }
+    else if (votedUp) {
         upvotes = upvotes - 1;
         alert(upvotes);
         votedUp = false;
@@ -19,12 +26,19 @@ function votarUp() {
 }
 
 function votarDown() {
-    if (!votedDown) {
+    if (!votedDown && !votedUp) {
         downvotes = downvotes + 1;
         alert(downvotes);
         votedDown = true;
     }
-    else {
+    else if (votedUp && !votedDown) {
+        upvotes = upvotes - 1;
+        downvotes = downvotes + 1;
+        votedUp = false;
+        votedDown = true;
+        alert(downvotes);
+    }
+    else if (votedDown) {
         downvotes = downvotes - 1;
         alert(downvotes);
         votedDown = false;
