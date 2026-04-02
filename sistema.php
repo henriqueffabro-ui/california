@@ -161,10 +161,21 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         $sql_img = "SELECT * FROM imagens WHERE id_post = $id_post";
                         $result_img = $conexao->query($sql_img);
 
-                        while($img = $result_img->fetch_assoc()){
-                        echo "<img src='uploads/".$img['nome']."' width='200' style='margin-left: 10px;'>"; //mostra as imgs da postagem
+                        $temImagem = false;
 
+                        if ($result_img->num_rows > 0) { // verifica se há imagens associadas à postagem
+                            while($img = $result_img->fetch_assoc()){ //percorre todas as imgs associadas à postagem
+                                if (!empty($img['nome']) && file_exists("uploads/".$img['nome'])) { //verifica se realmente existe img
+                                    echo "<img src='uploads/".$img['nome']."' width='200' style='margin-left: 10px;'>"; //coloca na tela
+                                    $temImagem = true; //isso é só pra dar um <br> depois
+                                }
+                            }
                         }
+
+                        if ($temImagem) {
+                            echo "<br>";
+                        }
+
                         echo "<br>";
                         if($row["nome"] == $_SESSION['nome']){ //verifica se o nome do usuário logado é igual ao nome do usuário que fez a postagem
                             echo "<button onclick='editarPostagem(" . $row["id"] . ")' id='BdeEditar' class='btn btn-primary'>Editar</button>"; //se for igual, mostra o botão de editar
