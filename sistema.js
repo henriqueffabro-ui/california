@@ -1,8 +1,27 @@
-let upvotes = 0;
+let upvotes = 0; // Variável para armazenar o número de upvotes, inicializada com o valor do banco de dados
 let downvotes = 0;
 let votedUp = false;
 let votedDown = false;
 
+document.querySelectorAll(".btn-upvote").forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        let id = btn.getAttribute("data-id");
+
+        fetch("upvote.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "id_post=" + id
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("up-" + id).innerText = data.upvotes;
+        });
+
+    });
+});
 
 function votarUp() {
     if (!votedUp && !votedDown) {

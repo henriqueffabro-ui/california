@@ -64,6 +64,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 //print_r($result); // teste de funcionamento
 
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -152,9 +154,16 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         echo "<p class='card-text'>" . $row["descricao"] . "</p>"; //mostra a descrição da postagem
                         echo "<h5 class='card-user'> Postado por: " . $row["nome"] . "</h5>";
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
-                        echo "<button onclick= votarUp()  id='bUpvotes' class='btn btn-success'>Upvotes: " . $row["upvotes"] . "</button>"; //mostra o número de upvotes da postagem
-                        echo "<button onclick= votarDown() id='bDownvotes' class='btn btn-danger'>Downvotes: " . $row["downvotes"] . "</button>"; //mostra o número de downvotes da postagem
+                        ?>
                         
+                        <button class="btn-upvote" data-id="<?php echo $row['id']; ?>">
+                            
+                            Upvotes: <span id="up-<?php echo $row['id']; ?>">
+                                <?php echo $row["upvotes"] ?? 0; ?>
+                            </span>
+                        </button>
+                        
+                        <?php
                         echo"<br>"; //quebra de linha
                         $id_post = $row['id'];
 
