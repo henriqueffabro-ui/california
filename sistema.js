@@ -12,9 +12,10 @@ function votar(post_id, tipo) {
             },
             body: "post_id=" + post_id + "&tipo=" + tipo
         })
-        .then(res => res.text())
-        .then(total => {
-            document.getElementById("votes-" + post_id).innerText = total;
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("upvotes-" + post_id).innerText = data.up;
+            document.getElementById("downvotes-" + post_id).innerText = data.down;
         });
 
 };

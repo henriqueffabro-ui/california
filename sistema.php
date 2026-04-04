@@ -4,6 +4,8 @@
     include_once('config.php'); //conecta com o arquivo de que conecta com o banco de dados
     print_r($_SESSION);
 
+    $result = $conexao->query("SELECT * FROM postagens");
+
     //print_r($_SESSION);
 
     //Se o usuário não estiver logado, redireciona para a página de login.php (a página de login).
@@ -13,6 +15,7 @@
         unset($_SESSION['email']);
         unset($_SESSION['senha']);
         header('Location: login.php');
+        exit;
 
     }
     else{
@@ -156,11 +159,10 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
                         ?>
                         
-                        <button onclick="votar(<?= $post['id'] ?>, 1)">Upvote</button>
-                        
-                        <button onclick="votar(<?= $post['id'] ?>, -1)">Downvote</button>
-                        <span id="votes-<?= $post['id'] ?>">0</span>
-
+                        <button onclick="votar(<?= $row['id'] ?>, 1)">Upvote</button> 
+                        <button onclick="votar(<?= $row['id'] ?>, -1)">Downvote</button>
+                        <span id="upvotes-<?= $row['id'] ?>">0</span> Upvotes
+                        <span id="downvotes-<?= $row['id'] ?>">0</span> Downvotes
 
                         <?php
                         echo"<br>"; //quebra de linha
