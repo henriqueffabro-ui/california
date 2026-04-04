@@ -3,25 +3,23 @@ let downvotes = 0;
 let votedUp = false;
 let votedDown = false;
 
-document.querySelectorAll(".btn-upvote").forEach(btn => {
-    btn.addEventListener("click", () => {
+function votar(post_id, tipo) {
 
-        let id = btn.getAttribute("data-id");
-
-        fetch("upvote.php", {
+        fetch("vote.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: "id_post=" + id
+            body: "post_id=" + post_id + "&tipo=" + tipo
         })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("up-" + id).innerText = data.upvotes;
+        .then(res => res.text())
+        .then(total => {
+            document.getElementById("votes-" + post_id).innerText = total;
         });
 
-    });
-});
+};
+
+
 
 function votarUp() {
     if (!votedUp && !votedDown) {

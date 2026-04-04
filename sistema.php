@@ -156,13 +156,12 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
                         ?>
                         
-                        <button class="btn-upvote" data-id="<?php echo $row['id']; ?>">
-                            
-                            Upvotes: <span id="up-<?php echo $row['id']; ?>">
-                                <?php echo $row["upvotes"] ?? 0; ?>
-                            </span>
-                        </button>
+                        <button onclick="votar(<?= $post['id'] ?>, 1)">Upvote</button>
                         
+                        <button onclick="votar(<?= $post['id'] ?>, -1)">Downvote</button>
+                        <span id="votes-<?= $post['id'] ?>">0</span>
+
+
                         <?php
                         echo"<br>"; //quebra de linha
                         $id_post = $row['id'];
