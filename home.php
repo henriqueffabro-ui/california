@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <h1>Bem Vindo a Home</h1><br>
+    <h2>Bem vindo ao site Isumagi!</h2><br>
     <h1>Vamos colocar o mascote aqui dando boas vindas e perguntando se quer se cadastrar ou fazer login</h1>
     <button onclick="location.href='cadastro.php'">Cadastrar-se</button>
     <button onclick="location.href='login.php'">Login</button>
