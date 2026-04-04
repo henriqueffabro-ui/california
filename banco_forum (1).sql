@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 31/03/2026 às 02:11
+-- Tempo de geração: 05/04/2026 às 01:41
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -52,7 +52,8 @@ INSERT INTO `imagens` (`id`, `nome`, `id_post`) VALUES
 (20, '69ca7cbb29d86.jpg', 20),
 (21, '69ca7cbb2b084.jpg', 20),
 (22, '69cb09e6dc016.jpg', 21),
-(23, '69cb0a7c31a7d.jpg', 22);
+(23, '69cb0a7c31a7d.jpg', 22),
+(24, '69d19fa707d5d.png', 23);
 
 -- --------------------------------------------------------
 
@@ -84,10 +85,11 @@ INSERT INTO `postagens` (`id`, `titulo`, `descricao`, `id_usuario`, `data`, `edi
 (16, 'qqq', 'qqq', 1, '2026-03-29 20:55:16', NULL, NULL, NULL),
 (17, 'ss', 'ss', 1, '2026-03-29 20:56:05', NULL, NULL, NULL),
 (18, '', '', 1, '2026-03-30 10:28:48', NULL, NULL, NULL),
-(19, '', '', 1, '2026-03-30 10:30:10', NULL, NULL, NULL),
-(20, '', 'aaa', 1, '2026-03-30 10:38:03', 1, NULL, NULL),
-(21, 'www', 'www', 1, '2026-03-30 20:40:22', NULL, NULL, NULL),
-(22, 'oaoaoa', 'ssssssss', 1, '2026-03-30 20:42:52', NULL, NULL, NULL);
+(19, '', '', 1, '2026-03-30 10:30:10', NULL, 0, 0),
+(20, '', 'aaa', 1, '2026-03-30 10:38:03', 1, 0, 0),
+(21, 'www', 'www', 1, '2026-03-30 20:40:22', NULL, 0, 0),
+(22, 'oaoaoa', 'ssssssss', 1, '2026-03-30 20:42:52', NULL, 0, 1),
+(23, 'olha que linda', 'essa imagem', 1, '2026-04-04 20:32:55', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -110,6 +112,26 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_criacao`) VALUES
 (1, 'chiquinho_gaviao', 'gaviaochico@gmail.com', 'california', '2026-03-28 10:06:43'),
 (2, 'Henrique', 'henriqueffabro@gmail.com', 'california', '2026-03-28 10:42:04');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `votos`
+--
+
+CREATE TABLE `votos` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `tipo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `votos`
+--
+
+INSERT INTO `votos` (`id`, `post_id`, `usuario_id`, `tipo`) VALUES
+(25, 23, 1, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -137,6 +159,14 @@ ALTER TABLE `usuarios`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Índices de tabela `votos`
+--
+ALTER TABLE `votos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario_id` (`usuario_id`),
+  ADD KEY `post_id` (`post_id`);
+
+--
 -- AUTO_INCREMENT para tabelas despejadas
 --
 
@@ -144,19 +174,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `imagens`
 --
 ALTER TABLE `imagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `postagens`
 --
 ALTER TABLE `postagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `votos`
+--
+ALTER TABLE `votos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Restrições para tabelas despejadas
@@ -173,6 +209,13 @@ ALTER TABLE `imagens`
 --
 ALTER TABLE `postagens`
   ADD CONSTRAINT `postagens_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `votos`
+--
+ALTER TABLE `votos`
+  ADD CONSTRAINT `votos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `votos_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `postagens` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
