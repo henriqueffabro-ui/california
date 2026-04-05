@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/04/2026 às 01:41
+-- Tempo de geração: 05/04/2026 às 21:14
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `banco_forum`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `comentarios`
+--
+
+CREATE TABLE `comentarios` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `comentario` text NOT NULL,
+  `data` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `comentarios`
+--
+
+INSERT INTO `comentarios` (`id`, `post_id`, `usuario_id`, `comentario`, `data`) VALUES
+(19, 23, 1, 'caraca essa imagem é realmente linda', '2026-04-05 19:05:41'),
+(20, 23, 1, 'mds isso é arte', '2026-04-05 19:10:30'),
+(21, 23, 1, 'ww', '2026-04-05 19:10:40'),
+(22, 23, 1, 'minecraft', '2026-04-05 19:10:53');
 
 -- --------------------------------------------------------
 
@@ -87,9 +111,9 @@ INSERT INTO `postagens` (`id`, `titulo`, `descricao`, `id_usuario`, `data`, `edi
 (18, '', '', 1, '2026-03-30 10:28:48', NULL, NULL, NULL),
 (19, '', '', 1, '2026-03-30 10:30:10', NULL, 0, 0),
 (20, '', 'aaa', 1, '2026-03-30 10:38:03', 1, 0, 0),
-(21, 'www', 'www', 1, '2026-03-30 20:40:22', NULL, 0, 0),
+(21, 'www', 'www', 1, '2026-03-30 20:40:22', NULL, 1, 0),
 (22, 'oaoaoa', 'ssssssss', 1, '2026-03-30 20:42:52', NULL, 0, 1),
-(23, 'olha que linda', 'essa imagem', 1, '2026-04-04 20:32:55', NULL, 1, 0);
+(23, 'olha que linda', 'essa imagem ---- edit: muito obrigado pelo apoio galera', 1, '2026-04-04 20:32:55', 1, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -131,11 +155,21 @@ CREATE TABLE `votos` (
 --
 
 INSERT INTO `votos` (`id`, `post_id`, `usuario_id`, `tipo`) VALUES
-(25, 23, 1, 1);
+(47, 21, 1, 1),
+(49, 23, 1, 1),
+(50, 23, 2, 1);
 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `post_id` (`post_id`),
+  ADD KEY `usuario_id` (`usuario_id`);
 
 --
 -- Índices de tabela `imagens`
@@ -171,6 +205,12 @@ ALTER TABLE `votos`
 --
 
 --
+-- AUTO_INCREMENT de tabela `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
 -- AUTO_INCREMENT de tabela `imagens`
 --
 ALTER TABLE `imagens`
@@ -192,11 +232,18 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `votos`
 --
 ALTER TABLE `votos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `postagens` (`id`),
+  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
 
 --
 -- Restrições para tabelas `imagens`
