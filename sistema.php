@@ -157,6 +157,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         echo "<p class='card-text'>" . $row["descricao"] . "</p>"; //mostra a descrição da postagem
                         echo "<h5 class='card-user'> Postado por: " . $row["nome"] . "</h5>";
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
+
+                       
                         ?>
                         
                         <button onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
@@ -168,6 +170,30 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         <span>
                             <span id="downvotes-<?= $row['id'] ?>"><?= $row['downvotes'] ?></span>
                         </span>
+
+                        <br>
+                        <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..."> 
+                        <button onclick="postarComentario(<?= $row['id'] ?>)">Postar Comentário</button> 
+                        <br>
+                        <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
+        
+                            <?php
+                                // pega os comentários do post cujo id é igual ao id da postagem atual
+                                $comentarios = $conexao->query(" 
+                                    SELECT comentario, data FROM comentarios 
+                                    WHERE post_id = {$row['id']}
+                                ");
+
+                                while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
+                                echo "<p>{$c['comentario']}</p>"; //mostra o comentario 
+                                echo "<p class='comentario-data'>{$c['data']}</p>"; //separa os comentarios com uma linha
+                            
+                                echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------</p>"; //separa os comentarios com uma linha
+                                }
+                            ?>
+
+                        </div>
+
 
                         <?php
                         echo"<br>"; //quebra de linha
@@ -199,6 +225,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         if($row['editado'] == 1){
                             echo "<p>Editado</p>";
                         }
+
+                        
 
                         echo "<hr>"; //adiciona uma linha para separar as postagens
                     }

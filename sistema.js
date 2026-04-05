@@ -20,7 +20,27 @@ function votar(post_id, tipo) {
 
 };
 
+function postarComentario(post_id) {
 
+    let input = document.getElementById("comentario-" + post_id);
+    let texto = input.value;
+
+        fetch("coment.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "post_id=" + post_id + "&comentario=" + encodeURIComponent(texto) //encodeURIComponent é usado para garantir que o texto do comentário seja enviado corretamente, mesmo que contenha caracteres especiais
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("comentarios-" + post_id).innerHTML += data.comentario;
+            //document.getElementById("downvotes-" + post_id).innerText = data.down;
+
+            input.value = ""; // limpa o campo
+        });
+
+};
 
 function votarUp() {
     if (!votedUp && !votedDown) {

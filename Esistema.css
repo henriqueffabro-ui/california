@@ -1,3 +1,15 @@
+.comentarios {
+    margin-top: 10px;
+    padding-left: 20px;
+    color: rgb(86, 86, 86);
+}   
+
+.comentario-data{
+    font-size: 10px;
+    color: #888;
+}
+
+
 .card-title {
     font-size: 18px;
     font-weight: bold;
