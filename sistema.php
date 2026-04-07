@@ -178,15 +178,36 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
         
                             <?php
+
+
                                 // pega os comentários do post cujo id é igual ao id da postagem atual
                                 $comentarios = $conexao->query(" 
-                                    SELECT comentario, data FROM comentarios 
+                                    SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
                                     WHERE post_id = {$row['id']}
+                                    ORDER BY upvotes DESC
                                 ");
 
                                 while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
                                 echo "<p>{$c['comentario']}</p>"; //mostra o comentario 
                                 echo "<p class='comentario-data'>{$c['data']}</p>"; //separa os comentarios com uma linha
+                                
+                        
+
+                                // BOTÃO UPVOTE
+                                echo "<button onclick='votarcoment({$c['id']}, 1)'>
+                                    <img width='15px' src='imgs/arrow.webp'>
+                                </button>";
+
+                                // CONTADOR UPVOTE
+                                echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
+
+                                // BOTÃO DOWNVOTE
+                                echo "<button onclick='votarcoment({$c['id']}, -1)'>
+                                    <img width='15px' src='imgs/arrowd.jpg'>
+                                </button>";
+
+                                // CONTADOR DOWNVOTE
+                                echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
                             
                                 echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------</p>"; //separa os comentarios com uma linha
                                 }

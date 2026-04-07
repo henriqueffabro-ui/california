@@ -20,6 +20,23 @@ function votar(post_id, tipo) {
 
 };
 
+function votarcoment(comentario_id, tipo) {
+
+        fetch("vote_coment.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "comentario_id=" + comentario_id + "&tipo=" + tipo
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("upvotescoment-" + comentario_id).innerText = data.upcoment;
+            document.getElementById("downvotescoment-" + comentario_id).innerText = data.downcoment;
+        });
+
+};
+
 function postarComentario(post_id) {
 
     let input = document.getElementById("comentario-" + post_id);
