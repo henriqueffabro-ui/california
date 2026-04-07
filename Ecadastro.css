@@ -2,7 +2,7 @@
   background-color: rgba(105, 95, 3, 0.8); /* Preto com transparência */
   position: absolute;
   padding: 30px;
-  border-radius: 30px;
+  border-radius: 10px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -30,7 +30,7 @@ input{
     border: none;
     outline: none;
     background-color: rgb(216, 184, 0);
-    color: white;
+    color: rgb(0, 0, 0);
     font-weight: bold;
     cursor: pointer;
     border-radius: 15px;
@@ -46,8 +46,8 @@ input{
    padding: 10px;
     border: none;
     outline: none;
-    background-color: rgb(93, 0, 175);
-    color: white;
+    background-color: rgb(231, 227, 0);
+    color: rgb(0, 0, 0);
     font-weight: bold;
     cursor: pointer;
     border-radius: 15px;
