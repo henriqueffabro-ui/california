@@ -189,7 +189,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
                                 while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
                                 echo "<p>{$c['comentario']}</p>"; //mostra o comentario 
-                                echo "<p class='comentario-data'>{$c['data']}</p>"; //separa os comentarios com uma linha
+                                echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
                                 
                         
 
@@ -208,8 +208,18 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
                                 // CONTADOR DOWNVOTE
                                 echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
+
+                                echo"<br>";
+                                echo"<input id='resposta-{$c['id']}' placeholder='Responda...'>"; 
+                                echo"<button onclick='postarResposta({$c['id']})'>Postar</button>";
+                                echo"<br>";
                             
-                                echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------</p>"; //separa os comentarios com uma linha
+                                echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------------------------------------------------------------------------------------</p>"; //separa os comentarios com uma linha
+                                
+                                //aqui vai o botão de responder o comentário
+                                
+                        
+                                
                                 }
                             ?>
 

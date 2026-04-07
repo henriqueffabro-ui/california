@@ -1,3 +1,14 @@
+input[id^="resposta-"] {
+    width: 80px;
+    
+}
+
+button[onclick^="postarResposta"] {
+    width: 80px;
+    height: 20px;
+    cursor: pointer;
+}
+
 .comentarios {
     margin-top: 10px;
     padding-left: 20px;

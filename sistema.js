@@ -3,6 +3,40 @@ let downvotes = 0;
 let votedUp = false;
 let votedDown = false;
 
+function postarResposta(comentario_id) {
+
+    let input = document.getElementById("resposta-" + comentario_id);
+    let textoResposta = input.value;
+
+        if (textoResposta.trim() === "") return;
+        fetch("resposta.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "conteudo=" + encodeURIComponent(textoResposta) + "&parent_id=" + encodeURIComponent(comentario_id) //encodeURIComponent é usado para garantir que o texto da resposta seja enviado corretamente, mesmo que contenha caracteres especiais
+        })
+        .then(res => res.json()) //pega a resposta do servidor e converte para JSON (bagulho de JS)
+        .then(data => { //pega a respota do servidor, que é o conteúdo da resposta, e insere na página
+            //let div = document.createElement("div");
+            //div.classList.add("resposta"); // adiciona uma classe para estilizar a resposta, se quiser
+            //div.textContent = data.conteudo;
+            //div.style.marginLeft = "20px";
+
+            // adiciona dentro do comentário pai
+            //document.getElementById("comentario-" + comentario_id)
+              //  .appendChild(div);
+
+            // limpa input
+            //input.value = "";
+            console.log("RESPOSTA DO PHP:");
+            console.log(data);
+        });
+
+};
+
+
+
 function votar(post_id, tipo) {
 
         fetch("vote.php", {
