@@ -4,6 +4,8 @@
     include_once('config.php'); //conecta com o arquivo de que conecta com o banco de dados
     print_r($_SESSION);
 
+    $result = $conexao->query("SELECT * FROM postagens");
+
     //print_r($_SESSION);
 
     //Se o usuário não estiver logado, redireciona para a página de login.php (a página de login).
@@ -13,6 +15,7 @@
         unset($_SESSION['email']);
         unset($_SESSION['senha']);
         header('Location: login.php');
+        exit;
 
     }
     else{
@@ -154,12 +157,73 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         echo "<p class='card-text'>" . $row["descricao"] . "</p>"; //mostra a descrição da postagem
                         echo "<h5 class='card-user'> Postado por: " . $row["nome"] . "</h5>";
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
+
+                       
                         ?>
                         
-                        <button onclick="votar(<?= $post['id'] ?>, 1)">Upvote</button>
+                        <button onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
+                        <span>
+                            <span id="upvotes-<?= $row['id'] ?>"><?= $row['upvotes'] ?></span> 
+                        </span> 
                         
-                        <button onclick="votar(<?= $post['id'] ?>, -1)">Downvote</button>
-                        <span id="votes-<?= $post['id'] ?>">0</span>
+                        <button onclick="votar(<?= $row['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
+                        <span>
+                            <span id="downvotes-<?= $row['id'] ?>"><?= $row['downvotes'] ?></span>
+                        </span>
+
+                        <br>
+                        <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..."> 
+                        <button onclick="postarComentario(<?= $row['id'] ?>)">Postar Comentário</button> 
+                        <br>
+                        <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
+        
+                            <?php
+
+
+                                // pega os comentários do post cujo id é igual ao id da postagem atual
+                                $comentarios = $conexao->query(" 
+                                    SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
+                                    WHERE post_id = {$row['id']}
+                                    ORDER BY upvotes DESC
+                                ");
+
+                                while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
+                                echo "<p>{$c['comentario']}</p>"; //mostra o comentario 
+                                echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
+                                
+                        
+
+                                // BOTÃO UPVOTE
+                                echo "<button onclick='votarcoment({$c['id']}, 1)'>
+                                    <img width='15px' src='imgs/arrow.webp'>
+                                </button>";
+
+                                // CONTADOR UPVOTE
+                                echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
+
+                                // BOTÃO DOWNVOTE
+                                echo "<button onclick='votarcoment({$c['id']}, -1)'>
+                                    <img width='15px' src='imgs/arrowd.jpg'>
+                                </button>";
+
+                                // CONTADOR DOWNVOTE
+                                echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
+
+                                echo"<br>";
+                                echo"<input id='resposta-{$c['id']}' placeholder='Responda...'>"; 
+                                echo"<button onclick='postarResposta({$c['id']})'>Postar</button>";
+                                echo"<br>";
+                            
+                                echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------------------------------------------------------------------------------------</p>"; //separa os comentarios com uma linha
+                                
+                                //aqui vai o botão de responder o comentário
+                                
+                        
+                                
+                                }
+                            ?>
+
+                        </div>
 
 
                         <?php
@@ -192,6 +256,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         if($row['editado'] == 1){
                             echo "<p>Editado</p>";
                         }
+
+                        
 
                         echo "<hr>"; //adiciona uma linha para separar as postagens
                     }
