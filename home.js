@@ -1,0 +1,15 @@
+
+const texto= "alalalalla";
+const elemento=document.getElementById("texto");
+let i=0;
+
+function escrever() {
+    if (i < texto.length){
+        elemento.innerHTML += texto.charAt(i);
+        i++;
+        setTimeout(escrever, 50);
+    } else{
+        //mostra os botoes depois que termina
+        document.getElementById("botoes").style.opacity=1;
+    }
+}

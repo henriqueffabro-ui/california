@@ -7,9 +7,19 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <h2>Bem vindo ao site Isumagi!</h2><br>
-    <h1>Vamos colocar o mascote aqui dando boas vindas e perguntando se quer se cadastrar ou fazer login</h1>
-    <button onclick="location.href='cadastro.php'">Cadastrar-se</button>
-    <button onclick="location.href='login.php'">Login</button>
+
+    <div class="container">
+        <img src="uploads/bulbigp.png" class="bulbi">
+    </div>
+
+    <div class="caixa">
+        <h2 id="texto"> bem vindo ao isumagi! deseja fazer login ou cadastrar-se, querido usuário?</h2>
+    </div>
+
+    <div class="botoes" id="botoes">
+        <button class="cad" onclick="location.href='cadastro.php'">Cadastrar-se</button>
+        <button class="log" onclick="location.href='login.php'">Login</button>
+    </div>
+<script src="home.js"></script>
 </body>
 </html>
