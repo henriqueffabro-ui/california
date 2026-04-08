@@ -161,26 +161,21 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                        
                         ?>
                         
-                        <button onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
-                        <span>
-                            <span id="upvotes-<?= $row['id'] ?>"><?= $row['upvotes'] ?></span> 
-                        </span> 
                         
-                        <button onclick="votar(<?= $row['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
-                        <span>
-                            <span id="downvotes-<?= $row['id'] ?>"><?= $row['downvotes'] ?></span>
-                        </span>
-
                         <br>
                         <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..."> 
                         <button onclick="postarComentario(<?= $row['id'] ?>)">Postar Comentário</button> 
                         <br>
                         <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
 
-                        <div class="respostas" id="respostas-<?= $row['id'] ?>">
+                        
         
                             <?php
-
+                                //$comentarios = $conexao->query(" 
+                                  //  SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
+                                    //WHERE post_id = {$row['id']}
+                                    //ORDER BY upvotes DESC
+                                //");
 
                                 // pega os comentários do post cujo id é igual ao id da postagem atual
                                 $comentarios = $conexao->query(" 
@@ -196,7 +191,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         
 
                                 // BOTÃO UPVOTE
-                                echo "<button onclick='votarcoment({$c['id']}, 1)'>
+                                echo "<button type='button' class='upvotarcoment' onclick='votarcoment({$c['id']}, 1)'>
                                     <img width='15px' src='imgs/arrow.webp'>
                                 </button>";
 
@@ -204,7 +199,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                                 echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
 
                                 // BOTÃO DOWNVOTE
-                                echo "<button onclick='votarcoment({$c['id']}, -1)'>
+                                echo "<button type='button' class='downvotarcoment' onclick='votarcoment({$c['id']}, -1)'>
                                     <img width='15px' src='imgs/arrowd.jpg'>
                                 </button>";
 

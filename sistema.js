@@ -54,7 +54,7 @@ function votar(post_id, tipo) {
 };
 
 function votarcoment(comentario_id, tipo) {
-
+    
         fetch("vote_coment.php", {
             method: "POST",
             headers: {
@@ -84,21 +84,37 @@ function postarComentario(post_id) {
         })
         .then(res => res.json())
         .then(data => {
+            let html = `
+            <div class="comentario">
+                    <p>${data.comentario}</p>
+                    <p class="comentario-data">${data.data}</p>
 
-            let div = document.createElement("div");
-            div.classList.add("comentario");
-            div.id = "comentario-" + data.id;
+                    <button class="upvotarcoment" onclick="votarcoment(${data.id}, 1)">
+                        <img width="15px" src="imgs/arrow.webp">
+                    </button>
 
-            div.innerHTML = `
-                ${data.comentario}
+                    <span id="upvotescoment-${data.id}">${data.upvotes ?? 0}</span>
 
-                <input id="resposta-${data.id}" placeholder="Responder...">
-                <button onclick="postarResposta(${data.id})">Responder</button>
+                    <button class="downvotarcoment" onclick="votarcoment(${data.id}, -1)">
+                        <img width="15px" src="imgs/arrowd.jpg">
+                    </button>
 
-                <div class="respostas" id="respostas-${data.id}"></div>
-    `;
-            document.getElementById("comentarios-" + post_id)
-                .appendChild(div);
+                    <span id="downvotescoment-${data.id}">${data.downvotes ?? 0}</span>
+
+                    <br>
+                    <input id="resposta-${data.id}" placeholder="Responda..."> 
+                    <button onclick="postarResposta(${data.id})">Postar</button>
+                    <br>
+
+                    <p style="color: #a9a9a9; font-size: 12px;">
+                    --------------------------------------------------------------------------------------------------------
+                    </p>
+            </div>
+            `;
+
+
+            document.getElementById("comentarios-" + post_id).innerHTML += html;
+                
             //document.getElementById("downvotes-" + post_id).innerText = data.down;
 
             input.value = ""; // limpa o campo

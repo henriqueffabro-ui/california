@@ -8,7 +8,8 @@
 </head>
 <body>
 
-
+    <button onclick="location.href='cadastro.php'">Cadastrar-se</button>
+    <button onclick="location.href='login.php'">Login</button>
 
     <div class="container">
         <img src="uploads/bulbigp.png" class="bulbi">
