@@ -84,7 +84,21 @@ function postarComentario(post_id) {
         })
         .then(res => res.json())
         .then(data => {
-            document.getElementById("comentarios-" + post_id).innerHTML += data.comentario;
+
+            let div = document.createElement("div");
+            div.classList.add("comentario");
+            div.id = "comentario-" + data.id;
+
+            div.innerHTML = `
+                ${data.comentario}
+
+                <input id="resposta-${data.id}" placeholder="Responder...">
+                <button onclick="postarResposta(${data.id})">Responder</button>
+
+                <div class="respostas" id="respostas-${data.id}"></div>
+    `;
+            document.getElementById("comentarios-" + post_id)
+                .appendChild(div);
             //document.getElementById("downvotes-" + post_id).innerText = data.down;
 
             input.value = ""; // limpa o campo

@@ -15,7 +15,8 @@ $id_comentario = $conexao->insert_id;
 $row = $conexao->query("SELECT comentario FROM comentarios WHERE id = $id_comentario")->fetch_assoc();
 
 echo json_encode([
-    "comentario" => "<p>{$row['comentario']}</p>"
+    "comentario" => "<p>{$row['comentario']}</p>",
+    "id" => $id_comentario
 ]);
 
 
