@@ -18,19 +18,18 @@ function postarResposta(comentario_id) {
         })
         .then(res => res.json()) //pega a resposta do servidor e converte para JSON (bagulho de JS)
         .then(data => { //pega a respota do servidor, que é o conteúdo da resposta, e insere na página
-            //let div = document.createElement("div");
-            //div.classList.add("resposta"); // adiciona uma classe para estilizar a resposta, se quiser
-            //div.textContent = data.conteudo;
-            //div.style.marginLeft = "20px";
+            let div = document.createElement("div");
+            div.classList.add("resposta"); // adiciona uma classe para estilizar a resposta, se quiser
+            div.textContent = data.conteudo;
+            div.style.marginLeft = "40px";
 
-            // adiciona dentro do comentário pai
-            //document.getElementById("comentario-" + comentario_id)
-              //  .appendChild(div);
+             //adiciona dentro do comentário pai
+            document.getElementById("respostas-" + comentario_id)
+                .appendChild(div);
 
             // limpa input
-            //input.value = "";
-            console.log("RESPOSTA DO PHP:");
-            console.log(data);
+            input.value = "";
+            
         });
 
 };

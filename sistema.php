@@ -176,6 +176,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         <button onclick="postarComentario(<?= $row['id'] ?>)">Postar Comentário</button> 
                         <br>
                         <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
+
+                        <div class="respostas" id="respostas-<?= $row['id'] ?>">
         
                             <?php
 

@@ -15,10 +15,20 @@ if (empty($conteudo)) {
     exit;
 }
 
+$result = $conexao->query("SELECT post_id FROM comentarios WHERE id = $parent_id");
+
+if (!$result || $result->num_rows === 0) {
+    echo json_encode(["erro" => "Comentário pai não encontrado"]);
+    exit;
+}
+$row = $result->fetch_assoc();
+
+$post_id = $row['post_id'];
+
 // prepared statement (melhor prática)
-$sql = "INSERT INTO comentarios (usuario_id, comentario, parent_id) VALUES (?, ?, ?)";
+$sql = "INSERT INTO comentarios (usuario_id, comentario, parent_id, post_id) VALUES (?, ?, ?, ?)";
 $stmt = $conexao->prepare($sql);
-$stmt->bind_param("isi", $usuario_id, $conteudo, $parent_id);
+$stmt->bind_param("isii", $usuario_id, $conteudo, $parent_id, $post_id);
 $stmt->execute();
 
 echo json_encode([
