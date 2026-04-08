@@ -9,11 +9,11 @@
 <body>
 
     <div class="container">
-        <img src="bulbigp.png" class="bulbi">
+        <img src="uploads/bulbigp.png" class="bulbi">
     </div>
 
     <div class="caixa">
-        <h2 id="texto"></h2><br>
+        <h2 id="texto"> bem vindo ao isumagi! deseja fazer login ou cadastrar-se, querido usuário?</h2>
     </div>
 
     <div class="botoes" id="botoes">

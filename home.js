@@ -1,13 +1,13 @@
-console.log("rodando");
-const texto= "Bem vindo ao site Isumagi! Deseja fazer login ou cadastrar-se?";
+
+const texto= "alalalalla";
+const elemento=document.getElementById("texto");
 let i=0;
-const velocidade=40;
 
 function escrever() {
     if (i < texto.length){
-        document.getElementById("texto").innerHTML += texto.charAt(i);
+        elemento.innerHTML += texto.charAt(i);
         i++;
-        setTimeout(escrever, velocidade);
+        setTimeout(escrever, 50);
     } else{
         //mostra os botoes depois que termina
         document.getElementById("botoes").style.opacity=1;
