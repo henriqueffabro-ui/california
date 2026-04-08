@@ -9,17 +9,18 @@
 <body>
 
     <div class="container">
-        <img src="uploads/bulbigp.png" class="bulbi">
+        <img src="imgs/bulbinor.png" class="bulbi">
     </div>
 
     <div class="caixa">
-        <h2 id="texto"> bem vindo ao isumagi! deseja fazer login ou cadastrar-se, querido usuário?</h2>
+        <h2 id="texto"> coisas </h2>
     </div>
 
     <div class="botoes" id="botoes">
         <button class="cad" onclick="location.href='cadastro.php'">Cadastrar-se</button>
         <button class="log" onclick="location.href='login.php'">Login</button>
     </div>
-<script src="home.js"></script>
+<script src="home.js">
+</script>
 </body>
 </html>
