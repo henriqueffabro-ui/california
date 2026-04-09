@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-
     <div class="container">
         <img src="imgs/bulbinor.png" class="bulbi">
     </div>
@@ -17,10 +16,10 @@
     </div>
 
     <div class="botoes" id="botoes">
-        <button class="cad" onclick="location.href='cadastro.php'">Cadastrar-se</button>
-        <button class="log" onclick="location.href='login.php'">Login</button>
+        <button id="cad" onclick="location.href='cadastro.php'">Cadastrar-se</button>
+        <button id="log" onclick="location.href='login.php'">Login</button>
     </div>
-<script src="home.js">
+<script src="home.js" defer>
 </script>
 </body>
 </html>

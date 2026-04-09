@@ -1,3 +1,7 @@
+respostas{
+    margin-left: 40px;
+}
+
 input[id^="resposta-"] {
     width: 80px;
     
