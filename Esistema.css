@@ -1,3 +1,22 @@
+span[id^="downvotescoment-"] {
+    color: red;
+}
+
+span[id^="upvotescoment-"] {
+    color: green;
+}
+
+.upvotarcoment img, .downvotarcoment img {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+}
+
+/*.upvotarcoment img:hover{
+    background-color: green;
+}*/
+
 respostas{
     margin-left: 40px;
 }

@@ -11,6 +11,7 @@ $usuario = $_SESSION['id']; // usuário logado
 // verifica se já existe voto
 $result = $conexao->query("SELECT * FROM votes_comentarios WHERE usuario_id = $usuario AND comentario_id = $comentario_id");
 
+
 if ($result->num_rows > 0) {
     $voto = $result->fetch_assoc();
 
