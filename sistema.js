@@ -84,8 +84,7 @@ function postarComentario(post_id) {
         })
         .then(res => res.json())
         .then(data => {
-            let html = `
-            <div class="comentario">
+            let html = `<div class="comentario">
                     <p>${data.comentario}</p>
                     <p class="comentario-data">${data.data}</p>
 
@@ -106,6 +105,7 @@ function postarComentario(post_id) {
                     <button onclick="postarResposta(${data.id})">Postar</button>
                     <br>
 
+                    
                     <p style="color: #a9a9a9; font-size: 12px;">
                     --------------------------------------------------------------------------------------------------------
                     </p>

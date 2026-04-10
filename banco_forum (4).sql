@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/04/2026 às 13:46
+-- Tempo de geração: 10/04/2026 às 02:05
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -58,8 +58,14 @@ INSERT INTO `comentarios` (`id`, `post_id`, `usuario_id`, `comentario`, `data`, 
 (32, 24, 1, 'ww', '2026-04-08 13:42:33', 0, 1),
 (33, 24, 1, 'sss', '2026-04-08 13:42:38', 0, 1),
 (34, 24, 1, 'www', '2026-04-08 13:44:01', 0, 1),
-(35, 25, 1, 'q', '2026-04-08 14:00:09', 0, 1),
-(36, 25, 1, 'w', '2026-04-08 14:00:11', 0, 0);
+(40, 24, 1, 'ttt', '2026-04-09 23:48:20', NULL, NULL),
+(41, 24, 1, 'tttt', '2026-04-09 23:50:33', NULL, NULL),
+(43, 24, 1, 'ttt', '2026-04-09 23:59:29', NULL, NULL),
+(44, 24, 1, 'yyyy', '2026-04-10 00:02:50', NULL, NULL),
+(45, 24, 1, 'yyyy', '2026-04-10 00:02:53', NULL, NULL),
+(46, 24, 1, 'ooo', '2026-04-10 00:03:01', NULL, NULL),
+(47, 24, 1, 'oooo', '2026-04-10 00:03:23', NULL, NULL),
+(48, 24, 1, 'pp', '2026-04-10 00:05:12', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -78,24 +84,8 @@ CREATE TABLE `imagens` (
 --
 
 INSERT INTO `imagens` (`id`, `nome`, `id_post`) VALUES
-(1, '69c7d73c70087.', 5),
-(3, '69c7d8c548ef3.', 7),
-(4, '69c7d8f8bbf20.', 8),
-(12, '69c7db01b815f.jpg', 14),
-(13, '69c9bbd01b773.jpg', 15),
-(14, '69c9bbe40658b.jpg', 16),
-(15, '69c9bbe4094c1.jpg', 16),
-(16, '69c9bc15042e6.jpg', 17),
-(17, '69c9bc150526a.jpg', 17),
-(18, '69ca7a90d0904.jpg', 18),
-(19, '69ca7ae22ae0a.jpg', 19),
-(20, '69ca7cbb29d86.jpg', 20),
-(21, '69ca7cbb2b084.jpg', 20),
-(22, '69cb09e6dc016.jpg', 21),
-(23, '69cb0a7c31a7d.jpg', 22),
 (24, '69d19fa707d5d.png', 23),
-(25, '69d655d4f21a4.png', 24),
-(26, '69d65f624c3aa.', 25);
+(25, '69d655d4f21a4.png', 24);
 
 -- --------------------------------------------------------
 
@@ -119,21 +109,8 @@ CREATE TABLE `postagens` (
 --
 
 INSERT INTO `postagens` (`id`, `titulo`, `descricao`, `id_usuario`, `data`, `editado`, `upvotes`, `downvotes`) VALUES
-(5, 'qq', 'qqq', 1, '2026-03-28 10:27:24', NULL, NULL, NULL),
-(7, 'qqqqsss', 'qqqq', 1, '2026-03-28 10:33:57', 1, NULL, NULL),
-(8, 'wwwddd', 'sss', 1, '2026-03-28 10:34:48', 1, NULL, NULL),
-(14, 'imagens', 'brabo', 1, '2026-03-28 10:43:29', NULL, NULL, NULL),
-(15, 'ee', 'eee', 1, '2026-03-29 20:54:56', NULL, NULL, NULL),
-(16, 'qqq', 'qqq', 1, '2026-03-29 20:55:16', NULL, NULL, NULL),
-(17, 'ss', 'ss', 1, '2026-03-29 20:56:05', NULL, NULL, NULL),
-(18, '', '', 1, '2026-03-30 10:28:48', NULL, NULL, NULL),
-(19, '', '', 1, '2026-03-30 10:30:10', NULL, 0, 0),
-(20, '', 'aaa', 1, '2026-03-30 10:38:03', 1, 0, 0),
-(21, 'www', 'www', 1, '2026-03-30 20:40:22', NULL, 1, 0),
-(22, 'oaoaoa', 'ssssssss', 1, '2026-03-30 20:42:52', NULL, 0, 1),
 (23, 'olha que linda', 'essa imagem ---- edit: muito obrigado pelo apoio galera', 1, '2026-04-04 20:32:55', 1, 2, 0),
-(24, 'teste', 'teste', 1, '2026-04-08 10:19:16', NULL, NULL, NULL),
-(25, 'wwww', 'wwww', 1, '2026-04-08 11:00:02', NULL, NULL, NULL);
+(24, 'teste', 'teste', 1, '2026-04-08 10:19:16', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -181,8 +158,7 @@ INSERT INTO `votes_comentarios` (`id`, `usuario_id`, `comentario_id`, `tipo`, `d
 (10, 1, 32, -1, '2026-04-08 10:49:45'),
 (11, 1, 31, -1, '2026-04-08 10:49:45'),
 (13, 1, 33, -1, '2026-04-08 10:49:47'),
-(14, 1, 34, -1, '2026-04-08 10:49:48'),
-(35, 1, 35, -1, '2026-04-08 11:14:51');
+(14, 1, 34, -1, '2026-04-08 10:49:48');
 
 -- --------------------------------------------------------
 
@@ -202,9 +178,9 @@ CREATE TABLE `votos` (
 --
 
 INSERT INTO `votos` (`id`, `post_id`, `usuario_id`, `tipo`) VALUES
-(47, 21, 1, 1),
 (50, 23, 2, 1),
-(51, 23, 1, 1);
+(51, 23, 1, 1),
+(52, 24, 1, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -263,19 +239,19 @@ ALTER TABLE `votos`
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de tabela `imagens`
 --
 ALTER TABLE `imagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de tabela `postagens`
 --
 ALTER TABLE `postagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
@@ -287,13 +263,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `votes_comentarios`
 --
 ALTER TABLE `votes_comentarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de tabela `votos`
 --
 ALTER TABLE `votos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- Restrições para tabelas despejadas
@@ -303,7 +279,7 @@ ALTER TABLE `votos`
 -- Restrições para tabelas `comentarios`
 --
 ALTER TABLE `comentarios`
-  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `postagens` (`id`),
+  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `postagens` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
 
 --
@@ -330,7 +306,7 @@ ALTER TABLE `votes_comentarios`
 --
 ALTER TABLE `votos`
   ADD CONSTRAINT `votos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `votos_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `postagens` (`id`);
+  ADD CONSTRAINT `votos_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `postagens` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
