@@ -160,67 +160,21 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
                        
                         ?>
+                          <button onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
+                        <span>
+                            <span id="upvotes-<?= $row['id'] ?>"><?= $row['upvotes'] ?></span> 
+                        </span> 
                         
+                        <button onclick="votar(<?= $row['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
+                        <span>
+                            <span id="downvotes-<?= $row['id'] ?>"><?= $row['downvotes'] ?></span>
+                        </span>
                         
                         <br>
                         <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..."> 
                         <button onclick="postarComentario(<?= $row['id'] ?>)">Postar Comentário</button> 
                         <br>
-                        <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
-
                         
-        
-                            <?php
-                                //$comentarios = $conexao->query(" 
-                                  //  SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
-                                    //WHERE post_id = {$row['id']}
-                                    //ORDER BY upvotes DESC
-                                //");
-
-                                // pega os comentários do post cujo id é igual ao id da postagem atual
-                                $comentarios = $conexao->query(" 
-                                    SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
-                                    WHERE post_id = {$row['id']}
-                                    ORDER BY upvotes DESC
-                                ");
-
-                                while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
-                                echo "<p>{$c['comentario']}</p>"; //mostra o comentario 
-                                echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
-                                
-                        
-
-                                // BOTÃO UPVOTE
-                                echo "<button type='button' class='upvotarcoment' onclick='votarcoment({$c['id']}, 1)'>
-                                    <img width='15px' src='imgs/arrow.webp'>
-                                </button>";
-
-                                // CONTADOR UPVOTE
-                                echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
-
-                                // BOTÃO DOWNVOTE
-                                echo "<button type='button' class='downvotarcoment' onclick='votarcoment({$c['id']}, -1)'>
-                                    <img width='15px' src='imgs/arrowd.jpg'>
-                                </button>";
-
-                                // CONTADOR DOWNVOTE
-                                echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
-
-                                echo"<br>";
-                                echo"<input id='resposta-{$c['id']}' placeholder='Responda...'>"; 
-                                echo"<button onclick='postarResposta({$c['id']})'>Postar</button>";
-                                echo"<br>";
-                            
-                                echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------------------------------------------------------------------------------------</p>"; //separa os comentarios com uma linha
-                                
-                                //aqui vai o botão de responder o comentário
-                                
-                        
-                                
-                                }
-                            ?>
-
-                        </div>
 
 
                         <?php
@@ -254,7 +208,57 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             echo "<p>Editado</p>";
                         }
 
+                        ?> 
+                        <div class="comentarios" id="comentarios-<?= $row['id'] ?>"></div>
+                        <?php
+                        //$comentarios = $conexao->query(" 
+                             //  SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
+                            //WHERE post_id = {$row['id']}
+                            //ORDER BY upvotes DESC
+                        //");
+
+                        // pega os comentários do post cujo id é igual ao id da postagem atual
+                        $comentarios = $conexao->query(" 
+                            SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
+                            WHERE post_id = {$row['id']}
+                            ORDER BY upvotes DESC
+                        ");
+
+                        while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
+                            echo "<p>{$c['comentario']}</p>"; //mostra o comentario 
+                            echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
+                                
                         
+
+                                // BOTÃO UPVOTE
+                            echo "<button type='button' class='upvotarcoment' onclick='votarcoment({$c['id']}, 1)'>
+                                <img width='15px' src='imgs/arrow.webp'>
+                            </button>";
+
+                            // CONTADOR UPVOTE
+                            echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
+
+                                // BOTÃO DOWNVOTE
+                            echo "<button type='button' class='downvotarcoment' onclick='votarcoment({$c['id']}, -1)'>
+                                <img width='15px' src='imgs/arrowd.jpg'>
+                            </button>";
+
+                            // CONTADOR DOWNVOTE
+                            echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
+
+                            echo"<br>";
+                            echo"<input id='resposta-{$c['id']}' placeholder='Responda...'>"; 
+                            echo"<button onclick='postarResposta({$c['id']})'>Postar</button>";
+                            echo"<br>";
+                            
+                            echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------------------------------------------------------------------------------------</p>"; //separa os comentarios com uma linha
+                                
+                            //aqui vai o botão de responder o comentário
+                                
+                        
+                                
+                            }
+                            
 
                         echo "<hr>"; //adiciona uma linha para separar as postagens
                     }

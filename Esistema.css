@@ -1,3 +1,11 @@
+span[id^="upvotes-"] {
+    color: green;
+}
+
+span[id^="downvotes-"] {
+    color: red;
+}
+
 span[id^="downvotescoment-"] {
     color: red;
 }
