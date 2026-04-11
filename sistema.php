@@ -231,7 +231,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
 
                         $respostas = $conexao->query("
-                            SELECT comentario, data, id 
+                            SELECT comentario, data, id, downvotes, upvotes, parent_id 
                             FROM comentarios 
                             WHERE parent_id = {$c['id']}
                         ");
@@ -267,6 +267,26 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                                 while ($r = $respostas->fetch_assoc()) {
                                     echo "<p>{$r['comentario']}</p>"; //mostra a resposta
                                     echo "<p class='comentario-data'>{$r['data']}</p>"; //mostra a data da resposta
+
+                                         // BOTÃO UPVOTE
+                                echo "<button type='button' class='upvotarcoment' onclick='votarcoment({$r['id']}, 1)'>
+                                    <img width='15px' src='imgs/arrow.webp'>
+                                </button>";
+
+                                // CONTADOR UPVOTE
+                                echo "<span id='upvotescoment-{$r['id']}'>" . ($r['upvotes'] ?? 0) . "</span>";
+
+                                // BOTÃO DOWNVOTE
+                                echo "<button type='button' class='downvotarcoment' onclick='votarcoment({$r['id']}, -1)'>
+                                    <img width='15px' src='imgs/arrowd.jpg'>
+                                </button>";
+
+                            // CONTADOR DOWNVOTE
+                            echo "<span id='downvotescoment-{$r['id']}'>" . ($r['downvotes'] ?? 0) . "</span>";
+
+
+                                    
+                                
                                 }
                             
                             echo "</div>";

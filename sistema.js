@@ -18,17 +18,37 @@ function postarResposta(comentario_id) {
         })
         .then(res => res.json()) //pega a resposta do servidor e converte para JSON (bagulho de JS)
         .then(data => { //pega a respota do servidor, que é o conteúdo da resposta, e insere na página
+
+        
             let div = document.createElement("div");
             div.classList.add("respostas"); // adiciona uma classe para estilizar a resposta, se quiser
-            div.textContent = data.conteudo;
             
-
+            
+        
              //adiciona dentro do comentário pai
             document.getElementById("Aparecerresposta-" + comentario_id)
                 .appendChild(div);
 
+            div.innerHTML = `
+            <p>${data.conteudo}</p>
+            <button class="upvotarcoment" onclick="votarcoment(${data.id}, 1)">
+                        <img width="15px" src="imgs/arrow.webp">
+                    </button>
+
+                    <span id="upvotescoment-${data.id}">${data.upvotes ?? 0}</span>
+
+                    <button class="downvotarcoment" onclick="votarcoment(${data.id}, -1)">
+                        <img width="15px" src="imgs/arrowd.jpg">
+                    </button>
+
+                    <span id="downvotescoment-${data.id}">${data.downvotes ?? 0}</span>`;
+
+            
+
+            
             // limpa input
             input.value = "";
+            
             
         });
 
@@ -64,6 +84,7 @@ function votarcoment(comentario_id, tipo) {
         })
         .then(res => res.json())
         .then(data => {
+            
             document.getElementById("upvotescoment-" + comentario_id).innerText = data.upcoment;
             document.getElementById("downvotescoment-" + comentario_id).innerText = data.downcoment;
         });
