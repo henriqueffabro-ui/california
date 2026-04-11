@@ -222,24 +222,27 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
                         // pega os comentários do post cujo id é igual ao id da postagem atual
                         $comentarios = $conexao->query(" 
-                            SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
-                            WHERE post_id = {$row['id']}
-                            AND parent_id IS NULL
-                            ORDER BY upvotes DESC
+                            SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, u.nome FROM comentarios c
+                            JOIN usuarios u ON c.usuario_id = u.id
+                            WHERE c.post_id = {$row['id']}
+                            AND c.parent_id IS NULL
+                            ORDER BY c.upvotes DESC
                         ");
 
                         while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
 
-                        $respostas = $conexao->query("
-                            SELECT comentario, data, id, downvotes, upvotes, parent_id 
-                            FROM comentarios 
-                            WHERE parent_id = {$c['id']}
+                        // c é o apelido da tabela comentarios. r é o das respostas. u é de usuarios. O join é para pegar o nome do usuário que fez o comentário, associando o id do usuário da tabela comentarios com o id da tabela usuarios. O where é para pegar apenas os comentários que pertencem à postagem atual (c.post_id = id da postagem) e que não são respostas (c.parent_id IS NULL). O order by é para ordenar os comentários por número de upvotes, do maior para o menor.
+                        $respostas = $conexao->query(" 
+                            SELECT c.comentario, c.data, c.id, c.downvotes, c.upvotes, c.parent_id, u.nome
+                            FROM comentarios c
+                            JOIN usuarios u ON c.usuario_id = u.id
+                            WHERE c.parent_id = {$c['id']}
                         ");
-
-                            echo "<p>{$c['comentario']}</p>"; //mostra o comentario 
+                            echo "<h6 class='nome_comentario'>{$c['nome']}</h6>"; //mostra o nome do usuário que fez o comentário
+                            echo "<p class='comentario'>{$c['comentario']}</p>"; //mostra o comentario 
                             echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
                                 
-                        
+                            
 
                                 // BOTÃO UPVOTE
                             echo "<button type='button' class='upvotarcoment' onclick='votarcoment({$c['id']}, 1)'>
@@ -265,8 +268,11 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             echo "<div id='Aparecerresposta-{$c['id']}' class='respostas'>";
 
                                 while ($r = $respostas->fetch_assoc()) {
-                                    echo "<p>{$r['comentario']}</p>"; //mostra a resposta
+                                    echo "<h6 class='nome_resposta'>{$r['nome']}</h6>";
+                                    echo "<p class='respostatexto'>{$r['comentario']}</p>"; //mostra a resposta
                                     echo "<p class='comentario-data'>{$r['data']}</p>"; //mostra a data da resposta
+
+                                    
 
                                          // BOTÃO UPVOTE
                                 echo "<button type='button' class='upvotarcoment' onclick='votarcoment({$r['id']}, 1)'>
@@ -283,6 +289,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
                             // CONTADOR DOWNVOTE
                             echo "<span id='downvotescoment-{$r['id']}'>" . ($r['downvotes'] ?? 0) . "</span>";
+
+                            
 
 
                                     

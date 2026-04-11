@@ -10,6 +10,10 @@ $parent_id = isset($_POST["parent_id"]) ? (int) $_POST["parent_id"] : null;
 $usuario_id = $_SESSION['id']; // usuário logado
 $conteudo = $_POST["conteudo"] ?? ''; // resposta enviada pelo usuário, escapada para evitar SQL injection
 
+$resultUser = $conexao->query("SELECT nome FROM usuarios WHERE id = $usuario_id");
+$user = $resultUser->fetch_assoc();
+$nome = $user['nome'];
+
 
 if (empty($conteudo)) {
     echo json_encode(["erro" => "Resposta vazia"]);
@@ -36,7 +40,8 @@ $id = $stmt->insert_id; // ID do comentário recém-inserido
 echo json_encode([
     "conteudo" => $conteudo,
     "parent_id" => $parent_id,
-    "id" => $id
+    "id" => $id,
+    "nome" => $nome
 ]);
 
 

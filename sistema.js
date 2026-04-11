@@ -30,7 +30,9 @@ function postarResposta(comentario_id) {
                 .appendChild(div);
 
             div.innerHTML = `
-            <p>${data.conteudo}</p>
+            <h6 class="nome_resposta">${data.nome}</h6>
+            <p class="resposta_texto">${data.conteudo}</p>
+            
             <button class="upvotarcoment" onclick="votarcoment(${data.id}, 1)">
                         <img width="15px" src="imgs/arrow.webp">
                     </button>
@@ -106,9 +108,11 @@ function postarComentario(post_id) {
         .then(res => res.json())
         .then(data => {
             let html = `<div class="comentario">
-                    <p>${data.comentario}</p>
-                    <p class="comentario-data">${data.data}</p>
+                    <h6 class="nome_comentario">${data.nome}</h6>
 
+                    <p class="comentario">${data.comentario}</p>
+                    
+                    
                     <button class="upvotarcoment" onclick="votarcoment(${data.id}, 1)">
                         <img width="15px" src="imgs/arrow.webp">
                     </button>
