@@ -245,7 +245,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             echo "</div>";
 
                             echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
-                                
+                            
                             
 
                                 // BOTÃO UPVOTE
@@ -308,6 +308,10 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             // CONTADOR DOWNVOTE
                             echo "<span id='downvotescoment-{$r['id']}'>" . ($r['downvotes'] ?? 0) . "</span>";
 
+                            echo"<br>";
+                            echo"<input id='resposta-{$r['id']}' placeholder='Responda...'>"; 
+                            echo"<button onclick='postarResposta({$r['id']})'>Postar</button>";
+                            echo"<br>";
                             
 
 

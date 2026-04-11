@@ -10,10 +10,11 @@ $parent_id = isset($_POST["parent_id"]) ? (int) $_POST["parent_id"] : null;
 $usuario_id = $_SESSION['id']; // usuário logado
 $conteudo = $_POST["conteudo"] ?? ''; // resposta enviada pelo usuário, escapada para evitar SQL injection
 
-$resultUser = $conexao->query("SELECT nome FROM usuarios WHERE id = $usuario_id");
+$resultUser = $conexao->query("SELECT nome FROM usuarios WHERE id = $usuario_id"); //pega o nome do usuario que respondeu, por meio de chave estrangeira
 $user = $resultUser->fetch_assoc();
 $nome = $user['nome'];
 
+//pega o nome do usuario que fez o comentario original, por meio de chaves estrangeiras
 $resultUserPai = $conexao->query("SELECT nome FROM usuarios u JOIN comentarios c ON u.id = c.usuario_id WHERE c.id = $parent_id");
 $userPai = $resultUserPai->fetch_assoc();
 $nomePai = $userPai['nome'];
