@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10/04/2026 às 02:05
+-- Tempo de geração: 11/04/2026 às 02:19
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -34,38 +34,35 @@ CREATE TABLE `comentarios` (
   `comentario` text NOT NULL,
   `data` timestamp NOT NULL DEFAULT current_timestamp(),
   `upvotes` int(11) DEFAULT NULL,
-  `downvotes` int(11) DEFAULT NULL
+  `downvotes` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `comentarios`
 --
 
-INSERT INTO `comentarios` (`id`, `post_id`, `usuario_id`, `comentario`, `data`, `upvotes`, `downvotes`) VALUES
-(19, 23, 1, 'caraca essa imagem é realmente linda', '2026-04-05 19:05:41', 1, 0),
-(20, 23, 1, 'mds isso é arte', '2026-04-05 19:10:30', 0, NULL),
-(21, 23, 1, 'ww', '2026-04-05 19:10:40', NULL, NULL),
-(22, 23, 1, 'minecraft', '2026-04-05 19:10:53', NULL, NULL),
-(23, 23, 1, 'rea', '2026-04-08 13:13:41', NULL, NULL),
-(24, 23, 1, 'ww', '2026-04-08 13:17:04', NULL, NULL),
-(25, 23, 1, 'rererer', '2026-04-08 13:18:06', NULL, NULL),
-(26, 23, 1, 'tttt', '2026-04-08 13:18:58', NULL, NULL),
-(27, 23, 1, 'tttt', '2026-04-08 13:18:59', NULL, NULL),
-(28, 24, 1, 'rere', '2026-04-08 13:22:35', 0, 0),
-(29, 24, 1, 'www', '2026-04-08 13:25:02', 0, 1),
-(30, 24, 1, 'ttt', '2026-04-08 13:26:43', 0, 0),
-(31, 24, 1, 'rerer', '2026-04-08 13:29:20', 0, 1),
-(32, 24, 1, 'ww', '2026-04-08 13:42:33', 0, 1),
-(33, 24, 1, 'sss', '2026-04-08 13:42:38', 0, 1),
-(34, 24, 1, 'www', '2026-04-08 13:44:01', 0, 1),
-(40, 24, 1, 'ttt', '2026-04-09 23:48:20', NULL, NULL),
-(41, 24, 1, 'tttt', '2026-04-09 23:50:33', NULL, NULL),
-(43, 24, 1, 'ttt', '2026-04-09 23:59:29', NULL, NULL),
-(44, 24, 1, 'yyyy', '2026-04-10 00:02:50', NULL, NULL),
-(45, 24, 1, 'yyyy', '2026-04-10 00:02:53', NULL, NULL),
-(46, 24, 1, 'ooo', '2026-04-10 00:03:01', NULL, NULL),
-(47, 24, 1, 'oooo', '2026-04-10 00:03:23', NULL, NULL),
-(48, 24, 1, 'pp', '2026-04-10 00:05:12', NULL, NULL);
+INSERT INTO `comentarios` (`id`, `post_id`, `usuario_id`, `comentario`, `data`, `upvotes`, `downvotes`, `parent_id`) VALUES
+(19, 23, 1, 'caraca essa imagem é realmente linda', '2026-04-05 19:05:41', 1, 0, NULL),
+(20, 23, 1, 'mds isso é arte', '2026-04-05 19:10:30', 0, NULL, NULL),
+(21, 23, 1, 'ww', '2026-04-05 19:10:40', NULL, NULL, NULL),
+(22, 23, 1, 'minecraft', '2026-04-05 19:10:53', NULL, NULL, NULL),
+(50, 24, 1, 'pppp', '2026-04-10 23:53:53', NULL, NULL, NULL),
+(51, 24, 1, 'qqqq', '2026-04-10 23:53:56', NULL, NULL, 50),
+(52, 24, 1, 'qqqqq', '2026-04-10 23:57:20', NULL, NULL, 50),
+(53, 24, 1, 'qqqq', '2026-04-10 23:58:09', NULL, NULL, 50),
+(54, 24, 1, 'qqqqq', '2026-04-10 23:58:25', NULL, NULL, 50),
+(55, 24, 1, 'qqqq', '2026-04-10 23:58:47', NULL, NULL, 50),
+(56, 24, 1, 'qqqqw', '2026-04-11 00:00:14', NULL, NULL, 50),
+(57, 24, 1, 'qqqq', '2026-04-11 00:01:06', NULL, NULL, 50),
+(58, 24, 1, 'qqqqqw', '2026-04-11 00:01:10', NULL, NULL, 50),
+(59, 24, 1, 'qqqqqw', '2026-04-11 00:01:11', NULL, NULL, 50),
+(60, 24, 1, 'wwww', '2026-04-11 00:01:49', NULL, NULL, 50),
+(61, 24, 1, 'çççç', '2026-04-11 00:04:22', NULL, NULL, 50),
+(62, 24, 1, 'eee', '2026-04-11 00:06:39', NULL, NULL, 50),
+(63, 24, 1, 'ppp', '2026-04-11 00:06:56', NULL, NULL, 52),
+(64, 24, 1, 'qqq', '2026-04-11 00:08:34', NULL, NULL, 50),
+(65, 24, 1, 'qq', '2026-04-11 00:12:01', NULL, NULL, 50);
 
 -- --------------------------------------------------------
 
@@ -153,12 +150,7 @@ CREATE TABLE `votes_comentarios` (
 --
 
 INSERT INTO `votes_comentarios` (`id`, `usuario_id`, `comentario_id`, `tipo`, `data`) VALUES
-(3, 1, 19, 1, '2026-04-08 10:13:37'),
-(5, 1, 29, -1, '2026-04-08 10:25:05'),
-(10, 1, 32, -1, '2026-04-08 10:49:45'),
-(11, 1, 31, -1, '2026-04-08 10:49:45'),
-(13, 1, 33, -1, '2026-04-08 10:49:47'),
-(14, 1, 34, -1, '2026-04-08 10:49:48');
+(3, 1, 19, 1, '2026-04-08 10:13:37');
 
 -- --------------------------------------------------------
 
@@ -192,7 +184,8 @@ INSERT INTO `votos` (`id`, `post_id`, `usuario_id`, `tipo`) VALUES
 ALTER TABLE `comentarios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `post_id` (`post_id`),
-  ADD KEY `usuario_id` (`usuario_id`);
+  ADD KEY `usuario_id` (`usuario_id`),
+  ADD KEY `fk_parent` (`parent_id`);
 
 --
 -- Índices de tabela `imagens`
@@ -239,7 +232,7 @@ ALTER TABLE `votos`
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de tabela `imagens`
@@ -280,7 +273,8 @@ ALTER TABLE `votos`
 --
 ALTER TABLE `comentarios`
   ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `postagens` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
+  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `fk_parent` FOREIGN KEY (`parent_id`) REFERENCES `comentarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `imagens`

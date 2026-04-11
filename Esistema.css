@@ -1,3 +1,7 @@
+.respostas {
+    margin-left: 40px;
+}
+
 span[id^="upvotes-"] {
     color: green;
 }

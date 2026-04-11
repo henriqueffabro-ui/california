@@ -209,7 +209,10 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         }
 
                         ?> 
-                        <div class="comentarios" id="comentarios-<?= $row['id'] ?>"></div>
+                        <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
+                            
+                        </div>
+                        
                         <?php
                         //$comentarios = $conexao->query(" 
                              //  SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
@@ -221,10 +224,18 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         $comentarios = $conexao->query(" 
                             SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
                             WHERE post_id = {$row['id']}
+                            AND parent_id IS NULL
                             ORDER BY upvotes DESC
                         ");
 
                         while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
+
+                        $respostas = $conexao->query("
+                            SELECT comentario, data, id 
+                            FROM comentarios 
+                            WHERE parent_id = {$c['id']}
+                        ");
+
                             echo "<p>{$c['comentario']}</p>"; //mostra o comentario 
                             echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
                                 
@@ -250,6 +261,15 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             echo"<input id='resposta-{$c['id']}' placeholder='Responda...'>"; 
                             echo"<button onclick='postarResposta({$c['id']})'>Postar</button>";
                             echo"<br>";
+
+                            echo "<div id='Aparecerresposta-{$c['id']}' class='respostas'>";
+
+                                while ($r = $respostas->fetch_assoc()) {
+                                    echo "<p>{$r['comentario']}</p>"; //mostra a resposta
+                                    echo "<p class='comentario-data'>{$r['data']}</p>"; //mostra a data da resposta
+                                }
+                            
+                            echo "</div>";
                             
                             echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------------------------------------------------------------------------------------</p>"; //separa os comentarios com uma linha
                                 
