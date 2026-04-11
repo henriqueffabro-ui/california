@@ -30,8 +30,15 @@ function postarResposta(comentario_id) {
                 .appendChild(div);
 
             div.innerHTML = `
+            <p class="resposta_para">Resposta para <strong>${data.nomePai}</strong>:</p>
             <h6 class="nome_resposta">${data.nome}</h6>
-            <p class="resposta_texto">${data.conteudo}</p>
+
+            <p class="resposta_texto">
+            <span class="nomePai_resposta">
+            <a href="#comentario-${data.parent_id}">
+                @${data.nomePai}
+            </a>
+            </span> ${data.conteudo}</p>
             
             <button class="upvotarcoment" onclick="votarcoment(${data.id}, 1)">
                         <img width="15px" src="imgs/arrow.webp">

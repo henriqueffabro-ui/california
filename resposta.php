@@ -14,6 +14,10 @@ $resultUser = $conexao->query("SELECT nome FROM usuarios WHERE id = $usuario_id"
 $user = $resultUser->fetch_assoc();
 $nome = $user['nome'];
 
+$resultUserPai = $conexao->query("SELECT nome FROM usuarios u JOIN comentarios c ON u.id = c.usuario_id WHERE c.id = $parent_id");
+$userPai = $resultUserPai->fetch_assoc();
+$nomePai = $userPai['nome'];
+
 
 if (empty($conteudo)) {
     echo json_encode(["erro" => "Resposta vazia"]);
@@ -41,7 +45,8 @@ echo json_encode([
     "conteudo" => $conteudo,
     "parent_id" => $parent_id,
     "id" => $id,
-    "nome" => $nome
+    "nome" => $nome,
+    "nomePai" => $nomePai
 ]);
 
 

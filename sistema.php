@@ -239,7 +239,11 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             WHERE c.parent_id = {$c['id']}
                         ");
                             echo "<h6 class='nome_comentario'>{$c['nome']}</h6>"; //mostra o nome do usuário que fez o comentário
+                            
+                            echo "<div id='comentario-{$c['id']}'>";
                             echo "<p class='comentario'>{$c['comentario']}</p>"; //mostra o comentario 
+                            echo "</div>";
+
                             echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
                                 
                             
@@ -268,8 +272,22 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             echo "<div id='Aparecerresposta-{$c['id']}' class='respostas'>";
 
                                 while ($r = $respostas->fetch_assoc()) {
+
+                                    
+                                    echo "</span>";
+
                                     echo "<h6 class='nome_resposta'>{$r['nome']}</h6>";
-                                    echo "<p class='respostatexto'>{$r['comentario']}</p>"; //mostra a resposta
+                                    //menção
+                                    echo "<span class='resposta_texto'>";
+
+                                    echo "<span class='nomePai_resposta'>
+                                        <a href='#comentario-{$r['parent_id']}'>
+                                            @{$r['nome']}
+                                        </a>
+                                    </span>";
+
+                                    echo " {$r['comentario']}";
+                                    //data
                                     echo "<p class='comentario-data'>{$r['data']}</p>"; //mostra a data da resposta
 
                                     
