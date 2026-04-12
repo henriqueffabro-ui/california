@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <<<<<<< HEAD
-seu código
+    <!-- botão de áudio -->
+    <button id="botaoAudio" onclick="tocarAudio()">Reproduzir Áudio</button>
+    <audio id="bulbiAudio">
+        <source src="audios/Bulbi (3).wav" type="audio/mpeg">
+    </audio>
+    
+
     <div class="container">
         <img src="imgs/bulbinor.png" class="bulbi">
     </div> 

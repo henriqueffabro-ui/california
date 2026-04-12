@@ -20,16 +20,10 @@ function postarResposta(comentario_id) {
         .then(data => { //pega a respota do servidor, que é o conteúdo da resposta, e insere na página
 
         
-            let div = document.createElement("div");
-            div.classList.add("respostas"); // adiciona uma classe para estilizar a resposta, se quiser
-            
-            
-        
-             //adiciona dentro do comentário pai
-            document.getElementById("Aparecerresposta-" + comentario_id)
-                .appendChild(div);
+            let container = document.getElementById("Aparecerresposta-" + comentario_id);
 
-            div.innerHTML = `
+            container.innerHTML += `
+            <div class="tudoderesosta">
             <p class="resposta_para">Resposta para <strong>${data.nomePai}</strong>:</p>
             <h6 class="nome_resposta">${data.nome}</h6>
 
@@ -50,7 +44,9 @@ function postarResposta(comentario_id) {
                         <img width="15px" src="imgs/arrowd.jpg">
                     </button>
 
-                    <span id="downvotescoment-${data.id}">${data.downvotes ?? 0}</span>`;
+                    <span id="downvotescoment-${data.id}">${data.downvotes ?? 0}</span>
+                    
+            </div>`;
 
             
 
