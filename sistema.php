@@ -138,10 +138,13 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         </button>
 
         <br>
+        
         <input id="bPostar" type="submit" name="submitPost" onclick="postar()"></input>
 
     </div>
     </form>
+
+    
 
     <div id="imgpreview" style="display: flex; gap: 10px; flex-wrap: wrap;"></div> <!-- onde virão as imgs selecionadas -->
 
