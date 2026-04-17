@@ -1,10 +1,14 @@
+const audio = document.getElementById("bulbiAudio");
 
-function tocarAudio() {
-    let audio = document.getElementById("bulbiAudio");
+  function ativarAudio() {
+    audio.muted = false;
     audio.play();
-}
+  }
 
-
+  document.addEventListener("click", ativarAudio, { once: true });
+  if("click"){
+    ativarAudio();  
+  }
 
 
 const texto= "Bem vindo ao Isumagi! Deseja fazer login ou cadastrar-se, querido usuário?";

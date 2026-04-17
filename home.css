@@ -16,27 +16,43 @@ h2{
     font-family: Arial, Helvetica, sans-serif;
     
 }
-.botoes{
+
+h3{
+    background-color: rgba(255, 249, 192, 0.8); /* Preto com transparência */
+    position: absolute;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid black;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(0, 0, 0);
+    font-family: Arial, Helvetica, sans-serif;
+}
+.botoes{ 
+    
     display: flex;
     justify-content: space-between;
     opacity: 0;
     width: 300px;
     transition: 1s;
     position: absolute;
-    top: 25%;
-    left: 50%;
     transform: translate(-50%); 
+    top: 50%;
+    left: 50%;   
+    margin-left: -300px;
 }
 
 .botoes .cad{
-    font-size: 30px;
-    width: 200px;
-    bottom: 1000px;
-    color: rgb(63, 62, 0);
-    border: 2px solid rgb(39, 36, 0);
     padding: 10px;
     cursor: pointer;
-    top: -50%;
+}
+.botoes .log{
+    padding: 10px;
+    cursor: pointer;
+    left: 100%;
+    margin-left: 700px;
+    
 }
 
 .container{
