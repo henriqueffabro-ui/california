@@ -8,11 +8,12 @@
 </head>
 <body>
     <!-- botão de áudio -->
-    <button id="botaoAudio" onclick="tocarAudio()">Reproduzir Áudio</button>
+    
     <audio id="bulbiAudio">
         <source src="audios/Bulbi (3).wav" type="audio/mpeg">
     </audio>
     
+    <h3> clique na tela para ativar o som! </h3>
 
     <div class="container">
         <img src="imgs/bulbinor.png" class="bulbi">
