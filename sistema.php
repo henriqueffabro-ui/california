@@ -99,7 +99,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia"><br><br>
         <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia"><br><br>
 
-        <input type="file" id="fileInput" style="display: none;" onchange="mostrarImg()" name="imagem[]" multiple> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
+        <input type="file" id="fileInput" style="display: none;" onchange="adicionarImagem()" name="imagem[]" multiple> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
 
         <button type="button" onclick="document.getElementById('fileInput').click()"> <!-- aciona o input escondigo -->
             Selecionar imagem
@@ -107,13 +107,15 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
         <br>
         
+        
         <button type="button" id="bPostar" onclick="postar()">Postar</button>
 
     </div>
     </form>
 
     
-
+    <ul id="listaImgs"></ul>
+    <br>
     <div id="imgpreview" style="display: flex; gap: 10px; flex-wrap: wrap;"></div> <!-- onde virão as imgs selecionadas -->
 
     <br>
@@ -161,7 +163,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         if ($result_img->num_rows > 0) { // verifica se há alguma nesse campo no banco de dados
                             while($img = $result_img->fetch_assoc()){ //percorre todas as imgs associadas à postagem
                                 if (!empty($img['nome']) && file_exists("uploads/".$img['nome'])) { //verifica se realmente existe img
-                                    echo "<img src='uploads/".$img['nome']."' width='200' style='margin-left: 10px;'>"; //coloca na tela
+                                    echo "<img class ='imgsnopost' src='uploads/".$img['nome']."' width='200' style='margin-left: 10px;'>"; //coloca na tela
                                     $temImagem = true; //isso é só pra dar um <br> depois
                                 }
                             }

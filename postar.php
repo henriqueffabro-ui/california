@@ -15,13 +15,13 @@ $conexao->query($sqlPost);
 
 $id_post = mysqli_insert_id($conexao);
 
-$imagens = [];
+$imagens = []; //guarda o nome das imgs pra usar no AJAX
 
-if (!empty($_FILES['imagem']['name'][0])) {
+if (!empty($_FILES['imagens']['name'][0])) { //verifica se há ao menos uma img
 
-    foreach ($_FILES['imagem']['tmp_name'] as $key => $tmp) {
+    foreach ($_FILES['imagens']['tmp_name'] as $key => $tmp) {
 
-        $nome = $_FILES['imagem']['name'][$key];
+        $nome = $_FILES['imagens']['name'][$key];
         $nomeFinal = uniqid() . "_" . $nome;
 
         move_uploaded_file($tmp, "uploads/" . $nomeFinal);

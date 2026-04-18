@@ -3,11 +3,49 @@ let downvotes = 0;
 let votedUp = false;
 let votedDown = false;
 
+let imagens = [];
+
+function adicionarImagem() {
+    let input = document.getElementById("fileInput");
+
+    for (let i = 0; i < input.files.length; i++) {
+        let file = input.files[i];
+        imagens.push(file);
+
+        // cria container (li)
+        let li = document.createElement("li");
+
+        // cria imagem
+        let img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.style.width = "200px";
+        img.classList.add("previewImagens");
+
+        li.appendChild(img);
+
+
+        document.getElementById("listaImgs").appendChild(li);
+    }
+
+    input.value = "";
+}
+
 function postar() {
     
-    let form = document.getElementById("formPost");
-    let dados = new FormData(form);
+   
+    let dados = new FormData();
 
+    imagens.forEach((img) => {
+        dados.append("imagens[]", img);
+    });
+
+    // adiciona os outros campos manualmente
+    dados.append("titulo", document.getElementById("TituloPost").value);
+    dados.append("descricao", document.getElementById("DescPost").value);
+
+        for (let pair of dados.entries()) {
+    console.log(pair[0], pair[1]);
+}
 
         fetch("postar.php", {
             method: "POST",
@@ -20,7 +58,7 @@ function postar() {
                 let imagensHTML = "";
 
                     data.imagens.forEach(img => {
-                        imagensHTML += `<img src="uploads/${img}" width="200">`;
+                        imagensHTML += `<img class ="imgspost" src="uploads/${img}" width="200">`;
                 });
             
             let html = `<div class="postagem" id="postagem-${data.id}">
@@ -40,7 +78,8 @@ function postar() {
             .insertAdjacentHTML("beforeend", html);
 
             document.getElementById("formPost").reset();
-            document.getElementById("imgpreview").innerHTML = "";
+            document.getElementById("listaImgs").innerHTML = "";
+            imagens = [];
 
             
         });

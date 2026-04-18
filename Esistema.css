@@ -1,5 +1,27 @@
+
+.imgsnopost{
+    border-radius: 8px;
+}
+
+.previewImagens{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-left: 10px;
+}
+
+#listaImgs li {
+    display: inline-block;
+
+}
+
 body{
     background-color:#f6f7f8
+}
+
+.imgspost{
+    margin-left: 10px;
 }
 
 .card {
@@ -7,6 +29,7 @@ body{
     width: 100%;
     margin: 0 auto;
     margin-bottom: 20px;
+
 }
 
 .posts {
