@@ -46,6 +46,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema</title>
     <link rel="stylesheet" href="Esistema.css">
+    <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
 </head>
 <body>
     

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="home.css">
+    <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
 </head>
 <body>
     <!-- botão de áudio -->

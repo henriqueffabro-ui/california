@@ -25,6 +25,7 @@ if(isset($_POST['submit'])){ //se o usuário clicar no botão de submit, o códi
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
+    <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
 </head>
 <body>
     <button id="bVoltar" onclick="location.href='home.php'">Voltar</button>
