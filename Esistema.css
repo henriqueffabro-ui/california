@@ -1,3 +1,23 @@
+body{
+    background-color:#f6f7f8
+}
+
+.card {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.posts {
+    margin-left: 100px;
+    margin-left:100px ;
+    border: 3px solid #bcbcbc;
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 20px; 
+    
+}
+
 .nomePai_resposta {
     font-size: 14px;
     color: #002aff;
@@ -137,9 +157,7 @@ button[onclick^="postarResposta"] {
     font-family: Arial, sans-serif;
 }
 
-body{
-    background-color:#f6f7f8
-}
+
 
 .topo{
     display: flex;
@@ -244,6 +262,8 @@ body{
     border-radius: 10px;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0,0.05);
+    border: 3px solid #ccc;
+    
 }
 
 .votos{
@@ -280,3 +300,22 @@ body{
 }
 
 
+
+/*A partir daqui o DeepSeek arrumou*/
+body {
+    background-color: #ffffff !important;
+}
+
+/* Tornar elementos que estão cobrindo o fundo como transparentes */
+.sidebar, .feed, .layout, .posts, .card-body {
+    background-color: transparent;
+}
+
+/* Manter o topo amarelo e os cards com fundo branco */
+.topo {
+    background: rgb(236, 203, 15); /* mantém o topo amarelo */
+}
+
+.post, .card-body {
+    background-color: white; /* mantém os cards brancos */
+}

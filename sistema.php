@@ -25,39 +25,7 @@
 
 
 
-    if(isset($_POST['submitPost'])){ //se o usuário clicar no botão de submit, o código dentro do if será executado
-
-
-    $titulo = $_POST['titulo']; 
-    $descricao = $_POST['descricao']; //variáveis que recebem os dados da postagem
-    $id_usuario = $_SESSION['id']; //variável que recebe o nome do usuário logado para salvar o nome do usuário que fez a postagem no banco de dados
-    
-    
-    $result = mysqli_query($conexao, "INSERT INTO postagens(titulo, descricao, id_usuario) VALUES ('$titulo','$descricao','$id_usuario')");
-    // o result salva as informações no banco de dados
-
-
-    $id_post = $conexao->insert_id;
-
-    foreach($_FILES['imagem']['name'] as $key => $nomeimg){
-
-    $tmp = $_FILES['imagem']['tmp_name'][$key];
-
-    $novoNome = uniqid() . "." . pathinfo($nomeimg, PATHINFO_EXTENSION);
-
-        move_uploaded_file($tmp, "uploads/" . $novoNome);
-
-        // salva no banco (exemplo)
-        $sql = "INSERT INTO imagens (nome, id_post)
-                VALUES ('$novoNome','$id_post')";
-        
-        $conexao->query($sql);
-
-
-    }
-
-    header('Location: sistema.php?postagem=criada'); //redireciona para a página de sistema.php e adiciona um parâmetro na URL para indicar que a postagem foi criada
-}
+   
 
 $sql = "SELECT postagens.*, usuarios.nome 
         FROM postagens
@@ -139,7 +107,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
         <br>
         
-        <input id="bPostar" type="submit" name="submitPost" onclick="postar()"></input>
+        <button type="button" id="bPostar" onclick="postar()">Postar</button>
 
     </div>
     </form>
@@ -151,11 +119,12 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
     <br>
     <div id="posts"></div>
     
-    <div class="card" style="width: 18rem;">
-        <div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
+    <div class="card">
+        <!--<div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">-->
             <?php
                 if ($result->num_rows > 0) { //verifica se há postagens no banco de dados
                     while($row = $result->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
+                        echo "<div class='posts'> ";
                         echo "<h5 class='card-title'>" . $row["titulo"] . "</h5>"; //mostra o título da postagem
                         echo "<p class='card-text'>" . $row["descricao"] . "</p>"; //mostra a descrição da postagem
                         echo "<h5 class='card-user'> Postado por: " . $row["nome"] . "</h5>";
@@ -333,14 +302,14 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             }
                             
 
-                        echo "<hr>"; //adiciona uma linha para separar as postagens
+                        echo "</div>"; //adiciona uma linha para separar as postagens
                     }
                 } else {
                     echo "Nenhuma postagem encontrada."; //caso não exista postagens
                 }
                
             ?>
-        </div>
+        <!--</div>-->
     </div>
     <div id="confirmBox" class="confirm-box">
     <div class="confirm-content">

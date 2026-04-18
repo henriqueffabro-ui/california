@@ -14,36 +14,29 @@ function postar() {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: "post_id=" + encodeURIComponent(post_id) + "&titulo=" + encodeURIComponent(titulo) + "&descricao=" + encodeURIComponent(descricao) //encodeURIComponent é usado para garantir que o texto do post seja enviado corretamente, mesmo que contenha caracteres especiais
+            body: "titulo=" + encodeURIComponent(titulo) + "&descricao=" + encodeURIComponent(descricao) //encodeURIComponent é usado para garantir que o texto do post seja enviado corretamente, mesmo que contenha caracteres especiais
         })
         .then(res => res.json()) //pega a resposta do servidor e converte para JSON (bagulho de JS)
         .then(data => { //pega a respota do servidor, que é o conteúdo do post, e insere na página
+            
             let html = `<div class="postagem" id="postagem-${data.id}">
-                    <h3 class="titulo_postagem">${data.titulo}</h3>
-                    <p class="conteudo_postagem">${data.descricao}</p>
-                    <button class="upvotar" onclick="votar(${data.id}, 1)">
-                        <img width="15px" src="imgs/arrow.webp">
-                    </button>
-                    <span id="upvotes-${data.id}">${data.upvotes ?? 0}</span>
-
-                    <button class="downvotar" onclick="votar(${data.id}, -1)">
-                        <img width="15px" src="imgs/arrowd.jpg">
-                    </button>
-                    <span id="downvotes-${data.id}">${data.downvotes ?? 0}</span>
-
-                    <br>
-                    <input id="comentario-${data.id}" placeholder="Comente..."> 
-                    <button onclick="postarComentario(${data.id})">Postar</button>
-                    <br>
-                    <div id="comentarios-${data.id}"></div>
-                  
+            <div id="posts"></div>
+    
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
+                        <h5 class='card-title'>${data.titulo}</h5>
+                        <p class='card-text'>${data.descricao}</p>
+                        <h5 class='card-user'> Postado por: ${data.nome}</h5>
+                    </div>
+                </div>
+            </div>
             </div>
             `;
             document.getElementById("posts").innerHTML += html;
             //document.getElementById("downvotes-" + post_id).innerText = data.down;
 
             inputTit.value = ""; // limpa o campo
-            inputCont.value = ""; // limpa o campo
+            inputDesc.value = ""; // limpa o campo
         });
 
 }
