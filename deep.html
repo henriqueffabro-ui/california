@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+/* === RESET & GLOBAL === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(145deg, #f0f4fa 0%, #e2e8f0 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* === MAIN CARD CONTAINER === */
+.container {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* === HEADER STYLE === */
+.page-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e2b3c, #2c4c6e);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: -0.02em;
+  text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* === COMMENT CARD (each post) === */
+.comment-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(2px);
+  border-radius: 32px;
+  box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.02);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.75rem;
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.comment-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 28px 40px -16px rgba(0, 0, 0, 0.18);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* author line */
+.comment-author {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.username {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #1e3a5f;
+  background: rgba(30, 58, 95, 0.08);
+  padding: 0.2rem 0.8rem;
+  border-radius: 40px;
+  letter-spacing: -0.2px;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: #5c6f87;
+  font-feature-settings: 'tnum';
+  font-weight: 450;
+}
+
+/* comment content */
+.comment-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #1f2a3e;
+  margin: 0.75rem 0 1.25rem 0;
+  padding-left: 0.2rem;
+  font-weight: 450;
+  word-break: break-word;
+}
+
+/* action links */
+.comment-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 1rem;
+  margin-top: 0.25rem;
+}
+
+.action-link {
+  color: #4a6a85;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.action-link:hover {
+  color: #1e5a8a;
+  transform: translateX(2px);
+}
+
+.edit-link {
+  color: #2c6e6e;
+}
+
+.delete-link {
+  color: #b1624b;
+}
+
+.delete-link:hover {
+  color: #c0392b;
+}
+
+/* admin badge for edit/delete line (if shown separately) */
+.admin-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.admin-action {
+  text-decoration: none;
+  background: #f1f5f9;
+  padding: 0.2rem 0.7rem;
+  border-radius: 30px;
+  transition: 0.2s;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 560px) {
+  body {
+    padding: 1rem;
+  }
+  .comment-card {
+    padding: 1.2rem 1.3rem;
+  }
+  .username {
+    font-size: 1.1rem;
+  }
+  .page-header h1 {
+    font-size: 2.4rem;
+  }
+}
+
+/* === SIMULATED DIVIDER / EXTRA POLISH === */
+.comment-card:first-of-type {
+  margin-top: 0.5rem;
+}
+
+/* optional: subtle animation on load */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comment-card {
+  animation: fadeSlideUp 0.35s ease-out backwards;
+}
+
+.comment-card:nth-child(1) { animation-delay: 0.05s; }
+.comment-card:nth-child(2) { animation-delay: 0.12s; }
+
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <div class="container">
+  <div class="page-header">
+    <h1>Isumagi ✦</h1>
+    <p style="color: #4a627a; margin-top: 8px; font-weight: 450; letter-spacing: -0.2px;">Conversas com alma & código bonito</p>
+  </div>
+
+  <!-- PRIMEIRO COMENTÁRIO - chiquinho_gaviao / 19:55 -->
+  <div class="comment-card">
+    <div class="comment-author">
+      <span class="username">chiquinho_gaviao</span>
+      <span class="date">Data: 2026-04-18 19:55:06</span>
+    </div>
+    <div class="comment-content">
+      🌿 A vibe desse lugar tá surreal. Código limpo, visual agradável — parece até que tô navegando num jardim digital. Alguém mais sente que o CSS faz toda a diferença?
+    </div>
+    <div class="comment-actions">
+      <a href="#" class="action-link" id="replyTop">💬 Deixe um comentário...</a>
+      <a href="#" class="action-link" id="postTop">✨ Postar Comentário</a>
+      <span style="margin-left: auto; font-size: 0.7rem; color:#8a9bb0;">#isumagi</span>
+    </div>
+    <!-- Painel administrativo (Editar/Excluir) como aparece no seu print -->
+    <div class="admin-bar">
+      <a href="#" class="admin-action edit-link">✎ Editar</a>
+      <a href="#" class="admin-action delete-link">🗑 Excluir</a>
+    </div>
+  </div>
+
+  <!-- SEGUNDO COMENTÁRIO - chiquinho_gaviao / 19:37 -->
+  <div class="comment-card">
+    <div class="comment-author">
+      <span class="username">chiquinho_gaviao</span>
+      <span class="date">Data: 2026-04-18 19:37:11</span>
+    </div>
+    <div class="comment-content">
+      Primeiro a gente zoa o CSS feio, depois a gente ama um design bem feito. Essa página com o novo visual ficou elegante, parabéns! ✨ Aquele toque glassmorphism + fonte Inter ficou profissional.
+    </div>
+    <div class="comment-actions">
+      <a href="#" class="action-link">💬 Deixe um comentário...</a>
+      <a href="#" class="action-link">✨ Postar Comentário</a>
+      <span style="margin-left: auto; font-size: 0.7rem; color:#8a9bb0;">#cssupgrade</span>
+    </div>
+    <div class="admin-bar">
+      <a href="#" class="admin-action edit-link">✎ Editar</a>
+      <a href="#" class="admin-action delete-link">🗑 Excluir</a>
+    </div>
+  </div>
+
+  <!-- Terceiro card: exemplo extra com outro autor para mostrar dinamismo (opcional mas mantém a essência da imagem) -->
+  <div class="comment-card">
+    <div class="comment-author">
+      <span class="username">malu_designer</span>
+      <span class="date">Data: 2026-04-18 20:12:43</span>
+    </div>
+    <div class="comment-content">
+      Amei o gradiente suave e os cards com blur. Parece que saiu direto de um portfólio norueguês. Esse CSS deu outra alma pro projeto. 💎
+    </div>
+    <div class="comment-actions">
+      <a href="#" class="action-link">💬 Deixe um comentário...</a>
+      <a href="#" class="action-link">✨ Postar Comentário</a>
+    </div>
+    <div class="admin-bar">
+      <a href="#" class="admin-action edit-link">✎ Editar</a>
+      <a href="#" class="admin-action delete-link">🗑 Excluir</a>
+    </div>
+  </div>
+
+  <!-- Pequeno rodapé inspirado na estrutura da imagem -->
+  <div style="margin-top: 2rem; text-align: center; font-size: 0.75rem; color: #6c819e; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 1.5rem;">
+    ✦ Isumagi — onde cada comentário ganha vida com design &nbsp;&nbsp;|&nbsp;&nbsp; <a href="#" style="color:#4a6a85; text-decoration:none;">Deixe um comentário</a> &nbsp;•&nbsp; <a href="#" style="color:#4a6a85; text-decoration:none;">Postar Comentário</a>
+  </div>
+</div>
+
+<!-- (opcional) pequeno alerta apenas para demonstrar que os links "deixe um comentário" são interativos, mas sem sobrecarregar. 
+     Apenas para manter a experiência divertida e fiel ao layout da imagem antiga, mas tudo com o css extremamente bonito.) -->
+<script>
+  // Interação leve: apenas para simular um feedback educado quando clicar nos links "Deixe um comentário..." ou "Postar Comentário"
+  // Não polui a experiência — apenas um toque charmoso. 
+  const actionLinks = document.querySelectorAll('.action-link');
+  const adminEdits = document.querySelectorAll('.edit-link');
+  const adminDeletes = document.querySelectorAll('.delete-link');
+  const replyMsg = (e) => {
+    if(e.target.closest('.action-link') && (e.target.innerText.includes('Deixe um comentário') || e.target.innerText.includes('Postar Comentário'))) {
+      e.preventDefault();
+      alert('📝 Essa é uma demonstração do layout lindo! No mundo real abriria um formulário para comentar. ✨');
+    }
+  };
+  const handleEdit = (e) => {
+    e.preventDefault();
+    alert('✏️ Modo edição (demo) — O CSS ficou incrível, você pode implementar a edição real depois.');
+  };
+  const handleDelete = (e) => {
+    e.preventDefault();
+    if(confirm('🗑 Remover este comentário? (Apenas simulação visual, mas o design permanece perfeito)')) {
+      const card = e.target.closest('.comment-card');
+      if(card) {
+        card.style.opacity = '0';
+        setTimeout(() => card.remove(), 200);
+      }
+    }
+  };
+  document.addEventListener('click', (e) => {
+    if(e.target.closest('.action-link')) replyMsg(e);
+    if(e.target.closest('.edit-link')) handleEdit(e);
+    if(e.target.closest('.delete-link')) handleDelete(e);
+  });
+  // também cuida dos links do rodapé
+  const footerLinks = document.querySelectorAll('.container > div:last-child a');
+  footerLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('💬 Interação do rodapé — design clean e preparado para sua lógica backend.');
+    });
+  });
+</script>
+</body>
+</html>
