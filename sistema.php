@@ -2,7 +2,7 @@
     //sessão
     session_start();
     include_once('config.php'); //conecta com o arquivo de que conecta com o banco de dados
-    print_r($_SESSION);
+    
 
     $result = $conexao->query("SELECT * FROM postagens");
 
@@ -48,7 +48,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
     <link rel="stylesheet" href="Esistema.css">
 </head>
 <body>
-    <h1>Boas-vindas, <?php echo $_SESSION['nome']; ?>!</h1><br>
+    
     
     <!-- emi -->
     <head>
@@ -58,9 +58,14 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
     </head>
     <body>
         <header class="topo">
+        
         <h1> Isumagi </h1>
         <input type="text" id="pesquisa" placeholder="Pesquise ideias!">
         </header>
+        <br><br><br><br>
+        
+        <?php print_r($_SESSION); ?>
+        <h1>Boas-vindas, <?php echo $_SESSION['nome']; ?>!</h1><br>
         <div class="container">
             <aside class="sidebar">
                 <ul>
@@ -79,7 +84,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         </div>
 
 
-        <div class="modal" id="modalPost">
+        <!--<div class="modal" id="modalPost">
             <div class="modal-content">
                 <h2> Nova ideia </h2>
                 <input id="titulo" type="text" placeholder="Seu Título aqui!">
@@ -89,7 +94,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                     <button class="botao5" onclick="fecharModal()">Canelar</button>
                 </div>
             </div>
-        </div>
+        </div>-->
 
     <a href="sair.php">Sair</a>
 
@@ -126,10 +131,12 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
             <?php
                 if ($result->num_rows > 0) { //verifica se há postagens no banco de dados
                     while($row = $result->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
+                        
                         echo "<div class='posts'> ";
+                        echo "<h3 class='card-user'>" . $row["nome"] . "</h5>";
                         echo "<h5 class='card-title'>" . $row["titulo"] . "</h5>"; //mostra o título da postagem
                         echo "<p class='card-text'>" . $row["descricao"] . "</p>"; //mostra a descrição da postagem
-                        echo "<h5 class='card-user'> Postado por: " . $row["nome"] . "</h5>";
+                        
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
 
                        
