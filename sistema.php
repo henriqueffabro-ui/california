@@ -93,7 +93,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
     <a href="sair.php">Sair</a>
 
-    <form action="sistema.php" method="post" enctype="multipart/form-data">
+    <form id="formPost" action="sistema.php" method="post" enctype="multipart/form-data">
     <div id="loginBox">
         <h1>Sugerir Ideia</h1>
         <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia"><br><br>
@@ -303,6 +303,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             
 
                         echo "</div>"; //adiciona uma linha para separar as postagens
+                        echo "<br>";
                     }
                 } else {
                     echo "Nenhuma postagem encontrada."; //caso não exista postagens

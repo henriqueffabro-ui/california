@@ -4,39 +4,45 @@ let votedUp = false;
 let votedDown = false;
 
 function postar() {
+    
+    let form = document.getElementById("formPost");
+    let dados = new FormData(form);
 
-    let inputTit = document.getElementById("TituloPost");
-    let titulo = inputTit.value;
-    let inputDesc = document.getElementById("DescPost");
-    let descricao = inputDesc.value;
+
         fetch("postar.php", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: "titulo=" + encodeURIComponent(titulo) + "&descricao=" + encodeURIComponent(descricao) //encodeURIComponent é usado para garantir que o texto do post seja enviado corretamente, mesmo que contenha caracteres especiais
+            
+            body: dados //encodeURIComponent é usado para garantir que o texto do post seja enviado corretamente, mesmo que contenha caracteres especiais
         })
         .then(res => res.json()) //pega a resposta do servidor e converte para JSON (bagulho de JS)
         .then(data => { //pega a respota do servidor, que é o conteúdo do post, e insere na página
+
+                let imagensHTML = "";
+
+                    data.imagens.forEach(img => {
+                        imagensHTML += `<img src="uploads/${img}" width="200">`;
+                });
             
             let html = `<div class="postagem" id="postagem-${data.id}">
-            <div id="posts"></div>
+                <div></div>
     
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
-                        <h5 class='card-title'>${data.titulo}</h5>
-                        <p class='card-text'>${data.descricao}</p>
-                        <h5 class='card-user'> Postado por: ${data.nome}</h5>
+                    <div class="posts">
+                            <h5 class='card-title'>${data.titulo}</h5>
+                            <p class='card-text'>${data.descricao}</p>
+                            <h5 class='card-user'> Postado por: ${data.nome}</h5>
+                            ${imagensHTML}
                     </div>
                 </div>
-            </div>
+                <br>
             </div>
             `;
-            document.getElementById("posts").innerHTML += html;
-            //document.getElementById("downvotes-" + post_id).innerText = data.down;
+              document.getElementById("posts")
+            .insertAdjacentHTML("beforeend", html);
 
-            inputTit.value = ""; // limpa o campo
-            inputDesc.value = ""; // limpa o campo
+            document.getElementById("formPost").reset();
+            document.getElementById("imgpreview").innerHTML = "";
+
+            
         });
 
 }
@@ -243,7 +249,7 @@ function mostrarImg(){ //ao clicar no botão de img, aciona o input, que por sua
 
     const imgpreview = document.getElementById('imgpreview'); //pega a div onde ficam as imgs na tela
 
-            
+    imgpreview.innerHTML = "";
 
     for(let i = 0; i < input.files.length; i++){ //percorre todas as imgs
         const arquivo = input.files[i]; //pega a img atual, de acordo com o índice do for
