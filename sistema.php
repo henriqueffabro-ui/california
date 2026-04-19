@@ -131,55 +131,58 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         <!--<div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">-->
             <?php
 
-            function mostrarComentarios($parent_id, $comentarios) {
+            function mostrarComentarios($parent_id, $comentarios, $nivel = 0) {
 
-    if (!isset($comentarios[$parent_id])) return;
+                if (!isset($comentarios[$parent_id])) return; //se nao tiver respostas, não executa o código
 
-    foreach ($comentarios[$parent_id] as $c) {
+                foreach ($comentarios[$parent_id] as $c) { //percorre todos os comentários com tal parent id
 
-        echo "<div style='margin-left:20px'>";
+                    $espaco = $nivel * -5; //isso calcula a margem adicionada a cada resposta. Quanto mais px, maior a margem
 
-        echo "<h6 class='nome_comentario'>{$c['nome']}</h6>";
+                    echo "<div style='margin-left:{$espaco}px'>";
 
-        echo "<div id='comentario-{$c['id']}'>";
-        echo "<p class='comentario'>{$c['comentario']}</p>";
-        echo "</div>";
+                    echo "<h6 class='nome_comentario'>{$c['nome']}</h6>";
 
-        echo "<p class='comentario-data'>{$c['data']}</p>";
+                    echo "<div id='comentario-{$c['id']}'>";
+                    echo "<p class='comentario'>{$c['comentario']}</p>";
+                    echo "</div>";
 
-        // UPVOTE
-        echo "<button class='upvotarcoment' onclick='votarcoment({$c['id']}, 1)'>
-                <img width='15px' src='imgs/arrow.webp'>
-              </button>";
+                    echo "<p class='comentario-data'>{$c['data']}</p>";
 
-        echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
+                // Upvote
+                echo "<button class='upvotarcoment' onclick='votarcoment({$c['id']}, 1)'>
+                    <img width='15px' src='imgs/arrow.webp'>
+                </button>";
 
-        // DOWNVOTE
-        echo "<button class='downvotarcoment' onclick='votarcoment({$c['id']}, -1)'>
-                <img width='15px' src='imgs/arrowd.jpg'>
-              </button>";
+                echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
 
-        echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
+                // Downvote
+                echo "<button class='downvotarcoment' onclick='votarcoment({$c['id']}, -1)'>
+                    <img width='15px' src='imgs/arrowd.jpg'>
+                </button>";
 
-        echo "<br>";
+                echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
 
-        // INPUT RESPOSTA
-        echo "<input id='resposta-{$c['id']}' placeholder='Responda...'>";
-        echo "<button onclick='postarResposta({$c['id']})'>Postar</button>";
+                echo "<br>";
 
-        echo "<br>";
+                // Input respostas
+                echo "<input id='resposta-{$c['id']}' placeholder='Responda...'>";
+                echo "<button onclick='postarResposta({$c['id']})'>Postar</button>";
 
-        // 🔥 CONTAINER DE RESPOSTAS
-        echo "<div id='Aparecerresposta-{$c['id']}' class='respostas'>";
+                echo "<br>";
 
-        // 🔥 RECURSÃO
-        mostrarComentarios($c['id'], $comentarios);
+                // container respostas
+                echo "<div id='Aparecerresposta-{$c['id']}' class='respostas'>";
 
-        echo "</div>";
+                // recursão, chama a função novamente para fazer respostas de respostas
+                mostrarComentarios($c['id'], $comentarios, $nivel + 1);
 
-        echo "</div>";
-    }
-}               $posts = $conexao->query("
+                echo "</div>";
+
+                echo "</div>";
+            }
+        }               
+                $posts = $conexao->query("
                     SELECT p.*, u.nome 
                     FROM postagens p
                     JOIN usuarios u ON p.id_usuario = u.id
