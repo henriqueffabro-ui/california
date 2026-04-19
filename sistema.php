@@ -130,8 +130,63 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
     <div class="card">
         <!--<div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">-->
             <?php
-                if ($result->num_rows > 0) { //verifica se há postagens no banco de dados
-                    while($row = $result->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
+
+            function mostrarComentarios($parent_id, $comentarios) {
+
+    if (!isset($comentarios[$parent_id])) return;
+
+    foreach ($comentarios[$parent_id] as $c) {
+
+        echo "<div style='margin-left:20px'>";
+
+        echo "<h6 class='nome_comentario'>{$c['nome']}</h6>";
+
+        echo "<div id='comentario-{$c['id']}'>";
+        echo "<p class='comentario'>{$c['comentario']}</p>";
+        echo "</div>";
+
+        echo "<p class='comentario-data'>{$c['data']}</p>";
+
+        // UPVOTE
+        echo "<button class='upvotarcoment' onclick='votarcoment({$c['id']}, 1)'>
+                <img width='15px' src='imgs/arrow.webp'>
+              </button>";
+
+        echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
+
+        // DOWNVOTE
+        echo "<button class='downvotarcoment' onclick='votarcoment({$c['id']}, -1)'>
+                <img width='15px' src='imgs/arrowd.jpg'>
+              </button>";
+
+        echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
+
+        echo "<br>";
+
+        // INPUT RESPOSTA
+        echo "<input id='resposta-{$c['id']}' placeholder='Responda...'>";
+        echo "<button onclick='postarResposta({$c['id']})'>Postar</button>";
+
+        echo "<br>";
+
+        // 🔥 CONTAINER DE RESPOSTAS
+        echo "<div id='Aparecerresposta-{$c['id']}' class='respostas'>";
+
+        // 🔥 RECURSÃO
+        mostrarComentarios($c['id'], $comentarios);
+
+        echo "</div>";
+
+        echo "</div>";
+    }
+}               $posts = $conexao->query("
+                    SELECT p.*, u.nome 
+                    FROM postagens p
+                    JOIN usuarios u ON p.id_usuario = u.id
+                    ORDER BY p.data DESC
+                ");
+                if ($posts->num_rows > 0) { //verifica se há postagens no banco de dados
+                    while($row = $posts->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
                         
                         echo "<div class='posts'> ";
                         echo "<h3 class='card-user'>" . $row["nome"] . "</h5>";
@@ -181,7 +236,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             echo "<br>";
                         }
 
-                        echo "<br>";
+                        
                         if($row["nome"] == $_SESSION['nome']){ //verifica se o nome do usuário logado é igual ao nome do usuário que fez a postagem
                             echo "<button onclick='editarPostagem(" . $row["id"] . ")' id='BdeEditar' class='btn btn-primary'>Editar</button>"; //se for igual, mostra o botão de editar
                             echo "<button onclick='excluirPostagem(" . $row["id"] . ")' id='BdeExcluir' class='btn btn-danger'>Excluir</button>"; //se for igual, mostra o botão de excluir
@@ -203,117 +258,26 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         //");
 
                         // pega os comentários do post cujo id é igual ao id da postagem atual
-                        $comentarios = $conexao->query(" 
-                            SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, u.nome FROM comentarios c
-                            JOIN usuarios u ON c.usuario_id = u.id
-                            WHERE c.post_id = {$row['id']}
-                            AND c.parent_id IS NULL
-                            ORDER BY c.upvotes DESC
-                        ");
+                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome 
+                        FROM comentarios c 
+                        JOIN usuarios u 
+                        ON c.usuario_id = u.id 
+                        WHERE c.post_id = {$row['id']} 
+                        ORDER BY c.upvotes DESC ");
 
-                        while ($c = $comentarios->fetch_assoc()) { //percorre todos os comentarios
+                        $comentarios = [];
 
-                        // c é o apelido da tabela comentarios. r é o das respostas. u é de usuarios. O join é para pegar o nome do usuário que fez o comentário, associando o id do usuário da tabela comentarios com o id da tabela usuarios. O where é para pegar apenas os comentários que pertencem à postagem atual (c.post_id = id da postagem) e que não são respostas (c.parent_id IS NULL). O order by é para ordenar os comentários por número de upvotes, do maior para o menor.
-                        $respostas = $conexao->query(" 
-                            SELECT c.comentario, c.data, c.id, c.downvotes, c.upvotes, c.parent_id, u.nome
-                            FROM comentarios c
-                            JOIN usuarios u ON c.usuario_id = u.id
-                            WHERE c.parent_id = {$c['id']}
-                        ");
-                            echo "<h6 class='nome_comentario'>{$c['nome']}</h6>"; //mostra o nome do usuário que fez o comentário
-                            
-                            echo "<div id='comentario-{$c['id']}'>";
-                            echo "<p class='comentario'>{$c['comentario']}</p>"; //mostra o comentario 
-                            echo "</div>";
-
-                            echo "<p class='comentario-data'>{$c['data']}</p>"; //mostra a data do comentario
-                            
-                            
-
-                                // BOTÃO UPVOTE
-                            echo "<button type='button' class='upvotarcoment' onclick='votarcoment({$c['id']}, 1)'>
-                                <img width='15px' src='imgs/arrow.webp'>
-                            </button>";
-
-                            // CONTADOR UPVOTE
-                            echo "<span id='upvotescoment-{$c['id']}'>" . ($c['upvotes'] ?? 0) . "</span>";
-
-                                // BOTÃO DOWNVOTE
-                            echo "<button type='button' class='downvotarcoment' onclick='votarcoment({$c['id']}, -1)'>
-                                <img width='15px' src='imgs/arrowd.jpg'>
-                            </button>";
-
-                            // CONTADOR DOWNVOTE
-                            echo "<span id='downvotescoment-{$c['id']}'>" . ($c['downvotes'] ?? 0) . "</span>";
-
-                            echo"<br>";
-                            echo"<input id='resposta-{$c['id']}' placeholder='Responda...'>"; 
-                            echo"<button onclick='postarResposta({$c['id']})'>Postar</button>";
-                            echo"<br>";
-
-                            echo "<div id='Aparecerresposta-{$c['id']}' class='respostas'>";
-
-                                while ($r = $respostas->fetch_assoc()) {
-
-                                    
-                                    echo "</span>";
-
-                                    echo "<h6 class='nome_resposta'>{$r['nome']}</h6>";
-                                    //menção
-                                    echo "<span class='resposta_texto'>";
-
-                                    echo "<span class='nomePai_resposta'>
-                                        <a href='#comentario-{$r['parent_id']}'>
-                                            @{$r['nome']}
-                                        </a>
-                                    </span>";
-
-                                    echo " {$r['comentario']}";
-                                    //data
-                                    echo "<p class='comentario-data'>{$r['data']}</p>"; //mostra a data da resposta
-
-                                    
-
-                                         // BOTÃO UPVOTE
-                                echo "<button type='button' class='upvotarcoment' onclick='votarcoment({$r['id']}, 1)'>
-                                    <img width='15px' src='imgs/arrow.webp'>
-                                </button>";
-
-                                // CONTADOR UPVOTE
-                                echo "<span id='upvotescoment-{$r['id']}'>" . ($r['upvotes'] ?? 0) . "</span>";
-
-                                // BOTÃO DOWNVOTE
-                                echo "<button type='button' class='downvotarcoment' onclick='votarcoment({$r['id']}, -1)'>
-                                    <img width='15px' src='imgs/arrowd.jpg'>
-                                </button>";
-
-                            // CONTADOR DOWNVOTE
-                            echo "<span id='downvotescoment-{$r['id']}'>" . ($r['downvotes'] ?? 0) . "</span>";
-
-                            echo"<br>";
-                            echo"<input id='resposta-{$r['id']}' placeholder='Responda...'>"; 
-                            echo"<button onclick='postarResposta({$r['id']})'>Postar</button>";
-                            echo"<br>";
-                            
-
-
-                                    
-                                
-                                }
-                            
-                            echo "</div>";
-                            
-                            echo "<p style='color: #a9a9a9; font-size: 12px;'>--------------------------------------------------------------------------------------------------------</p>"; //separa os comentarios com uma linha
-                                
-                            //aqui vai o botão de responder o comentário
-                                
+                        while ($c = $result->fetch_assoc()) {
+                            $comentarios[$c['parent_id']][] = $c;
+                        }
                         
-                                
-                            }
-                            
+                         mostrarComentarios(NULL, $comentarios);
 
-                        echo "</div>"; //adiciona uma linha para separar as postagens
-                        echo "<br>";
+                        
+
+                         
+                        echo "</div>";
+                        echo"<br>";
                     }
                 } else {
                     echo "Nenhuma postagem encontrada."; //caso não exista postagens

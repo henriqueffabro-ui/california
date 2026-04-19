@@ -86,6 +86,10 @@ function postar() {
 
 }
 
+function mostrarInputResposta(id) {
+    let div = document.getElementById("resposta-" + id);
+    div.style.display = "block";
+}
 
 function postarResposta(comentario_id) {
 
@@ -129,7 +133,8 @@ function postarResposta(comentario_id) {
                     </button>
 
                     <span id="downvotescoment-${data.id}">${data.downvotes ?? 0}</span>
-                    
+
+                    <div id="Aparecerresposta-${data.id}"></div>
             </div>`;
 
             
