@@ -62,6 +62,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         
         <h1> Isumagi </h1>
         <input type="text" id="pesquisa" placeholder="Pesquise ideias!">
+        <button class="bNavbar" onclick="location.href='perfil.php'">Perfil</button>
         </header>
         <br><br><br><br>
         

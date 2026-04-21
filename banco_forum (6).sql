@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11/04/2026 às 02:19
+-- Tempo de geração: 21/04/2026 às 15:50
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -120,16 +120,17 @@ CREATE TABLE `usuarios` (
   `nome` varchar(100) NOT NULL,
   `email` varchar(200) NOT NULL,
   `senha` varchar(200) NOT NULL,
-  `data_criacao` datetime DEFAULT current_timestamp()
+  `data_criacao` datetime DEFAULT current_timestamp(),
+  `foto_perfil` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_criacao`) VALUES
-(1, 'chiquinho_gaviao', 'gaviaochico@gmail.com', 'california', '2026-03-28 10:06:43'),
-(2, 'Henrique', 'henriqueffabro@gmail.com', 'california', '2026-03-28 10:42:04');
+INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_criacao`, `foto_perfil`) VALUES
+(1, 'chiquinho_gaviao', 'gaviaochico@gmail.com', 'california', '2026-03-28 10:06:43', NULL),
+(2, 'Henrique', 'henriqueffabro@gmail.com', 'california', '2026-03-28 10:42:04', NULL);
 
 -- --------------------------------------------------------
 
