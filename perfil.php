@@ -61,7 +61,7 @@ exit;
 </head>
 <body>
     <h1><?= $usuario['nome'] ?></h1>
-
+    <button onclick="location.href='sistema.php'">Voltar para o feed</button>
     <form id="formPfp" method="POST" enctype="multipart/form-data">
     <input type="file" id="filePfp" style="display: none;"
        name="inputPfp"
