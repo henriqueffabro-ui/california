@@ -20,9 +20,26 @@ $posts = $conexao->query("
     ORDER BY p.data DESC
 ");
 
-while($p = $posts->fetch_assoc()) {
-    include "post.php";
+//while($p = $posts->fetch_assoc()) {
+  //  include "post.php";
+//}
+
+if (isset($_FILES['inputPfp'])) {
+    $pfp = $_FILES['inputPfp'];
+    $ext = pathinfo($pfp['name'], PATHINFO_EXTENSION);
+    $pfpNome = uniqid() . "." . $ext;
+    $caminho = "uploads/" . $pfpNome;
+
+move_uploaded_file($pfp['tmp_name'], $caminho);
+
+$sqlImg = "UPDATE usuarios SET foto_perfil = '$caminho' WHERE id = $id";
+mysqli_query($conexao, $sqlImg);
+header("Location: perfil.php");
+exit;
+
+
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -32,9 +49,37 @@ while($p = $posts->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
     <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
+    <script src="perfil.js"></script>
+    <style>
+        .pfpimg {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
     <h1><?= $usuario['nome'] ?></h1>
+
+    <form id="formPfp" method="POST" enctype="multipart/form-data">
+    <input type="file" id="filePfp" style="display: none;"
+       name="inputPfp"
+       onchange="document.getElementById('formPfp').submit();"> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
+
+        <button type="button" onclick="document.getElementById('filePfp').click()"> <!-- aciona o input escondigo -->
+            Alterar foto de perfil
+        </button>
+    </form>
+        <?php
+        if (!empty($usuario['foto_perfil']) && file_exists($usuario['foto_perfil'])) {
+            echo "<img class='pfpimg' src='".$usuario['foto_perfil']."' width='100'>";
+        }
+
+        //echo "<img src='".$usuario['foto_perfil']."' width='100'>";
+        //echo $usuario['foto_perfil'];
+        ?>
+    
     <h2>Ideias:</h2><br>
     <?php foreach ($posts as $p): ?>
         <div class="post">
@@ -79,7 +124,7 @@ while($p = $posts->fetch_assoc()) {
 
     while($img = $result_img->fetch_assoc()){
         if (!empty($img['nome']) && file_exists("uploads/".$img['nome'])) {
-            echo "<img class='imgsnopost' src='uploads/".$img['nome']."' width='200'>";
+            echo "<img class='imgsnopost' src='uploads/".$img['nome']."'>";
         }
     }
     ?>
@@ -113,7 +158,7 @@ while($p = $posts->fetch_assoc()) {
             $comentarios[$c['parent_id']][] = $c;
         }
 
-        mostrarComentarios(NULL, $comentarios);
+        //mostrarComentarios(NULL, $comentarios);
         ?>
     </div>
 
