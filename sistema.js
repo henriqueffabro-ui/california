@@ -65,9 +65,13 @@ function postar() {
                 <div></div>
     
                     <div class="posts">
+                            <div class="userinfo">
+                            <img src='${data.foto_perfil}' alt='Foto de perfil' class='pfpimgPost'>
+                            <span class='card-user'>${data.nome}</span>
+                            </div>
                             <h5 class='card-title'>${data.titulo}</h5>
                             <p class='card-text'>${data.descricao}</p>
-                            <h5 class='card-user'> Postado por: ${data.nome}</h5>
+                            
                             ${imagensHTML}
                     </div>
                 </div>

@@ -40,12 +40,16 @@ $resultUser = $conexao->query("SELECT nome FROM usuarios WHERE id = $usuario");
 $user = $resultUser->fetch_assoc();
 $nome = $user['nome'];
 
+$resultPfp = $conexao->query("SELECT foto_perfil FROM usuarios WHERE id = $usuario");
+$pfp = $resultPfp->fetch_assoc();
+$foto_perfil = $pfp['foto_perfil'];
 
 echo json_encode([
     "titulo" => $titulo,
     "descricao" => $descricao,
     "id" => $id_post,
     "nome" => $nome,
+    "foto_perfil" => $foto_perfil,
     "imagens" => $imagens
 ]);
 

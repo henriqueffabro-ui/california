@@ -141,7 +141,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                     $espaco = $nivel * -5; //isso calcula a margem adicionada a cada resposta. Quanto mais px, maior a margem
 
                     echo "<div style='margin-left:{$espaco}px'>";
-
+                    
                     echo "<h6 class='nome_comentario'>{$c['nome']}</h6>";
 
                     echo "<div id='comentario-{$c['id']}'>";
@@ -184,7 +184,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
             }
         }               
                 $posts = $conexao->query("
-                    SELECT p.*, u.nome 
+                    SELECT p.*, u.nome, u.foto_perfil 
                     FROM postagens p
                     JOIN usuarios u ON p.id_usuario = u.id
                     ORDER BY p.data DESC
@@ -193,7 +193,12 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                     while($row = $posts->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
                         
                         echo "<div class='posts'> ";
-                        echo "<h3 class='card-user'>" . $row["nome"] . "</h5>";
+
+                        echo "<div class='userinfo'>";
+                        echo "<img src='" . $row["foto_perfil"] . "' alt='Foto de perfil' class='pfpimgPost'>";
+                        echo "<span class='card-user'>" . $row["nome"] . "</span>";
+                        echo "</div>";
+                        
                         echo "<h5 class='card-title'>" . $row["titulo"] . "</h5>"; //mostra o título da postagem
                         echo "<p class='card-text'>" . $row["descricao"] . "</p>"; //mostra a descrição da postagem
                         
