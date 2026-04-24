@@ -141,8 +141,12 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                     $espaco = $nivel * -5; //isso calcula a margem adicionada a cada resposta. Quanto mais px, maior a margem
 
                     echo "<div style='margin-left:{$espaco}px'>";
-                    
-                    echo "<h6 class='nome_comentario'>{$c['nome']}</h6>";
+
+                    echo "<br>";
+                    echo "<div class='userinfo'>";
+                    echo "<img src='" . $c['foto_perfil'] . "' alt='Foto de perfil' class='pfpimgComent'>";
+                    echo "<span class='nome_comentario'>{$c['nome']}</span>";
+                    echo "</div>";
 
                     echo "<div id='comentario-{$c['id']}'>";
                     echo "<p class='comentario'>{$c['comentario']}</p>";
@@ -267,7 +271,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         //");
 
                         // pega os comentários do post cujo id é igual ao id da postagem atual
-                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome 
+                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil 
                         FROM comentarios c 
                         JOIN usuarios u 
                         ON c.usuario_id = u.id 

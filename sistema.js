@@ -117,7 +117,11 @@ function postarResposta(comentario_id) {
             container.innerHTML += `
             <div class="tudoderesosta">
             <p class="resposta_para">Resposta para <strong>${data.nomePai}</strong>:</p>
-            <h6 class="nome_resposta">${data.nome}</h6>
+            
+            <div class="userinfo">
+            <img src='${data.foto_perfil}' alt='Foto de perfil' class='pfpimgComent'>
+            <span class="nome_resposta">${data.nome}</span>
+            </div>
 
             <p class="resposta_texto">
             <span class="nomePai_resposta">
@@ -204,7 +208,11 @@ function postarComentario(post_id) {
         .then(res => res.json())
         .then(data => {
             let html = `<div class="comentario">
-                    <h6 class="nome_comentario">${data.nome}</h6>
+
+                    <div class="userinfo">
+                    <img src='${data.foto_perfil}' alt='Foto de perfil' class='pfpimgComent'>
+                    <span class="nome_comentario">${data.nome}</span>
+                    </div>
 
                     <p class="comentario">${data.comentario}</p>
                     
@@ -222,14 +230,9 @@ function postarComentario(post_id) {
                     <span id="downvotescoment-${data.id}">${data.downvotes ?? 0}</span>
 
                     <br>
-                    <input id="resposta-${data.id}" placeholder="Responda..."> 
-                    <button onclick="postarResposta(${data.id})">Postar</button>
-                    <br>
 
                     
-                    <p style="color: #a9a9a9; font-size: 12px;">
-                    --------------------------------------------------------------------------------------------------------
-                    </p>
+                    
             </div>
             `;
 

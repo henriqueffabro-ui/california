@@ -20,6 +20,7 @@ $userPai = $resultUserPai->fetch_assoc();
 $nomePai = $userPai['nome'];
 
 
+
 if (empty($conteudo)) {
     echo json_encode(["erro" => "Resposta vazia"]);
     exit;
@@ -41,13 +42,18 @@ $stmt = $conexao->prepare($sql);
 $stmt->bind_param("isii", $usuario_id, $conteudo, $parent_id, $post_id);
 $stmt->execute();
 
+$resultPfp = $conexao->query("SELECT foto_perfil FROM usuarios WHERE id = $usuario_id");
+$pfp = $resultPfp->fetch_assoc();
+$foto_perfil = $pfp['foto_perfil'];
+
 $id = $stmt->insert_id; // ID do comentário recém-inserido
 echo json_encode([
     "conteudo" => $conteudo,
     "parent_id" => $parent_id,
     "id" => $id,
     "nome" => $nome,
-    "nomePai" => $nomePai
+    "nomePai" => $nomePai,
+    "foto_perfil" => $foto_perfil
 ]);
 
 

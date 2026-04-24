@@ -5,6 +5,12 @@
             object-fit: cover;
         }
 
+.pfpimgComent {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+        }
 [id^="comentario-"] { /*ao clicar no @ de alguma resposta, leva ao comentario pai mas tira 90px por conta da navbar fixa*/
     scroll-margin-top: 90px;
 }
@@ -70,7 +76,7 @@ body{
 }
 
 .nome_comentario {
-    font-size: 12px;
+    font-size: 14px;
     color: #000000;
 }
 
@@ -80,7 +86,7 @@ body{
 }
 
 .nome_resposta {
-    font-size: 12px;
+    font-size: 14px;
     color: #000000;
 }
 

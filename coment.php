@@ -18,10 +18,15 @@ $id_comentario = $conexao->insert_id;
 
 $row = $conexao->query("SELECT comentario FROM comentarios WHERE id = $id_comentario")->fetch_assoc();
 
+$resultPfp = $conexao->query("SELECT foto_perfil FROM usuarios WHERE id = $usuario");
+$pfp = $resultPfp->fetch_assoc();
+$foto_perfil = $pfp['foto_perfil'];
+
 echo json_encode([
     "comentario" => "<p>{$row['comentario']}</p>",
     "id" => $id_comentario,
-    "nome" => $nome
+    "nome" => $nome,
+    "foto_perfil" => $foto_perfil
 ]);
 
 
