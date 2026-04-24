@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21/04/2026 às 15:50
+-- Tempo de geração: 25/04/2026 às 01:55
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -82,7 +82,8 @@ CREATE TABLE `imagens` (
 
 INSERT INTO `imagens` (`id`, `nome`, `id_post`) VALUES
 (24, '69d19fa707d5d.png', 23),
-(25, '69d655d4f21a4.png', 24);
+(25, '69d655d4f21a4.png', 24),
+(32, '69ebfd28beeb4_backyardigans.webp', 39);
 
 -- --------------------------------------------------------
 
@@ -107,7 +108,19 @@ CREATE TABLE `postagens` (
 
 INSERT INTO `postagens` (`id`, `titulo`, `descricao`, `id_usuario`, `data`, `editado`, `upvotes`, `downvotes`) VALUES
 (23, 'olha que linda', 'essa imagem ---- edit: muito obrigado pelo apoio galera', 1, '2026-04-04 20:32:55', 1, 2, 0),
-(24, 'teste', 'teste', 1, '2026-04-08 10:19:16', NULL, 1, 0);
+(24, 'teste', 'teste', 1, '2026-04-08 10:19:16', NULL, 1, 0),
+(31, 'top', 'demais', 2, '2026-04-23 21:17:28', NULL, NULL, NULL),
+(32, 'e', 'e', 2, '2026-04-23 21:21:15', NULL, NULL, NULL),
+(33, 'a', 'a', 2, '2026-04-23 21:21:44', NULL, NULL, NULL),
+(34, 'x', 'x', 2, '2026-04-23 21:22:08', NULL, 1, NULL),
+(36, 'd', 'd', 3, '2026-04-24 20:24:29', NULL, NULL, NULL),
+(37, 's', 's', 4, '2026-04-24 20:25:56', NULL, NULL, NULL),
+(38, 'Oi, eu sou Pablo', '', 1, '2026-04-24 20:28:37', NULL, NULL, NULL),
+(39, 'Juntos, nós somos os Backyardigans', '(não temos o Austin)', 1, '2026-04-24 20:30:48', NULL, NULL, NULL),
+(40, 'Eu sou a Tasha', '', 3, '2026-04-24 20:31:39', NULL, NULL, NULL),
+(41, 'Eu sou a Uniqua', '', 4, '2026-04-24 20:32:09', NULL, NULL, NULL),
+(42, 'Meu nome é Tyrone', '', 1, '2026-04-24 20:32:32', NULL, NULL, NULL),
+(43, 'Oi, eu sou Pablo', '', 2, '2026-04-24 20:32:54', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -129,8 +142,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_criacao`, `foto_perfil`) VALUES
-(1, 'chiquinho_gaviao', 'gaviaochico@gmail.com', 'california', '2026-03-28 10:06:43', NULL),
-(2, 'Henrique', 'henriqueffabro@gmail.com', 'california', '2026-03-28 10:42:04', NULL);
+(1, 'chiquinho_gaviao', 'gaviaochico@gmail.com', 'california', '2026-03-28 10:06:43', 'uploads/69e814f6e2365.jpg'),
+(2, 'Henrique', 'henriqueffabro@gmail.com', 'california', '2026-03-28 10:42:04', 'uploads/69eab37c1c615.jpg'),
+(3, 'china', 'shnaydap@gmail.com', '@07112009', '2026-04-23 21:23:05', 'uploads/69ebfba48745a.png'),
+(4, 'emi_noriaki223', 'noriaki@gmail.com', 'Emilly_2010', '2026-04-24 20:25:23', 'uploads/69ebfbfecbf47.jpeg');
 
 -- --------------------------------------------------------
 
@@ -173,7 +188,8 @@ CREATE TABLE `votos` (
 INSERT INTO `votos` (`id`, `post_id`, `usuario_id`, `tipo`) VALUES
 (50, 23, 2, 1),
 (51, 23, 1, 1),
-(52, 24, 1, 1);
+(52, 24, 1, 1),
+(55, 34, 2, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -233,37 +249,37 @@ ALTER TABLE `votos`
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT de tabela `imagens`
 --
 ALTER TABLE `imagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de tabela `postagens`
 --
 ALTER TABLE `postagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `votes_comentarios`
 --
 ALTER TABLE `votes_comentarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de tabela `votos`
 --
 ALTER TABLE `votos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- Restrições para tabelas despejadas
