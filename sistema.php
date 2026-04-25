@@ -199,8 +199,10 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         echo "<div class='posts'> ";
 
                         echo "<div class='userinfo'>";
-                        echo "<img src='" . $row["foto_perfil"] . "' alt='Foto de perfil' class='pfpimgPost'>";
-                        echo "<span class='card-user'>" . $row["nome"] . "</span>";
+                            echo "<a href='perfil.php?id=" . $row['id_usuario'] . "'>";
+                                echo "<img src='" . $row["foto_perfil"] . "' alt='Foto de perfil' class='pfpimgPost'>";
+                                echo "<span class='card-user'>" . $row["nome"] . "</span>";
+                            echo "</a>";
                         echo "</div>";
                         
                         echo "<h5 class='card-title'>" . $row["titulo"] . "</h5>"; //mostra o título da postagem

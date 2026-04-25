@@ -16,3 +16,20 @@
       //  document.getElementById("fotoPerfil").src = data.caminho;
     //});
 //}
+
+function votar(post_id, tipo) {
+
+        fetch("vote.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "post_id=" + post_id + "&tipo=" + tipo
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("upvotes-" + post_id).innerText = data.up;
+            document.getElementById("downvotes-" + post_id).innerText = data.down;
+        });
+
+};
