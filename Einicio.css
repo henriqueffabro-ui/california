@@ -6,7 +6,7 @@ body{
 /* Estilo do retângulo */
 #retangulo{
   border-radius: 50px;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   position: relative;
   margin-left: 80px;
   margin-right: 80px;

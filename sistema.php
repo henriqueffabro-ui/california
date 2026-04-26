@@ -61,7 +61,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         <header class="topo">
         
         <h1> Isumagi </h1>
-        <input type="text" id="pesquisa" placeholder="Pesquise ideias!">
+        <input type="text" class="pesquisa" placeholder="Pesquise ideias!">
         
         <a href='perfil.php?id=<?= $_SESSION['id'] ?>'>
             <button class="bNavbar" onclick="location.href='perfil.php'">Perfil</button>
