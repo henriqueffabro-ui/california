@@ -33,7 +33,7 @@
 }
 
 body{
-    background-color:#f6f7f8
+    background-color:#ffffff
 }
 
 .imgspost{
@@ -51,7 +51,7 @@ body{
 .posts {
     margin-left: 100px;
     margin-left:100px ;
-    border: 2px solid #d1d1d1;
+    border: 2px solid #ffffff;
     border-radius: 20px;
     padding: 10px; 
     max-width: 700px;
@@ -253,10 +253,10 @@ button[onclick^="postarResposta"] {
 
 .sidebar{
     width: 150px;
-    background: white;
+    background: rgb(255, 255, 255);
     padding: 2px;
     height: 50vh;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ffffff;
 }
 
 .sidebar ul{
@@ -267,6 +267,14 @@ button[onclick^="postarResposta"] {
 .sidebar li{
     margin-bottom: 10px;
 }
+.pesquisa{
+    background-color: rgb(255, 250, 202);
+    font-size:20px;
+    padding: 8px 12px;
+    border-radius: 15px;
+    border: 1px solid #1b1a07;
+}
+
 .botao1{
     background-color: rgb(243, 209, 14);
     color: rgb(0, 0, 0);
@@ -312,7 +320,7 @@ button[onclick^="postarResposta"] {
 
 .post{
     display: flex;
-    background: white;
+    background: rgb(255, 255, 255);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;

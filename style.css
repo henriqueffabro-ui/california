@@ -6,7 +6,7 @@
 }
 
 body{
-    background-color:#f6f7f8
+    background-color:#ffffff
 }
 
 .topo{
@@ -99,15 +99,9 @@ body{
     transition: 0.2s;
 }
 
-
-.feed{
-    flex: 1;
-    padding: 30px;
-}
-
 .post{
     display: flex;
-    background: white;
+    background: rgb(255, 255, 255);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
