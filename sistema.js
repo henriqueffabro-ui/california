@@ -3,31 +3,50 @@ let downvotes = 0;
 let votedUp = false;
 let votedDown = false;
 
+
+
+
+
 let imagens = [];
 
-function adicionarImagem() {
+function adicionarImagem() { //essa função é chamada quando o usuário seleciona uma imagem no input, e adiciona a imagem ao array de imagens, e depois renderiza as imagens na tela
     let input = document.getElementById("fileInput");
 
     for (let i = 0; i < input.files.length; i++) {
-        let file = input.files[i];
-        imagens.push(file);
-
-        // cria container (li)
-        let li = document.createElement("li");
-
-        // cria imagem
-        let img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        img.style.width = "200px";
-        img.classList.add("previewImagens");
-
-        li.appendChild(img);
-
-
-        document.getElementById("listaImgs").appendChild(li);
+        imagens.push(input.files[i]);
     }
 
     input.value = "";
+
+    renderizarImagens();
+}
+
+function removerImg(index) { //essa função é chamada quando o usuário clica no botão de remover, e remove a imagem do array de imagens, e depois renderiza as imagens na tela
+    imagens.splice(index, 1);
+    renderizarImagens();
+}
+
+function renderizarImagens() { //essa função renderiza as imagens na tela, criando elementos img para cada imagem no array de imagens, e adicionando um botão de remover para cada imagem
+    const lista = document.getElementById("listaImgs");
+    lista.innerHTML = "";
+
+    imagens.forEach((file, index) => {
+        let li = document.createElement("li");
+
+        let img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.style.width = "200px";
+
+        let btn = document.createElement("button");
+        btn.innerText = "Remover";
+
+        btn.onclick = () => removerImg(index);
+
+        li.appendChild(img);
+        li.appendChild(btn);
+
+        lista.appendChild(li);
+    });
 }
 
 function postar() {
@@ -312,6 +331,8 @@ function mostrarImg(){ //ao clicar no botão de img, aciona o input, que por sua
             img.style.display = "block"; //ativa a exibição da img
             img.style.width = "200px"; 
             img.style.height = "auto"; //esses 2 são tamanho da img
+            const btn = document.createElement("button");
+            btn.innerText = "Remover";
 
             img.style.marginRight = "10px"; //essa é a margem, a img vai para a direita
 
