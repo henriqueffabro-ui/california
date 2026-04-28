@@ -61,7 +61,10 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         <header class="topo">
         
         <h1> Isumagi </h1>
-        <input type="text" class="pesquisa" placeholder="Pesquise ideias!">
+        <form id="formPesq" method="GET">
+            <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!">
+            <button type="submit">Buscar</button>
+        </form>
         
         <a href='perfil.php?id=<?= $_SESSION['id'] ?>'>
             <button class="bNavbar" onclick="location.href='perfil.php'">Perfil</button>
@@ -189,16 +192,29 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
                 echo "</div>";
             }
-        }               
+        }             
+                if (!empty($_GET['pesquisa'])) {
+
+                    $pesquisa = $_GET['pesquisa'] ?? ''; //pega o termo de pesquisa enviado pelo formulário, ou uma string vazia se não houver
+
+                    $sql = "SELECT postagens.*, usuarios.nome, usuarios.foto_perfil FROM postagens 
+                            JOIN usuarios ON postagens.id_usuario = usuarios.id 
+                            WHERE postagens.titulo LIKE '%$pesquisa%' OR postagens.descricao LIKE '%$pesquisa%'"; //consulta SQL para buscar postagens que tenham o termo de pesquisa no título ou na descrição, e também traz o nome e a foto de perfil do usuário que fez a postagem
+                    $posts = $conexao->query($sql);
+                }
+                else {
                 $posts = $conexao->query("
                     SELECT p.*, u.nome, u.foto_perfil 
                     FROM postagens p
                     JOIN usuarios u ON p.id_usuario = u.id
                     ORDER BY p.data DESC
                 ");
+                }
                 if ($posts->num_rows > 0) { //verifica se há postagens no banco de dados
                     while($row = $posts->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
                         
+                        
+        
                         echo "<div class='posts'> ";
 
                         echo "<div class='userinfo'>";
@@ -213,7 +229,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
 
-                       
+                    
                         ?>
                           <button onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
                         <span>
@@ -262,7 +278,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         if($row['editado'] == 1){
                             echo "<p>Editado</p>";
                         }
-
+                    
                         ?> 
                         <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
                             
