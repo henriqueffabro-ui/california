@@ -37,6 +37,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
 
 
+$pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
+
 ?>
 
 <!DOCTYPE html>
@@ -62,8 +64,16 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         
         <h1> Isumagi </h1>
         <form id="formPesq" method="GET">
+
+        <?php if ($pesquisando) { ?>
+        <a href="sistema.php">
+            <button id="bVoltarPesq"><- Voltar</button>
+        </a>
+        <?php } ?>
+
+            
             <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!">
-            <button type="submit">Buscar</button>
+            <button type="submit" onclick="mostrarVoltar()">Buscar</button>
         </form>
         
         <a href='perfil.php?id=<?= $_SESSION['id'] ?>'>
@@ -201,6 +211,10 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                             JOIN usuarios ON postagens.id_usuario = usuarios.id 
                             WHERE postagens.titulo LIKE '%$pesquisa%' OR postagens.descricao LIKE '%$pesquisa%' OR usuarios.nome LIKE '%$pesquisa%'"; //consulta SQL para buscar postagens que tenham o termo de pesquisa no título ou na descrição, e também traz o nome e a foto de perfil do usuário que fez a postagem
                     $posts = $conexao->query($sql);
+
+                    
+                    
+
                 }
                 else {
                 $posts = $conexao->query("
