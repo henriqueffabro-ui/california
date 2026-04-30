@@ -235,7 +235,22 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                             echo "<a href='perfil.php?id=" . $row['id_usuario'] . "'>";
                                 echo "<img src='" . $row["foto_perfil"] . "' alt='Foto de perfil' class='pfpimgPost'>";
                                 echo "<span class='card-user'>" . $row["nome"] . "</span>";
+                               
                             echo "</a>";
+                            echo "<span class='bSeguir" . $row['id_usuario'] . "'>";
+                                if ($row['id_usuario'] != $_SESSION['id']) {
+                                    // Verifica se o usuário logado já segue o autor da postagem
+                                    $id_usuario_logado = $_SESSION['id'];
+                                    $id_usuario_autor = $row['id_usuario'];
+                                    $seguindo = $conexao->query("SELECT * FROM seguidores WHERE id_seguidor = $id_usuario_logado AND id_seguido = $id_usuario_autor")->num_rows > 0;
+
+                                    if ($seguindo) {
+                                        echo "<button class='bSeguindo' onclick='seguir(" . $row['id_usuario'] . ", this)'>Seguindo</button>";
+                                    } else {
+                                        echo "<button class='bSeguir' onclick='seguir(" . $row['id_usuario'] . ", this)'>Seguir</button>";
+                                    }
+                                }
+                            echo "</span>";
                         echo "</div>";
                         
                         echo "<h5 class='card-title'>" . $row["titulo"] . "</h5>"; //mostra o título da postagem

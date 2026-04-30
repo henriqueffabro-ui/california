@@ -141,6 +141,7 @@ exit;
         //echo $usuario['foto_perfil'];
         ?>
     
+    <span class="seguidores">Seguidores: <?= $usuario['seguidores'] ?? 0 ?></span>
     <h2>Ideias:</h2><br>
     <?php foreach ($posts as $p): ?>
         <?php

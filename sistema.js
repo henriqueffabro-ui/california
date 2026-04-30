@@ -9,6 +9,30 @@ let votedDown = false;
 
 let imagens = [];
 
+function seguir(id_usuario, botao) {
+    fetch("seguir.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "id_usuario=" + id_usuario
+
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.seguindo === true) {
+            botao.className = "bSeguindo";
+            botao.innerText = "Seguindo";
+           
+            //botao.disabled = true;
+        } else {
+            botao.className = "bSeguir";
+            botao.innerText = "Seguir";
+            
+        }
+    });
+}
+
 function adicionarImagem() { //essa função é chamada quando o usuário seleciona uma imagem no input, e adiciona a imagem ao array de imagens, e depois renderiza as imagens na tela
     let input = document.getElementById("fileInput");
 

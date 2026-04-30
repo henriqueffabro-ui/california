@@ -8,6 +8,14 @@
     margin-right: 10px;
 }
 
+.bSeguir {
+    
+    cursor: pointer;
+}
+.bSeguindo {
+    color: rgba(0, 0, 0, 0.503);
+    cursor: pointer;
+}
 .pfpimgPost {
             border-radius: 50%;
             width: 45px;
