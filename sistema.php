@@ -66,14 +66,14 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         <form id="formPesq" method="GET">
 
         <?php if ($pesquisando) { ?>
-        <a href="sistema.php">
-            <button id="bVoltarPesq"><- Voltar</button>
-        </a>
+       
+            <button id="bVoltarPesq" onclick="location.href='sistema.php'">Voltar</button>
+            
         <?php } ?>
 
             
             <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!">
-            <button type="submit" onclick="mostrarVoltar()">Buscar</button>
+            <button type="submit">Buscar</button>
         </form>
         
         <a href='perfil.php?id=<?= $_SESSION['id'] ?>'>
