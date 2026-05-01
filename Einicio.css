@@ -1,0 +1,91 @@
+/* Cor do fundo */
+body{
+  background-color: rgb(227, 227, 227);
+}
+
+/* Estilo do retângulo */
+#retangulo{
+  border-radius: 50px;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  margin-left: 80px;
+  margin-right: 80px;
+  align-items: center;
+
+  display: flex;
+  align-items: center;      /* centraliza verticalmente */
+  padding: 0 40px; 
+  
+}
+
+/* Logo da página */
+#logo{
+
+  width: 130px;
+  height: 80px;
+}
+
+button{
+  color: black;
+  font-style: bold;
+  position: relative;
+  text-align: center;
+  right: 300px;
+  top: -200px;
+  
+}*/
+
+/* Botão da conta */
+
+#menu{
+  display: flex;
+  gap: 10px; /* Espaço entre os botões */
+  margin-left: 10px; /*MARGEM ESQUERDO DO MENU*/
+
+}
+#bconta {
+  color: black;
+  font-weight: bold;
+  position: relative;
+  font-size: larger;
+  background-color: transparent;
+  border: 0px;
+  transition: transform 0.5s ease;
+  margin-top: 5px;
+  
+}
+
+#bcadastro {
+  color: black;
+  font-weight: bold;
+  position: relative;
+  font-size: larger;
+  background-color: transparent;
+  border: 0px;
+  transition: transform 0.5s ease;
+  margin-top: 5px;
+  
+}
+
+/* Efeito de pulsação
+   :hover significa que ao passar o mouse sobre o elemento, é pra acontecer algo. Nesse caso, a animação.
+   o transform indica que o elemento vai mudar de acordo com a escala inserida. Nesse caso, vai aumentar em metade do tamanho.*/
+#bconta:hover {
+    transform: scale(1.5); 
+}
+
+/* Essa é uma animação de pulsação contínua, que faz o elemento ficar indo e voltando mas eu preferi deixar sem, mas não apaguei caso usemos em outra coisa.
+@keyframes pulso {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}*/
+
+
+

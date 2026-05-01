@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .confirm-box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+
+        .confirm-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .confirm-content button {
+            margin: 10px;
+        }
+        </style>
+</head>
+<body>
+    <div id="confirmBox" class="confirm-box">
+    <div class="confirm-content">
+        <p>Tem certeza que deseja excluir esta postagem?</p>
+        <button onclick="confirmar()">Sim</button>
+        <button onclick="cancelar()">Cancelar</button>
+    </div>
+</div>
+
+    <button onclick="excluir()">Excluir Postagem</button>
+
+    <script>
+        function excluir() {
+            document.getElementById('confirmBox').style.display = 'flex';
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<?php
+
+session_start();
+include "config.php";
+header('Content-Type: application/json');
+
+$usuario = $_SESSION['id']; // usuário logado
+$titulo = $conexao->real_escape_string($_POST["titulo"] ?? ''); // título do post, escapado para evitar SQL injection
+$descricao = $conexao->real_escape_string($_POST["descricao"] ?? ''); // descrição do post, escapado para evitar SQL injection
+
+$sqlPost = "INSERT INTO postagens (id_usuario, titulo, descricao)
+VALUES ($usuario, '$titulo', '$descricao')";
+
+$conexao->query($sqlPost);
+
+$id_post = mysqli_insert_id($conexao);
+
+$imagens = []; //guarda o nome das imgs pra usar no AJAX
+
+if (!empty($_FILES['imagens']['name'][0])) { //verifica se há ao menos uma img
+
+    foreach ($_FILES['imagens']['tmp_name'] as $key => $tmp) {
+
+        $nome = $_FILES['imagens']['name'][$key];
+        $nomeFinal = uniqid() . "_" . $nome;
+
+        move_uploaded_file($tmp, "uploads/" . $nomeFinal);
+
+        $sqlImg = "INSERT INTO imagens (nome, id_post)
+        VALUES ('$nomeFinal', '$id_post')";
+
+        mysqli_query($conexao, $sqlImg);
+
+        $imagens[] = $nomeFinal;
+    }
+}
+
+
+$resultUser = $conexao->query("SELECT nome FROM usuarios WHERE id = $usuario");
+$user = $resultUser->fetch_assoc();
+$nome = $user['nome'];
+
+$resultPfp = $conexao->query("SELECT foto_perfil FROM usuarios WHERE id = $usuario");
+$pfp = $resultPfp->fetch_assoc();
+$foto_perfil = $pfp['foto_perfil'];
+
+echo json_encode([
+    "titulo" => $titulo,
+    "descricao" => $descricao,
+    "id" => $id_post,
+    "nome" => $nome,
+    "foto_perfil" => $foto_perfil,
+    "imagens" => $imagens
+]);
+
+
+?>
