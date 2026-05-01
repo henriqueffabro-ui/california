@@ -24,7 +24,7 @@ if ($result->num_rows > 0) {
 }
 
 echo json_encode([
-    
+    "seguidores" => $conexao->query("SELECT seguidores FROM usuarios WHERE id = $id_usuario")->fetch_assoc()['seguidores'] ?? 0,
     "seguindo" => $seguindo
 ]);
 ?>

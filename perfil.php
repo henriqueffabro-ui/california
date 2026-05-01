@@ -120,6 +120,23 @@ exit;
 <body>
     <h1><?= $usuario['nome'] ?></h1>
     <button onclick="location.href='sistema.php'">Voltar para o feed</button>
+    <!-- <button onclick="seguir(<?= $usuario['id'] ?>, this)">Seguir</button> -->
+     <?php
+     echo "<span class='bSeguir" . $usuario['id'] . "'>";
+                                if ($usuario['id'] != $_SESSION['id']) {
+                                    // Verifica se o usuário logado já segue o autor da postagem
+                                    $id_usuario_logado = $_SESSION['id'];
+                                    $id_usuario_autor = $usuario['id'];
+                                    $seguindo = $conexao->query("SELECT * FROM seguidores WHERE id_seguidor = $id_usuario_logado AND id_seguido = $id_usuario_autor")->num_rows > 0;
+
+                                    if ($seguindo) {
+                                        echo "<button class='bSeguindo' onclick='seguir(" . $usuario['id'] . ", this)'>Seguindo</button>";
+                                    } else {
+                                        echo "<button class='bSeguir' onclick='seguir(" . $usuario['id'] . ", this)'>Seguir</button>";
+                                    }
+                                }
+                            echo "</span>";
+        ?>
     <form id="formPfp" method="POST" enctype="multipart/form-data">
     <input type="file" id="filePfp" style="display: none;"
        name="inputPfp"
@@ -141,7 +158,7 @@ exit;
         //echo $usuario['foto_perfil'];
         ?>
     
-    <span class="seguidores">Seguidores: <?= $usuario['seguidores'] ?? 0 ?></span>
+    <span id="seguidores-<?= $usuario['id'] ?>">Seguidores: <?= $usuario['seguidores'] ?? 0 ?></span>
     <h2>Ideias:</h2><br>
     <?php foreach ($posts as $p): ?>
         <?php
