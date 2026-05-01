@@ -10,5 +10,6 @@ $sql = "SELECT postagens.*, usuarios.nome, usuarios.foto_perfil FROM postagens
         WHERE postagens.titulo LIKE '%$pesquisa%' OR postagens.descricao LIKE '%$pesquisa%'"; //consulta SQL para buscar postagens que tenham o termo de pesquisa no título ou na descrição, e também traz o nome e a foto de perfil do usuário que fez a postagem
 $posts = $conexao->query($sql);
 
-
+$sql_user = "SELECT * FROM usuarios WHERE usuarios.nome LIKE '%$pesquisa%'"; //consulta SQL para buscar usuários que tenham o termo de pesquisa no nome
+$usuarios = $conexao->query($sql_user);
 ?>

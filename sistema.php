@@ -69,7 +69,26 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
        
             <button id="bVoltarPesq" onclick="location.href='sistema.php'">Voltar</button>
             
-        <?php } ?>
+            <form id="formFiltros" method="GET">
+            <input type="hidden" name="pesquisa" value="<?= $_GET['pesquisa'] ?? '' ?>">
+            <input id ="filtroUsuarios"type="checkbox" class="filtro" name="filtroUsuarios" <?= isset($_GET['filtroUsuarios']) ? 'checked' : '' ?> value="user">
+            <label for="filtroUsuarios">Filtrar por usuários</label>
+            <input id="filtroPostagens" type="checkbox" class="filtro" name="filtroPostagens" <?= isset($_GET['filtroPostagens']) ? 'checked' : '' ?> value="post">
+            <label for="filtroPostagens">Filtrar por postagens</label>
+            <button type="submit">Aplicar filtros</button>
+            </form>
+
+            
+        <?php } 
+        
+        if (isset($_GET['filtroUsuarios'])) {
+            $filtro = 'usuarios';
+        } elseif (isset($_GET['filtroPostagens'])) {
+            $filtro = 'postagens';
+        } else {
+            $filtro = 'todos';
+        }
+        ?>
 
             
             <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!">
@@ -207,12 +226,40 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
 
                     $pesquisa = $_GET['pesquisa'] ?? ''; //pega o termo de pesquisa enviado pelo formulário, ou uma string vazia se não houver
 
+
+                    if($filtro == 'usuarios') {
+                        
+                        $posts = $conexao->query("
+                            SELECT * 
+                            FROM usuarios 
+                            WHERE nome LIKE '%$pesquisa%' 
+                        ");
+
+                        if ($posts->num_rows == 0) {
+                            echo "Nenhum usuario encontrado  com esse nome.";
+                        } else {
+                            while ($u = $posts->fetch_assoc()) {
+                                echo "<div class='card'>";
+                                echo "<a href='perfil.php?id=" . $u['id'] . "'>";
+                                echo "<img src='" . $u['foto_perfil'] . "' alt='Foto de perfil' class='pfpimg'>";
+                                echo "<span class='card-user'>" . $u['nome'] . "</span>";
+                                echo "</a>";
+                                echo "</div>";
+                            }
+                        }
+
+
+                    }
+                    
+                    else{
                     $sql = "SELECT postagens.*, usuarios.nome, usuarios.foto_perfil FROM postagens 
                             JOIN usuarios ON postagens.id_usuario = usuarios.id 
                             WHERE postagens.titulo LIKE '%$pesquisa%' OR postagens.descricao LIKE '%$pesquisa%' OR usuarios.nome LIKE '%$pesquisa%'"; //consulta SQL para buscar postagens que tenham o termo de pesquisa no título ou na descrição, e também traz o nome e a foto de perfil do usuário que fez a postagem
                     $posts = $conexao->query($sql);
 
-                    
+                    $sql_user = "SELECT * FROM usuarios WHERE usuarios.nome LIKE '%$pesquisa%'"; //consulta SQL para buscar usuários que tenham o termo de pesquisa no nome
+                    $usuarios = $conexao->query($sql_user);
+                    }
                     
 
                 }
