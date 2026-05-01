@@ -212,6 +212,7 @@ function votar(post_id, tipo) {
         })
         .then(res => res.json())
         .then(data => {
+            
             document.getElementById("upvotes-" + post_id).innerText = data.up;
             document.getElementById("downvotes-" + post_id).innerText = data.down;
         });

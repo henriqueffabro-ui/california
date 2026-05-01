@@ -262,12 +262,13 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         ?>
                           <button onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
                         <span>
-                            <span id="upvotes-<?= $row['id'] ?>"><?= $row['upvotes'] ?></span> 
+                            <!--isset = caso exista um valor para os votes, mostre tal valor. Caso contrário, mostre 0-->
+                            <span id="upvotes-<?= $row['id'] ?>"><?= isset($row['upvotes']) ? $row['upvotes'] : 0 ?></span> 
                         </span> 
                         
                         <button onclick="votar(<?= $row['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
                         <span>
-                            <span id="downvotes-<?= $row['id'] ?>"><?= $row['downvotes'] ?></span>
+                            <span id="downvotes-<?= $row['id'] ?>"><?= isset($row['downvotes']) ? $row['downvotes'] : 0 ?></span>
                         </span>
                         
                         <br>
