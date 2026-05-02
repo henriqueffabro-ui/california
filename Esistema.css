@@ -66,6 +66,12 @@ body{
 
 }
 
+.posts * {
+    
+    
+    position: relative;
+    z-index: 2;
+}
 .posts {
     margin-left: 100px;
     margin-left:100px ;
@@ -75,9 +81,10 @@ body{
     max-width: 700px;
     width: 100%;
     margin: 0 auto;
-    
+
     
 }
+
 
 .posts:hover{
     
@@ -87,6 +94,15 @@ body{
     border-color: rgba(255, 255, 255, 0.8);
     border: 2px solid #ffd5a9;
 }
+
+
+
+.link-post {
+    position: absolute;
+    inset: 0;              /* ocupa toda a div */
+    z-index: 1;
+}
+
 
 .nomePai_resposta {
     font-size: 14px;
@@ -352,6 +368,7 @@ button[onclick^="postarResposta"] {
     flex-direction: column;
     align-items: center;
     margin-right: 15px;
+    
 }
 
 .modal-botoes button{
@@ -398,6 +415,8 @@ p {
 
 input {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    position: relative;
+    z-index: 2;
 }
 
 .userinfo {
@@ -412,15 +431,25 @@ input {
     font-weight: bold;
 }
 
+.votaraqui{
+    position: relative;
+    z-index: 2;
+}
 
 
 button {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
 }
 /*A partir daqui o DeepSeek arrumou*/
 body {
     background-color: #ffffff !important;
     
+}
+
+body * {
+    position: relative;
+    z-index: 2;
 }
 
 /* Tornar elementos que estão cobrindo o fundo como transparentes */

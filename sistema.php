@@ -275,9 +275,10 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                     while($row = $posts->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
                         
                         
-        
+                        echo "<a href='postinteiro.php?id=" . $row['id'] . "' class='link-post'>";
+                       
                         echo "<div class='posts'> ";
-
+                        
                         echo "<div class='userinfo'>";
                             echo "<a href='perfil.php?id=" . $row['id_usuario'] . "'>";
                                 echo "<img src='" . $row["foto_perfil"] . "' alt='Foto de perfil' class='pfpimgPost'>";
@@ -307,13 +308,13 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
 
                     
                         ?>
-                          <button onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
+                          <button class="votaraqui" onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
                         <span>
                             <!--isset = caso exista um valor para os votes, mostre tal valor. Caso contrário, mostre 0-->
                             <span id="upvotes-<?= $row['id'] ?>"><?= isset($row['upvotes']) ? $row['upvotes'] : 0 ?></span> 
                         </span> 
                         
-                        <button onclick="votar(<?= $row['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
+                        <button class="votaraqui" onclick="votar(<?= $row['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
                         <span>
                             <span id="downvotes-<?= $row['id'] ?>"><?= isset($row['downvotes']) ? $row['downvotes'] : 0 ?></span>
                         </span>
@@ -386,8 +387,10 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
 
                         
 
-                         
+                        echo "</a>";
                         echo "</div>";
+                        
+
                         echo"<br>";
                     }
                 } else {
