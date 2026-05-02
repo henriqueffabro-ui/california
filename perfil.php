@@ -180,19 +180,7 @@ exit;
         }
         ?>
 
-<script>
-async function abrirEmoji() {
-    const input = document.getElementById("campoTexto");
 
-    if (window.EmojiPicker) {
-        const picker = new EmojiPicker();
-        const emoji = await picker.pick();
-        input.value += emoji.emoji;
-    } else {
-        input.focus();
-    }
-}
-</script>
 <div class="acoes-post">
     
     <label class="icon-btn">
@@ -239,9 +227,9 @@ async function abrirEmoji() {
         <?php mostrarComentarios(0, $comentarios); ?>
     </div>  
 </div>
-<?php endif; ?>
-<?php endforeach; ?>
-<?php endwhile; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
 
 </body>
 </html>
