@@ -16,10 +16,6 @@ $sql = "SELECT * FROM usuarios WHERE id = $id";
 $result = mysqli_query($conexao, $sql);
 $usuario = mysqli_fetch_assoc($result);
 
-$sql_posts = "SELECT * FROM postagens WHERE id_usuario = $id";
-$result_posts = mysqli_query($conexao, $sql_posts);
-
-
 $posts = $conexao->query("
     SELECT p.*, u.nome, u.foto_perfil
     FROM postagens p
@@ -117,6 +113,7 @@ exit;
     <script src="perfil.js"></script>
     
 </head>
+
 <body>
     <h1><?= $usuario['nome'] ?></h1>
     <button onclick="location.href='sistema.php'">Voltar para o feed</button>
@@ -183,46 +180,68 @@ exit;
         }
         ?>
 
+<script>
+async function abrirEmoji() {
+    const input = document.getElementById("campoTexto");
 
-            <div class="posts">
-                <div class="userinfo">
-                    <img src='<?= $p['foto_perfil'] ?>' class='pfpimgPost'>
-                    <span class='card-user'><?= $p['nome'] ?></span>
-                    <h2 class='card-title'><?= $p['titulo'] ?></h2>
-                    <p class='card-text'><?= $p['descricao'] ?></p>
-                    <h5 class='card-date'><?= date("d/m/Y H:i", strtotime($p['data'])) ?></h5>
-
-                    <button onclick="votar(<?= $p['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
-                        <span>
-                            <span id="upvotes-<?= $p['id'] ?>"><?= $p['upvotes'] ?></span> 
-                        </span> 
-                        
-                        <button onclick="votar(<?= $p['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
-                        <span>
-                            <span id="downvotes-<?= $p['id'] ?>"><?= $p['downvotes'] ?></span>
-                        </span>
-                </div>
-
-                <?php foreach ($conexao->query("SELECT nome FROM imagens WHERE id_post = " . $p['id']) as $img): ?>
-                    <img src='uploads/<?= $img['nome'] ?>' width='200'>
-                <?php endforeach; ?>
-                
-                <br>
-                <input id="comentario-<?= $p['id'] ?>" placeholder="Deixe um comentário..."> 
-                <button onclick="postarComentario(<?= $p['id'] ?>)">Postar Comentário</button> 
-                <br>
-
-                <div class="comentarios" id="comentarios-<?= $p['id'] ?>">
-                    <?php mostrarComentarios(0, $comentarios); ?>
-                </div>  
-
-                
-            </div>
-        <?php endif; ?>
-    <?php endforeach; ?>
-
-
-
+    if (window.EmojiPicker) {
+        const picker = new EmojiPicker();
+        const emoji = await picker.pick();
+        input.value += emoji.emoji;
+    } else {
+        input.focus();
+    }
+}
+</script>
+<div class="acoes-post">
     
+    <label class="icon-btn">
+        +
+        <input type="file" multiple accept="image/*" hidden>
+    </label>
+
+    <button type="button" class="icon-btn" onclick="abrirEmoji()">😊</button>
+    <input type="text" id="campoTexto">
+
+</div>
+
+<div class="posts">
+    <div class="userinfo">
+        <img src='<?= $p['foto_perfil'] ?>' class='pfpimgPost'>
+        <span class='card-user'><?= $p['nome'] ?></span>
+        <h2 class='card-title'><?= $p['titulo'] ?></h2>
+        <p class='card-text'><?= $p['descricao'] ?></p>
+        <h5 class='card-date'><?= date("d/m/Y H:i", strtotime($p['data'])) ?></h5>
+
+        <button onclick="votar(<?= $p['id'] ?>, 1)">
+            <img width="15px" src="imgs/arrow.webp">
+        </button>
+
+        <span id="upvotes-<?= $p['id'] ?>"><?= $p['upvotes'] ?></span>
+
+        <button onclick="votar(<?= $p['id'] ?>, -1)">
+            <img width="15px" src="imgs/arrowd.jpg">
+        </button>
+
+        <span id="downvotes-<?= $p['id'] ?>"><?= $p['downvotes'] ?></span>
+    </div>
+
+    <?php foreach ($conexao->query("SELECT nome FROM imagens WHERE id_post = " . $p['id']) as $img): ?>
+        <img src='uploads/<?= $img['nome'] ?>' width='200'>
+    <?php endforeach; ?>
+    
+    <br>
+    <input id="comentario-<?= $p['id'] ?>" placeholder="Deixe um comentário..."> 
+    <button onclick="postarComentario(<?= $p['id'] ?>)">Postar Comentário</button> 
+    <br>
+
+    <div class="comentarios" id="comentarios-<?= $p['id'] ?>">
+        <?php mostrarComentarios(0, $comentarios); ?>
+    </div>  
+</div>
+<?php endif; ?>
+<?php endforeach; ?>
+<?php endwhile; ?>
+
 </body>
 </html>

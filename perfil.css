@@ -264,7 +264,9 @@ button[onclick^="postarResposta"] {
 }
 
 .layout{
-    display: center;
+    display: flex;
+     justify-content: center;
+
 }
 
 .sidebar{
@@ -425,4 +427,52 @@ body {
 
 .post, .card-body {
     background-color: white; /* mantém os cards brancos */
+}
+.play-btn {
+    width: 60px;
+    height: 60px;
+    background-color: rgb(243, 209, 14);
+    border: none;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+}
+
+.play-btn::before {
+    content: "";
+    position: absolute;
+    left: 22px;
+    top: 18px;
+    width: 0;
+    height: 0;
+    border-left: 18px solid black;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+}
+.acoes-post {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: #1e1e1e;
+    padding: 10px;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    background: #000000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    background: #000000;
 }
