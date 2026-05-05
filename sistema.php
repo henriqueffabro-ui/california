@@ -101,7 +101,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         </header>
         <br><br><br><br>
         
-        <?php print_r($_SESSION); ?>
+        <?php //print_r($_SESSION); ?>
         <h1>Boas-vindas, <?php echo $_SESSION['nome']; ?>!</h1><br>
         <div class="container">
             <aside class="sidebar">
@@ -175,7 +175,9 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
 
                     $espaco = $nivel * -5; //isso calcula a margem adicionada a cada resposta. Quanto mais px, maior a margem
 
-                    echo "<div style='margin-left:{$espaco}px'>";
+                    
+
+                    echo "<div class='comentario-container' style='margin-left:{$espaco}px'>";
 
                     echo "<br>";
                     echo "<div class='userinfo'>";
@@ -183,7 +185,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                     echo "<span class='nome_comentario'>{$c['nome']}</span>";
                     echo "</div>";
 
-                    echo "<div id='comentario-{$c['id']}'>";
+                    echo "<div class='comentarioContContainer' id='comentario-{$c['id']}'>";
                     echo "<p class='comentario'>{$c['comentario']}</p>";
                     echo "</div>";
 
@@ -220,6 +222,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                 echo "</div>";
 
                 echo "</div>";
+                
             }
         }             
                 if (!empty($_GET['pesquisa'])) {
@@ -275,12 +278,14 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                     while($row = $posts->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
                         
                         
-                        echo "<a href='postinteiro.php?id=" . $row['id'] . "' class='link-post'>";
+                        
                        
                         echo "<div class='posts'> ";
+
+                        echo "<a href='postinteiro.php?id=" . $row['id'] . "' class='link-post'></a>"; //link que leva para a página do post inteiro. A classe link-post é uma div invisível que fica por cima do post, fazendo com que seja possível clicar em qualquer parte do post para acessar a página do post inteiro
                         
                         echo "<div class='userinfo'>";
-                            echo "<a href='perfil.php?id=" . $row['id_usuario'] . "'>";
+                            echo "<a class='link-perfil' href='perfil.php?id=" . $row['id_usuario'] . "'>";
                                 echo "<img src='" . $row["foto_perfil"] . "' alt='Foto de perfil' class='pfpimgPost'>";
                                 echo "<span class='card-user'>" . $row["nome"] . "</span>";
                                
@@ -361,7 +366,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
                             
                         </div>
-                        
+                       
                         <?php
                         //$comentarios = $conexao->query(" 
                              //  SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
@@ -374,8 +379,19 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         FROM comentarios c 
                         JOIN usuarios u 
                         ON c.usuario_id = u.id 
-                        WHERE c.post_id = {$row['id']} 
-                        ORDER BY c.upvotes DESC ");
+                        WHERE c.post_id = {$row['id']} AND c.parent_id IS NULL
+                        ORDER BY c.upvotes DESC 
+                        LIMIT 3"); //limita a exibição a 3 comentários, ordenados pelos mais votados. Os demais comentários podem ser vistos na página do post inteiro
+                        
+                        $result_total = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil 
+                        FROM comentarios c
+                        JOIN usuarios u 
+                        ON c.usuario_id = u.id 
+                        WHERE c.post_id = {$row['id']} AND c.parent_id IS NULL
+                        ORDER BY c.upvotes DESC"); //query para obter o total de comentários
+
+                       
+                        
 
                         $comentarios = [];
 
@@ -385,9 +401,25 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         
                          mostrarComentarios(NULL, $comentarios);
 
-                        
+                          if ($result_total->num_rows > 3) { //verifica se há mais de 3 comentários para mostrar o botão de ver mais
+                            //$comentarios = [];
 
-                        echo "</a>";
+                            //while ($c = $result->fetch_assoc()) {
+                              //  $comentarios[$c['parent_id']][] = $c;
+                            //}
+                            
+                             //mostrarComentarios(NULL, $comentarios);
+
+                            echo "<br>";
+                            //echo "<button class='ver-mais' onclick='carregarMais({$row['id']}, 3)'>Ver mais comentários</button>"; //botão para carregar mais comentários, começa a partir do offset 3, ou seja, a partir do 4º comentário
+                            echo "<a class='vermaiscoment'href='postinteiro.php?id={$row['id']}'>Mais Comentários</a>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
+                            //echo "<button class='ver-mais' onclick='location.href=\"postinteiro.php?id={$row['id']}\"'>Ver mais comentários</button>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
+                        } else {
+                            echo "<p>Seja o primeiro a comentar!</p>"; //caso não haja comentários, mostra essa mensagem
+                        }
+
+                        
+                        
                         echo "</div>";
                         
 

@@ -8,6 +8,36 @@ let votedDown = false;
 
 
 let imagens = [];
+let offset = 3; // Variável para controlar o offset dos comentários
+let acabouComentarios = false; // Variável para indicar se todos os comentários foram carregados
+let quantidadeRetornada = 0; // Variável para armazenar a quantidade de comentários retornados na última requisição
+
+function carregarMais(post_id) {
+    console.log(offset);
+    console.log(quantidadeRetornada);
+    fetch(`vermais.php?post_id=${post_id}&offset=${offset}`)
+        .then(res => res.text())
+        .then(html => {
+            document.querySelector(`#comentarios-${post_id}`)
+                .insertAdjacentHTML('beforeend', html);
+
+           
+            // 🔥 pega o último valor retornado
+            let qtdEl = container.querySelector('.qtd-retornada:last-of-type');
+            let qtd = parseInt(qtdEl.dataset.qtd);
+
+            console.log("Quantidade recebida:", qtd);
+
+            offset += qtd;
+
+            if (qtd < 3) {
+                acabouComentarios = true;
+                document.getElementById("btnVerMais").style.display = "none";
+            }
+
+        });
+        
+}
 
 function seguir(id_usuario, botao) {
     fetch("seguir.php", {

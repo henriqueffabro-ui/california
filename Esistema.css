@@ -1,3 +1,21 @@
+.vermaiscoment{
+    color: rgba(0, 0, 0, 0.5);
+    margin-left: 270px;
+    cursor: pointer;
+    /*193*/
+}
+
+.comentarioContContainer * {
+    position: relative;
+    z-index: 0;
+}
+
+.link-perfil {
+    position: relative;
+    z-index: 3;
+    
+}
+
 #bVoltarPesq {
     background-color: rgb(243, 209, 14);
     color: black;
@@ -21,6 +39,8 @@
             width: 45px;
             height: 45px;
             object-fit: cover;
+            position: relative;
+                z-index: 2;
         }
 
 .pfpimgComent {
@@ -69,10 +89,16 @@ body{
 .posts * {
     
     
+    /*position: relative;
+    z-index: 0;*/
+}
+
+.posts h1, .posts h3, .posts h5, .posts p {
     position: relative;
-    z-index: 2;
+    z-index: 0;
 }
 .posts {
+    
     margin-left: 100px;
     margin-left:100px ;
     border: 2px solid #d1d1d1;
@@ -81,7 +107,7 @@ body{
     max-width: 700px;
     width: 100%;
     margin: 0 auto;
-
+    position: relative;
     
 }
 
@@ -95,13 +121,18 @@ body{
     border: 2px solid #ffd5a9;
 }
 
-
+.userinfo * {
+    position: relative;
+    z-index: 2;
+}
 
 .link-post {
-    position: absolute;
+    position: absolute; /* posicionamento absoluto para cobrir o post */
     inset: 0;              /* ocupa toda a div */
     z-index: 1;
+    /*background: rgba(255,0,0,0.2); */
 }
+
 
 
 .nomePai_resposta {
@@ -211,6 +242,7 @@ button[onclick^="postarResposta"] {
     margin-left: 20px;
 }
 
+/* Confirmação pra excluir post */
 .confirm-box {
     position: fixed;
             top: 0;
@@ -429,7 +461,11 @@ input {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 30px;
     font-weight: bold;
+    position: relative;
+    z-index: 2;
 }
+
+
 
 .votaraqui{
     position: relative;

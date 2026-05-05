@@ -16,6 +16,17 @@
       //  document.getElementById("fotoPerfil").src = data.caminho;
     //});
 //}
+async function abrirEmoji() {
+    const input = document.getElementById("campoTexto");
+
+    if (window.EmojiPicker) {
+        const picker = new EmojiPicker();
+        const emoji = await picker.pick();
+        input.value += emoji.emoji;
+    } else {
+        input.focus();
+    }
+}
 
 function seguir(id_usuario, botao) {
     fetch("seguir.php", {
