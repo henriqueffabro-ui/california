@@ -178,11 +178,17 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                     
 
                     echo "<div class='comentario-container' style='margin-left:{$espaco}px'>";
-
+                    
                     echo "<br>";
                     echo "<div class='userinfo'>";
+                    
+                    echo "<a href='perfil.php?id={$c['usuario_id']}'>"; //link para o perfil do usuário que fez o comentário
+                    //echo "<a href='perfil.php?id={$c['usuario_id']}'>"; //link para o perfil do usuário que fez o comentário
                     echo "<img src='" . $c['foto_perfil'] . "' alt='Foto de perfil' class='pfpimgComent'>";
                     echo "<span class='nome_comentario'>{$c['nome']}</span>";
+                    //echo "</a>";
+                    echo "</a>";
+
                     echo "</div>";
 
                     echo "<div class='comentarioContContainer' id='comentario-{$c['id']}'>";
@@ -375,11 +381,11 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         //");
 
                         // pega os comentários do post cujo id é igual ao id da postagem atual
-                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil 
+                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil, c.usuario_id 
                         FROM comentarios c 
                         JOIN usuarios u 
                         ON c.usuario_id = u.id 
-                        WHERE c.post_id = {$row['id']} AND c.parent_id IS NULL
+                        WHERE c.post_id = {$row['id']} 
                         ORDER BY c.upvotes DESC 
                         LIMIT 3"); //limita a exibição a 3 comentários, ordenados pelos mais votados. Os demais comentários podem ser vistos na página do post inteiro
                         
@@ -387,7 +393,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         FROM comentarios c
                         JOIN usuarios u 
                         ON c.usuario_id = u.id 
-                        WHERE c.post_id = {$row['id']} AND c.parent_id IS NULL
+                        WHERE c.post_id = {$row['id']} 
                         ORDER BY c.upvotes DESC"); //query para obter o total de comentários
 
                        

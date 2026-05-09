@@ -12,6 +12,14 @@ if (isset($_GET['id'])) {
     
 }
 
+if (isset($_GET['post_id'])) {
+    echo "<button onclick=\"location.href='postinteiro.php?id=" . $_GET['post_id'] . "'\">Voltar para a postagem</button><br>";
+   
+}
+
+echo "<button onclick=\"location.href='sistema.php'\">Voltar para o feed</button><br>";
+echo "<br>";
+
 $sql = "SELECT * FROM usuarios WHERE id = $id";
 $result = mysqli_query($conexao, $sql);
 $usuario = mysqli_fetch_assoc($result);
@@ -116,7 +124,7 @@ exit;
 
 <body>
     <h1><?= $usuario['nome'] ?></h1>
-    <button onclick="location.href='sistema.php'">Voltar para o feed</button>
+    
     <!-- <button onclick="seguir(<?= $usuario['id'] ?>, this)">Seguir</button> -->
      <?php
      echo "<span class='bSeguir" . $usuario['id'] . "'>";
