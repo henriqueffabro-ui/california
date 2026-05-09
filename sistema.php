@@ -138,8 +138,8 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
     <form id="formPost" action="sistema.php" method="post" enctype="multipart/form-data">
     <div id="loginBox">
         <h1>Sugerir Ideia</h1>
-        <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia"><br><br>
-        <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia"><br><br>
+        <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia" required><br><br>
+        <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia" required><br><br>
 
         <input type="file" id="fileInput" style="display: none;" onchange="adicionarImagem()" name="imagem[]" multiple> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
 
@@ -325,7 +325,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         </span>
                         
                         <br>
-                        <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..."> 
+                        <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..." required> 
                         <button onclick="postarComentario(<?= $row['id'] ?>)">Postar Comentário</button> 
                         <br>
                         
@@ -414,7 +414,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                             //echo "<button class='ver-mais' onclick='carregarMais({$row['id']}, 3)'>Ver mais comentários</button>"; //botão para carregar mais comentários, começa a partir do offset 3, ou seja, a partir do 4º comentário
                             echo "<a class='vermaiscoment'href='postinteiro.php?id={$row['id']}'>Mais Comentários</a>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
                             //echo "<button class='ver-mais' onclick='location.href=\"postinteiro.php?id={$row['id']}\"'>Ver mais comentários</button>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
-                        } else {
+                        } if ($result_total->num_rows == 0) {
                             echo "<p>Seja o primeiro a comentar!</p>"; //caso não haja comentários, mostra essa mensagem
                         }
 

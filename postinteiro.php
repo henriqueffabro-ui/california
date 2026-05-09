@@ -76,6 +76,8 @@ $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="Esistema.css">
+    <script src="sistema.js"></script>
 </head>
 <body>
     <button onclick="location.href='sistema.php'">Voltar para o feed</button>

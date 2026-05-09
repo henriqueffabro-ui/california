@@ -127,7 +127,10 @@ function postar() {
         })
         .then(res => res.json()) //pega a resposta do servidor e converte para JSON (bagulho de JS)
         .then(data => { //pega a respota do servidor, que é o conteúdo do post, e insere na página
-
+            if (data.erro) {
+                alert(data.erro);
+                return;
+            }
                 let imagensHTML = "";
 
                     data.imagens.forEach(img => {
@@ -269,6 +272,7 @@ function votarcoment(comentario_id, tipo) {
 
 function postarComentario(post_id) {
 
+
     let input = document.getElementById("comentario-" + post_id);
     let texto = input.value;
 
@@ -281,6 +285,10 @@ function postarComentario(post_id) {
         })
         .then(res => res.json())
         .then(data => {
+             if (data.erro) {
+                alert(data.erro);
+                return;
+            }
             let html = `<div class="comentario">
 
                     <div class="userinfo">
