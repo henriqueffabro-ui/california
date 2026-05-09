@@ -73,14 +73,20 @@ $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário 
 
             }
         } 
+    $perfil_id = $_GET['perfil_id'] ?? null;
+    if ($perfil_id) {
+        echo "<button onclick=\"location.href='perfil.php?id={$perfil_id}'\">Voltar para o perfil</button><br>";
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ideia</title>
     <link rel="stylesheet" href="Esistema.css">
+    <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
    
 </head>
 <body>

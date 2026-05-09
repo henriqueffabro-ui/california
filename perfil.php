@@ -171,22 +171,7 @@ exit;
             
             if ($p['id_usuario'] == $id): ?>
 
-             <?php
-        $comentarios = [];
-
-        $sql = "SELECT comentarios.*, usuarios.nome, usuarios.foto_perfil 
-                FROM comentarios
-                JOIN usuarios ON comentarios.usuario_id = usuarios.id
-                WHERE post_id = {$p['id']}
-                ORDER BY data ASC";
-
-        $resultcoment = $conexao->query($sql);
-
-        while ($row = $resultcoment->fetch_assoc()) {
-            $parent = $row['parent_id'] ?? 0;
-            $comentarios[$parent][] = $row;
-        }
-        ?>
+           
 
 
 <div class="acoes-post">
@@ -202,6 +187,7 @@ exit;
 </div>
 
 <div class="posts">
+    <a href='postinteiro.php?id=<?= $p['id'] ?>&perfil_id=<?= $id ?>' class='link-post'></a>
     <div class="userinfo">
         <img src='<?= $p['foto_perfil'] ?>' class='pfpimgPost'>
         <span class='card-user'><?= $p['nome'] ?></span>
@@ -209,27 +195,76 @@ exit;
         <p class='card-text'><?= $p['descricao'] ?></p>
         <h5 class='card-date'><?= date("d/m/Y H:i", strtotime($p['data'])) ?></h5>
 
-        <button onclick="votar(<?= $p['id'] ?>, 1)">
+        <button class="votaraqui" onclick="votar(<?= $p['id'] ?>, 1)">
             <img width="15px" src="imgs/arrow.webp">
         </button>
+        
+        <span>
+             <!--isset = caso exista um valor para os votes, mostre tal valor. Caso contrário, mostre 0-->
+            <span id="upvotes-<?= $p['id'] ?>"><?= isset($p['upvotes']) ? $p['upvotes'] : 0 ?></span> 
+        </span> 
 
-        <span id="upvotes-<?= $p['id'] ?>"><?= $p['upvotes'] ?></span>
-
-        <button onclick="votar(<?= $p['id'] ?>, -1)">
+        <button class="votaraqui" onclick="votar(<?= $p['id'] ?>, -1)">
             <img width="15px" src="imgs/arrowd.jpg">
         </button>
-
-        <span id="downvotes-<?= $p['id'] ?>"><?= $p['downvotes'] ?></span>
+        <span>
+            <!--isset = caso exista um valor para os votes, mostre tal valor. Caso contrário, mostre 0-->
+            <span id="downvotes-<?= $p['id'] ?>"><?= isset($p['downvotes']) ? $p['downvotes'] : 0 ?></span>
+        </span>
     </div>
 
     <?php foreach ($conexao->query("SELECT nome FROM imagens WHERE id_post = " . $p['id']) as $img): ?>
         <img src='uploads/<?= $img['nome'] ?>' width='200'>
     <?php endforeach; ?>
-    
     <br>
     <input id="comentario-<?= $p['id'] ?>" placeholder="Deixe um comentário..."> 
     <button onclick="postarComentario(<?= $p['id'] ?>)">Postar Comentário</button> 
     <br>
+    <?php
+       $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil, c.usuario_id 
+                        FROM comentarios c 
+                        JOIN usuarios u 
+                        ON c.usuario_id = u.id 
+                        WHERE c.post_id = {$p['id']} 
+                        ORDER BY c.upvotes DESC 
+                        LIMIT 3"); //limita a exibição a 3 comentários, ordenados pelos mais votados. Os demais comentários podem ser vistos na página do post inteiro
+                        
+                        $result_total = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil 
+                        FROM comentarios c
+                        JOIN usuarios u 
+                        ON c.usuario_id = u.id 
+                        WHERE c.post_id = {$p['id']} 
+                        ORDER BY c.upvotes DESC"); //query para obter o total de comentários
+
+                       
+                        
+
+                        $comentarios = [];
+
+                        while ($c = $result->fetch_assoc()) {
+                            $comentarios[$c['parent_id']][] = $c;
+                        }
+                        
+                         mostrarComentarios(NULL, $comentarios);
+
+                          if ($result_total->num_rows > 3) { //verifica se há mais de 3 comentários para mostrar o botão de ver mais
+                            //$comentarios = [];
+
+                            //while ($c = $result->fetch_assoc()) {
+                              //  $comentarios[$c['parent_id']][] = $c;
+                            //}
+                            
+                             //mostrarComentarios(NULL, $comentarios);
+
+                            echo "<br>";
+                            //echo "<button class='ver-mais' onclick='carregarMais({$row['id']}, 3)'>Ver mais comentários</button>"; //botão para carregar mais comentários, começa a partir do offset 3, ou seja, a partir do 4º comentário
+                            echo "<a class='vermaiscoment'href='postinteiro.php?id={$p['id']}'>Mais Comentários</a>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
+                            //echo "<button class='ver-mais' onclick='location.href=\"postinteiro.php?id={$row['id']}\"'>Ver mais comentários</button>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
+                        } if ($result_total->num_rows == 0) {
+                            echo "<p>Seja o primeiro a comentar!</p>"; //caso não haja comentários, mostra essa mensagem
+                        }
+        ?>
+    
 
     <div class="comentarios" id="comentarios-<?= $p['id'] ?>">
         <?php mostrarComentarios(0, $comentarios); ?>

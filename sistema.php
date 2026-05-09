@@ -46,7 +46,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema</title>
+    <title>Feed</title>
     <link rel="stylesheet" href="Esistema.css">
     <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
 </head>
