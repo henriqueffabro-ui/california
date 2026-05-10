@@ -99,73 +99,23 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
             <button class="bNavbar" onclick="location.href='perfil.php'">Perfil</button>
         </a>
         </header>
-        <br><br><br><br>
         
         <?php //print_r($_SESSION); ?>
         <h1>Boas-vindas, <?php echo $_SESSION['nome']; ?>!</h1><br>
         <div class="container">
             <aside class="sidebar">
-                <ul>
-                    <li> <button class="botao1">Pág inicial</button> </li>
-                    <li> <button class="botao2">Explorar</button> </li>
-                    <li> <button class="botao3">Seguindo</button> </li>
-                </ul>
+                
+                <button class="botao1">Pág inicial</button> 
+                <button class="botao2">Explorar</button> 
+                <button class="botao3">Seguindo</button> 
+            
             </aside>
-
-            <main class="feed"></main>
-            <aside class="sidebar-esquerda">
+            <main class="feed">
+                <div id="posts"></div>
+                
                 <div class="card">
-                    
-                </div>
-            </aside>
-        </div>
-
-
-        <!--<div class="modal" id="modalPost">
-            <div class="modal-content">
-                <h2> Nova ideia </h2>
-                <input id="titulo" type="text" placeholder="Seu Título aqui!">
-                <textarea id="descricao" placeholder="Descrição"></textarea>
-                <div class="modal-botoes">
-                    <button class="botao4" onclick="criarPost()">Postar</button>
-                    <button class="botao5" onclick="fecharModal()">Canelar</button>
-                </div>
-            </div>
-        </div>-->
-
-    <a href="sair.php">Sair</a>
-
-    <form id="formPost" action="sistema.php" method="post" enctype="multipart/form-data">
-    <div id="loginBox">
-        <h1>Sugerir Ideia</h1>
-        <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia" required><br><br>
-        <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia" required><br><br>
-
-        <input type="file" id="fileInput" style="display: none;" onchange="adicionarImagem()" name="imagem[]" multiple> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
-
-        <button type="button" onclick="document.getElementById('fileInput').click()"> <!-- aciona o input escondigo -->
-            Selecionar imagem
-        </button>
-
-        <br>
-        
-        
-        <button type="button" id="bPostar" onclick="postar()">Postar</button>
-
-    </div>
-    </form>
-
-    
-    <ul id="listaImgs"></ul>
-    <br>
-    <div id="imgpreview" style="display: flex; gap: 10px; flex-wrap: wrap;"></div> <!-- onde virão as imgs selecionadas -->
-
-    <br>
-    <div id="posts"></div>
-    
-    <div class="card">
-        <!--<div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">-->
-            <?php
+                    <!--<div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">-->
+                        <?php
 
             function mostrarComentarios($parent_id, $comentarios, $nivel = 0) {
 
@@ -438,6 +388,33 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
             ?>
         <!--</div>-->
     </div>
+    </main>
+</div>
+
+    <form id="formPost" action="sistema.php" method="post" enctype="multipart/form-data">
+    <div id="loginBox">
+        <h1>Sugerir Ideia</h1>
+        <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia" required><br><br>
+        <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia" required><br><br>
+
+        <input type="file" id="fileInput" style="display: none;" onchange="adicionarImagem()" name="imagem[]" multiple> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
+
+        <button id="addimg" type="button" onclick="document.getElementById('fileInput').click()"> <!-- aciona o input escondigo -->
+            Selecionar imagem
+        </button>
+
+        <br>
+        <div id="imgpreview" style="display: flex; gap: 10px; flex-wrap: wrap;"></div> <!-- onde virão as imgs selecionadas -->
+        
+        <button type="button" id="bPostar" onclick="postar()">Postar</button>
+
+    </div>
+    </form>
+
+    
+    <ul id="listaImgs"></ul>
+
+    <br>
     <div id="confirmBox" class="confirm-box">
     <div class="confirm-content">
         <p>Tem certeza que deseja excluir esta postagem?</p>
