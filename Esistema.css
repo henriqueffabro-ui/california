@@ -49,8 +49,6 @@ body{
 }
 
 .posts {
-    margin-left: 100px;
-    margin-left:100px ;
     border: 2px solid #ffffff;
     border-radius: 20px;
     padding: 10px; 
@@ -315,7 +313,7 @@ button[onclick^="postarResposta"] {
 
 .feed{
     flex: 1;
-    padding: 30px;
+    padding: 0px;
 }
 
 .post{
