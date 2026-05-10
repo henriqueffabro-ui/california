@@ -11,7 +11,7 @@ const audio = document.getElementById("bulbiAudio");
   }
 
 
-const texto= "Bem vindo ao Isumagi! Deseja fazer login ou cadastrar-se, querido usuário?";
+const texto= "Boas-vindas ao Isumagi!<br>Deseja fazer Login ou Cadastrar-se?";
 let posicao = 0;
 const botoes = document.getElementById("botoes");
 

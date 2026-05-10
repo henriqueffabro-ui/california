@@ -8,6 +8,13 @@ $post_id = (int) $_POST["post_id"];
 $usuario = $_SESSION['id']; // usuário logado
 $comentario = $conexao->real_escape_string($_POST["comentario"] ?? ''); // comentário enviado pelo usuário, escapado para evitar SQL injection
 
+if (empty($comentario)) {
+    echo json_encode([
+        "erro" => "O comentário não pode ser vazio."
+    ]);
+    exit;
+}
+
 $resultUser = $conexao->query("SELECT nome FROM usuarios WHERE id = $usuario");
 $user = $resultUser->fetch_assoc();
 $nome = $user['nome'];

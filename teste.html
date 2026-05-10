@@ -4,6 +4,22 @@
         <meta charset="UTF-8">
         <tittle> Isumagi </tittle>
         <link rel="stylesheet" href="style.css">
+        <style>
+            #ts {
+                background-color: red;
+            }
+            p {
+                color: white;
+            }
+
+            .post {
+    display: block;        /* faz o link virar um bloco */
+    padding: 15px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: inherit;
+}
+        </style>
     </head>
     <body>
         <header class="topo">
@@ -19,6 +35,11 @@
                 </ul>
             </aside>
 
+            <a href="deep.html" class="post">
+            <div id="ts">
+                <p>teste</p>
+            </div>
+            </a>
             <main class="feed"></main>
             <aside class="sidebar-esquerda">
                 <div class="card">

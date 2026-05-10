@@ -16,8 +16,8 @@
     <form action="testLogin.php" method="post">
             <div id="cadastroBox">
             <h1>Login</h1>
-            <input name="email" type="text" placeholder="Insira o E-mail"><br><br>
-            <input name="senha" type="password" placeholder="Insira a Senha">
+            <input name="email" type="text" placeholder="Insira o E-mail" required><br><br>
+            <input name="senha" type="password" placeholder="Insira a Senha" required>
             <br><br><br>
             <input class="inputSubmit" type="submit" name="submit" value="Enviar"></input>
         </div>

@@ -1,8 +1,41 @@
+.votaraqui{
+    position: relative;
+    z-index: 2;
+}
+
+.posts h1, .posts h3, .posts h5, .posts p , .posts button{
+    position: relative;
+    z-index: 2;
+}
+
+.link-post {
+    position: absolute; /* posicionamento absoluto para cobrir o post */
+    inset: 0;              /* ocupa toda a div */
+    z-index: 1;
+    /*background: rgba(255,0,0,0.2); */
+}
+input{
+    position: relative;
+    z-index: 2;
+}
+.bSeguir {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+.bSeguindo {
+    position: relative;
+    color: rgba(0, 0, 0, 0.503);
+    cursor: pointer;
+    z-index: 2;
+}
+
 .pfpimg {
             border-radius: 50%;
             width: 200px;
             height: 200px;
             object-fit: cover;
+            z-index: 2;
         }
 
 .pfpimgPost {
@@ -10,6 +43,7 @@
             width: 45px;
             height: 45px;
             object-fit: cover;
+            z-index: 2;
         }
 
 .pfpimgComent {
@@ -17,13 +51,16 @@
             width: 30px;
             height: 30px;
             object-fit: cover;
+            z-index: 2;
         }
 [id^="comentario-"] { /*ao clicar no @ de alguma resposta, leva ao comentario pai mas tira 90px por conta da navbar fixa*/
     scroll-margin-top: 90px;
+    z-index: 2;
 }
 
 .imgsnopost{
     border-radius: 8px;
+    z-index: 2;
 }
 
 .previewImagens{
@@ -32,6 +69,7 @@
     object-fit: cover;
     border-radius: 8px;
     margin-left: 10px;
+    z-index: 2;
 }
 
 #listaImgs li {
@@ -52,10 +90,12 @@ body{
     width: 100%;
     margin: 0 auto;
     margin-bottom: 20px;
+    z-index: 2;
 
 }
 
 .posts {
+    position: relative;
     margin-left: 100px;
     margin-left:100px ;
     border: 2px solid #d1d1d1;
@@ -64,7 +104,7 @@ body{
     max-width: 700px;
     width: 100%;
     margin: 0 auto;
-    
+    z-index: 2;
     
 }
 
@@ -80,21 +120,25 @@ body{
 .nomePai_resposta {
     font-size: 14px;
     color: #002aff;
+    z-index: 2;
 }
 
 .nome_comentario {
     font-size: 14px;
     color: #000000;
+    z-index: 2;
 }
 
 .comentario {
     font-size: 14px;
     color: #000000;
+    z-index: 2;
 }
 
 .nome_resposta {
     font-size: 14px;
     color: #000000;
+    z-index: 2;
 }
 
 .resposta_texto {
@@ -125,6 +169,7 @@ span[id^="upvotescoment-"] {
     background-color: transparent;
     border: none;
     cursor: pointer;
+    z-index: 2;
 
 }
 
@@ -138,6 +183,7 @@ respostas{
 
 input[id^="resposta-"] {
     width: 80px;
+    z-index: 2;
     
 }
 
@@ -145,6 +191,7 @@ button[onclick^="postarResposta"] {
     width: 80px;
     height: 20px;
     cursor: pointer;
+    z-index: 2;
 }
 
 .comentarios {
@@ -255,7 +302,9 @@ button[onclick^="postarResposta"] {
 }
 
 .layout{
-    display: center;
+    display: flex;
+     justify-content: center;
+
 }
 
 .sidebar{
@@ -416,4 +465,52 @@ body {
 
 .post, .card-body {
     background-color: white; /* mantém os cards brancos */
+}
+.play-btn {
+    width: 60px;
+    height: 60px;
+    background-color: rgb(243, 209, 14);
+    border: none;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+}
+
+.play-btn::before {
+    content: "";
+    position: absolute;
+    left: 22px;
+    top: 18px;
+    width: 0;
+    height: 0;
+    border-left: 18px solid black;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+}
+.acoes-post {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: #1e1e1e;
+    padding: 10px;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    background: #000000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    background: #000000;
 }

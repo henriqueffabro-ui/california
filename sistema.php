@@ -37,6 +37,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
 
 
+$pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
+
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +46,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema</title>
+    <title>Feed</title>
     <link rel="stylesheet" href="Esistema.css">
     <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
 </head>
@@ -61,7 +63,37 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         <header class="topo">
         
         <h1> Isumagi </h1>
-        <input type="text" class="pesquisa" placeholder="Pesquise ideias!">
+        <form id="formPesq" method="GET">
+
+        <?php if ($pesquisando) { ?>
+       
+            <button id="bVoltarPesq" onclick="location.href='sistema.php'">Voltar</button>
+            
+            <form id="formFiltros" method="GET">
+            <input type="hidden" name="pesquisa" value="<?= $_GET['pesquisa'] ?? '' ?>">
+            <input id ="filtroUsuarios"type="checkbox" class="filtro" name="filtroUsuarios" <?= isset($_GET['filtroUsuarios']) ? 'checked' : '' ?> value="user">
+            <label for="filtroUsuarios">Filtrar por usuários</label>
+            <input id="filtroPostagens" type="checkbox" class="filtro" name="filtroPostagens" <?= isset($_GET['filtroPostagens']) ? 'checked' : '' ?> value="post">
+            <label for="filtroPostagens">Filtrar por postagens</label>
+            <button type="submit">Aplicar filtros</button>
+            </form>
+
+            
+        <?php } 
+        
+        if (isset($_GET['filtroUsuarios'])) {
+            $filtro = 'usuarios';
+        } elseif (isset($_GET['filtroPostagens'])) {
+            $filtro = 'postagens';
+        } else {
+            $filtro = 'todos';
+        }
+        ?>
+
+            
+            <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!">
+            <button type="submit">Buscar</button>
+        </form>
         
         <a href='perfil.php?id=<?= $_SESSION['id'] ?>'>
             <button class="bNavbar" onclick="location.href='perfil.php'">Perfil</button>
@@ -69,7 +101,7 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
         </header>
         <br><br><br><br>
         
-        <?php print_r($_SESSION); ?>
+        <?php //print_r($_SESSION); ?>
         <h1>Boas-vindas, <?php echo $_SESSION['nome']; ?>!</h1><br>
         <div class="container">
             <aside class="sidebar">
@@ -106,8 +138,8 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
     <form id="formPost" action="sistema.php" method="post" enctype="multipart/form-data">
     <div id="loginBox">
         <h1>Sugerir Ideia</h1>
-        <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia"><br><br>
-        <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia"><br><br>
+        <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia" required><br><br>
+        <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia" required><br><br>
 
         <input type="file" id="fileInput" style="display: none;" onchange="adicionarImagem()" name="imagem[]" multiple> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
 
@@ -143,15 +175,23 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
 
                     $espaco = $nivel * -5; //isso calcula a margem adicionada a cada resposta. Quanto mais px, maior a margem
 
-                    echo "<div style='margin-left:{$espaco}px'>";
+                    
 
+                    echo "<div class='comentario-container' style='margin-left:{$espaco}px'>";
+                    
                     echo "<br>";
                     echo "<div class='userinfo'>";
+                    
+                    echo "<a href='perfil.php?id={$c['usuario_id']}'>"; //link para o perfil do usuário que fez o comentário
+                    //echo "<a href='perfil.php?id={$c['usuario_id']}'>"; //link para o perfil do usuário que fez o comentário
                     echo "<img src='" . $c['foto_perfil'] . "' alt='Foto de perfil' class='pfpimgComent'>";
                     echo "<span class='nome_comentario'>{$c['nome']}</span>";
+                    //echo "</a>";
+                    echo "</a>";
+
                     echo "</div>";
 
-                    echo "<div id='comentario-{$c['id']}'>";
+                    echo "<div class='comentarioContContainer' id='comentario-{$c['id']}'>";
                     echo "<p class='comentario'>{$c['comentario']}</p>";
                     echo "</div>";
 
@@ -188,24 +228,88 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                 echo "</div>";
 
                 echo "</div>";
+                
             }
-        }               
+        }             
+                if (!empty($_GET['pesquisa'])) {
+
+                    $pesquisa = $_GET['pesquisa'] ?? ''; //pega o termo de pesquisa enviado pelo formulário, ou uma string vazia se não houver
+
+
+                    if($filtro == 'usuarios') {
+                        
+                        $posts = $conexao->query("
+                            SELECT * 
+                            FROM usuarios 
+                            WHERE nome LIKE '%$pesquisa%' 
+                        ");
+
+                        if ($posts->num_rows == 0) {
+                            echo "Nenhum usuario encontrado  com esse nome.";
+                        } else {
+                            while ($u = $posts->fetch_assoc()) {
+                                echo "<div class='card'>";
+                                echo "<a href='perfil.php?id=" . $u['id'] . "'>";
+                                echo "<img src='" . $u['foto_perfil'] . "' alt='Foto de perfil' class='pfpimg'>";
+                                echo "<span class='card-user'>" . $u['nome'] . "</span>";
+                                echo "</a>";
+                                echo "</div>";
+                            }
+                        }
+
+
+                    }
+                    
+                    else{
+                    $sql = "SELECT postagens.*, usuarios.nome, usuarios.foto_perfil FROM postagens 
+                            JOIN usuarios ON postagens.id_usuario = usuarios.id 
+                            WHERE postagens.titulo LIKE '%$pesquisa%' OR postagens.descricao LIKE '%$pesquisa%' OR usuarios.nome LIKE '%$pesquisa%'"; //consulta SQL para buscar postagens que tenham o termo de pesquisa no título ou na descrição, e também traz o nome e a foto de perfil do usuário que fez a postagem
+                    $posts = $conexao->query($sql);
+
+                    $sql_user = "SELECT * FROM usuarios WHERE usuarios.nome LIKE '%$pesquisa%'"; //consulta SQL para buscar usuários que tenham o termo de pesquisa no nome
+                    $usuarios = $conexao->query($sql_user);
+                    }
+                    
+
+                }
+                else {
                 $posts = $conexao->query("
                     SELECT p.*, u.nome, u.foto_perfil 
                     FROM postagens p
                     JOIN usuarios u ON p.id_usuario = u.id
                     ORDER BY p.data DESC
                 ");
+                }
                 if ($posts->num_rows > 0) { //verifica se há postagens no banco de dados
                     while($row = $posts->fetch_assoc()) { //enquanto houver postagens, o código dentro do while será executado
                         
+                        
+                        
+                       
                         echo "<div class='posts'> ";
 
+                        echo "<a href='postinteiro.php?id=" . $row['id'] . "' class='link-post'></a>"; //link que leva para a página do post inteiro. A classe link-post é uma div invisível que fica por cima do post, fazendo com que seja possível clicar em qualquer parte do post para acessar a página do post inteiro
+                        
                         echo "<div class='userinfo'>";
-                            echo "<a href='perfil.php?id=" . $row['id_usuario'] . "'>";
+                            echo "<a class='link-perfil' href='perfil.php?id=" . $row['id_usuario'] . "'>";
                                 echo "<img src='" . $row["foto_perfil"] . "' alt='Foto de perfil' class='pfpimgPost'>";
                                 echo "<span class='card-user'>" . $row["nome"] . "</span>";
+                               
                             echo "</a>";
+                            echo "<span class='bSeguir" . $row['id_usuario'] . "'>";
+                                if ($row['id_usuario'] != $_SESSION['id']) {
+                                    // Verifica se o usuário logado já segue o autor da postagem
+                                    $id_usuario_logado = $_SESSION['id'];
+                                    $id_usuario_autor = $row['id_usuario'];
+                                    $seguindo = $conexao->query("SELECT * FROM seguidores WHERE id_seguidor = $id_usuario_logado AND id_seguido = $id_usuario_autor")->num_rows > 0;
+
+                                    if ($seguindo) {
+                                        echo "<button class='bSeguindo' onclick='seguir(" . $row['id_usuario'] . ", this)'>Seguindo</button>";
+                                    } else {
+                                        echo "<button class='bSeguir' onclick='seguir(" . $row['id_usuario'] . ", this)'>Seguir</button>";
+                                    }
+                                }
+                            echo "</span>";
                         echo "</div>";
                         
                         echo "<h5 class='card-title'>" . $row["titulo"] . "</h5>"; //mostra o título da postagem
@@ -213,20 +317,21 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         
                         echo "<h5 class='card-date'> Data: " . $row["data"] . "</h5>"; //mostra a data da postagem
 
-                       
+                    
                         ?>
-                          <button onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
+                          <button class="votaraqui" onclick="votar(<?= $row['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
                         <span>
-                            <span id="upvotes-<?= $row['id'] ?>"><?= $row['upvotes'] ?></span> 
+                            <!--isset = caso exista um valor para os votes, mostre tal valor. Caso contrário, mostre 0-->
+                            <span id="upvotes-<?= $row['id'] ?>"><?= isset($row['upvotes']) ? $row['upvotes'] : 0 ?></span> 
                         </span> 
                         
-                        <button onclick="votar(<?= $row['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
+                        <button class="votaraqui" onclick="votar(<?= $row['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
                         <span>
-                            <span id="downvotes-<?= $row['id'] ?>"><?= $row['downvotes'] ?></span>
+                            <span id="downvotes-<?= $row['id'] ?>"><?= isset($row['downvotes']) ? $row['downvotes'] : 0 ?></span>
                         </span>
                         
                         <br>
-                        <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..."> 
+                        <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..." required> 
                         <button onclick="postarComentario(<?= $row['id'] ?>)">Postar Comentário</button> 
                         <br>
                         
@@ -262,12 +367,12 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         if($row['editado'] == 1){
                             echo "<p>Editado</p>";
                         }
-
+                    
                         ?> 
                         <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
                             
                         </div>
-                        
+                       
                         <?php
                         //$comentarios = $conexao->query(" 
                              //  SELECT comentario, data, id, upvotes, downvotes FROM comentarios 
@@ -276,12 +381,23 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         //");
 
                         // pega os comentários do post cujo id é igual ao id da postagem atual
-                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil 
+                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil, c.usuario_id 
                         FROM comentarios c 
                         JOIN usuarios u 
                         ON c.usuario_id = u.id 
                         WHERE c.post_id = {$row['id']} 
-                        ORDER BY c.upvotes DESC ");
+                        ORDER BY c.upvotes DESC 
+                        LIMIT 3"); //limita a exibição a 3 comentários, ordenados pelos mais votados. Os demais comentários podem ser vistos na página do post inteiro
+                        
+                        $result_total = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil 
+                        FROM comentarios c
+                        JOIN usuarios u 
+                        ON c.usuario_id = u.id 
+                        WHERE c.post_id = {$row['id']} 
+                        ORDER BY c.upvotes DESC"); //query para obter o total de comentários
+
+                       
+                        
 
                         $comentarios = [];
 
@@ -291,10 +407,28 @@ $result = $conexao->query($sql); //executa a consulta SQL e salva o resultado na
                         
                          mostrarComentarios(NULL, $comentarios);
 
+                          if ($result_total->num_rows > 3) { //verifica se há mais de 3 comentários para mostrar o botão de ver mais
+                            //$comentarios = [];
+
+                            //while ($c = $result->fetch_assoc()) {
+                              //  $comentarios[$c['parent_id']][] = $c;
+                            //}
+                            
+                             //mostrarComentarios(NULL, $comentarios);
+
+                            echo "<br>";
+                            //echo "<button class='ver-mais' onclick='carregarMais({$row['id']}, 3)'>Ver mais comentários</button>"; //botão para carregar mais comentários, começa a partir do offset 3, ou seja, a partir do 4º comentário
+                            echo "<a class='vermaiscoment'href='postinteiro.php?id={$row['id']}'>Mais Comentários</a>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
+                            //echo "<button class='ver-mais' onclick='location.href=\"postinteiro.php?id={$row['id']}\"'>Ver mais comentários</button>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
+                        } if ($result_total->num_rows == 0) {
+                            echo "<p>Seja o primeiro a comentar!</p>"; //caso não haja comentários, mostra essa mensagem
+                        }
+
+                        
+                        
+                        echo "</div>";
                         
 
-                         
-                        echo "</div>";
                         echo"<br>";
                     }
                 } else {

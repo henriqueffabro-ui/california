@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/04/2026 às 01:55
+-- Tempo de geração: 01/05/2026 às 00:51
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -62,7 +62,8 @@ INSERT INTO `comentarios` (`id`, `post_id`, `usuario_id`, `comentario`, `data`, 
 (62, 24, 1, 'eee', '2026-04-11 00:06:39', NULL, NULL, 50),
 (63, 24, 1, 'ppp', '2026-04-11 00:06:56', NULL, NULL, 52),
 (64, 24, 1, 'qqq', '2026-04-11 00:08:34', NULL, NULL, 50),
-(65, 24, 1, 'qq', '2026-04-11 00:12:01', NULL, NULL, 50);
+(65, 24, 1, 'qq', '2026-04-11 00:12:01', NULL, NULL, 50),
+(92, 44, 1, '', '2026-04-27 23:39:45', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -83,7 +84,9 @@ CREATE TABLE `imagens` (
 INSERT INTO `imagens` (`id`, `nome`, `id_post`) VALUES
 (24, '69d19fa707d5d.png', 23),
 (25, '69d655d4f21a4.png', 24),
-(32, '69ebfd28beeb4_backyardigans.webp', 39);
+(32, '69ebfd28beeb4_backyardigans.webp', 39),
+(33, '69eff2f25bf0f_2020-12-04 (5).png', 44),
+(34, '69eff6aba499c_2020-12-04 (9).png', 45);
 
 -- --------------------------------------------------------
 
@@ -120,7 +123,22 @@ INSERT INTO `postagens` (`id`, `titulo`, `descricao`, `id_usuario`, `data`, `edi
 (40, 'Eu sou a Tasha', '', 3, '2026-04-24 20:31:39', NULL, NULL, NULL),
 (41, 'Eu sou a Uniqua', '', 4, '2026-04-24 20:32:09', NULL, NULL, NULL),
 (42, 'Meu nome é Tyrone', '', 1, '2026-04-24 20:32:32', NULL, NULL, NULL),
-(43, 'Oi, eu sou Pablo', '', 2, '2026-04-24 20:32:54', NULL, NULL, NULL);
+(43, 'Oi, eu sou Pablo', '', 2, '2026-04-24 20:32:54', NULL, NULL, NULL),
+(44, '', '', 1, '2026-04-27 20:36:18', NULL, NULL, NULL),
+(45, '', '', 1, '2026-04-27 20:52:11', NULL, NULL, NULL),
+(46, '', '', 1, '2026-04-27 20:52:17', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `seguidores`
+--
+
+CREATE TABLE `seguidores` (
+  `id` int(11) NOT NULL,
+  `id_seguidor` int(11) DEFAULT NULL,
+  `id_seguido` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -134,18 +152,19 @@ CREATE TABLE `usuarios` (
   `email` varchar(200) NOT NULL,
   `senha` varchar(200) NOT NULL,
   `data_criacao` datetime DEFAULT current_timestamp(),
-  `foto_perfil` varchar(255) DEFAULT NULL
+  `foto_perfil` varchar(255) DEFAULT NULL,
+  `seguidores` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_criacao`, `foto_perfil`) VALUES
-(1, 'chiquinho_gaviao', 'gaviaochico@gmail.com', 'california', '2026-03-28 10:06:43', 'uploads/69e814f6e2365.jpg'),
-(2, 'Henrique', 'henriqueffabro@gmail.com', 'california', '2026-03-28 10:42:04', 'uploads/69eab37c1c615.jpg'),
-(3, 'china', 'shnaydap@gmail.com', '@07112009', '2026-04-23 21:23:05', 'uploads/69ebfba48745a.png'),
-(4, 'emi_noriaki223', 'noriaki@gmail.com', 'Emilly_2010', '2026-04-24 20:25:23', 'uploads/69ebfbfecbf47.jpeg');
+INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_criacao`, `foto_perfil`, `seguidores`) VALUES
+(1, 'chiquinho_gaviao', 'gaviaochico@gmail.com', 'california', '2026-03-28 10:06:43', 'uploads/69e814f6e2365.jpg', 0),
+(2, 'Henrique', 'henriqueffabro@gmail.com', 'california', '2026-03-28 10:42:04', 'uploads/69eab37c1c615.jpg', 0),
+(3, 'china', 'shnaydap@gmail.com', '@07112009', '2026-04-23 21:23:05', 'uploads/69ebfba48745a.png', 0),
+(4, 'emi_noriaki223', 'noriaki@gmail.com', 'Emilly_2010', '2026-04-24 20:25:23', 'uploads/69ebfbfecbf47.jpeg', 0);
 
 -- --------------------------------------------------------
 
@@ -166,7 +185,8 @@ CREATE TABLE `votes_comentarios` (
 --
 
 INSERT INTO `votes_comentarios` (`id`, `usuario_id`, `comentario_id`, `tipo`, `data`) VALUES
-(3, 1, 19, 1, '2026-04-08 10:13:37');
+(3, 1, 19, 1, '2026-04-08 10:13:37'),
+(39, 1, 92, 1, '2026-04-27 20:39:48');
 
 -- --------------------------------------------------------
 
@@ -219,6 +239,14 @@ ALTER TABLE `postagens`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
+-- Índices de tabela `seguidores`
+--
+ALTER TABLE `seguidores`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_seguidor` (`id_seguidor`,`id_seguido`),
+  ADD KEY `id_seguido` (`id_seguido`);
+
+--
 -- Índices de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -249,19 +277,25 @@ ALTER TABLE `votos`
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT de tabela `imagens`
 --
 ALTER TABLE `imagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de tabela `postagens`
 --
 ALTER TABLE `postagens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT de tabela `seguidores`
+--
+ALTER TABLE `seguidores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
@@ -273,7 +307,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `votes_comentarios`
 --
 ALTER TABLE `votes_comentarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de tabela `votos`
@@ -304,6 +338,13 @@ ALTER TABLE `imagens`
 --
 ALTER TABLE `postagens`
   ADD CONSTRAINT `postagens_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `seguidores`
+--
+ALTER TABLE `seguidores`
+  ADD CONSTRAINT `seguidores_ibfk_1` FOREIGN KEY (`id_seguidor`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `seguidores_ibfk_2` FOREIGN KEY (`id_seguido`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `votes_comentarios`

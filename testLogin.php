@@ -27,7 +27,7 @@ print_r($_SESSION); //teste para ver se a sessão está funcionando
 
         $result = $conexao->query($sql);
 
-        print_r($row); //teste para ver se a consulta SQL está correta
+        //print_r($row); //teste para ver se a consulta SQL está correta
 
         //print_r($result); teste para ver se a consulta está funcionando
 

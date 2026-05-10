@@ -16,6 +16,44 @@
       //  document.getElementById("fotoPerfil").src = data.caminho;
     //});
 //}
+async function abrirEmoji() {
+    const input = document.getElementById("campoTexto");
+
+    if (window.EmojiPicker) {
+        const picker = new EmojiPicker();
+        const emoji = await picker.pick();
+        input.value += emoji.emoji;
+    } else {
+        input.focus();
+    }
+}
+
+function seguir(id_usuario, botao) {
+    fetch("seguir.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "id_usuario=" + id_usuario
+
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.seguindo === true) {
+            botao.className = "bSeguindo";
+            botao.innerText = "Seguindo";
+            document.getElementById("seguidores-" + id_usuario).innerText = "Seguidores: " + data.seguidores;
+           
+            //botao.disabled = true;
+        } else {
+            botao.className = "bSeguir";
+            botao.innerText = "Seguir";
+            document.getElementById("seguidores-" + id_usuario).innerText = "Seguidores: " + data.seguidores;
+            
+        }
+    });
+}
+
 function postarResposta(comentario_id) {
 
     let input = document.getElementById("resposta-" + comentario_id);

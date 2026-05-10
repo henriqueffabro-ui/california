@@ -3,31 +3,104 @@ let downvotes = 0;
 let votedUp = false;
 let votedDown = false;
 
-let imagens = [];
 
-function adicionarImagem() {
+
+
+
+let imagens = [];
+let offset = 3; // Variável para controlar o offset dos comentários
+let acabouComentarios = false; // Variável para indicar se todos os comentários foram carregados
+let quantidadeRetornada = 0; // Variável para armazenar a quantidade de comentários retornados na última requisição
+
+function carregarMais(post_id) {
+    console.log(offset);
+    console.log(quantidadeRetornada);
+    fetch(`vermais.php?post_id=${post_id}&offset=${offset}`)
+        .then(res => res.text())
+        .then(html => {
+            document.querySelector(`#comentarios-${post_id}`)
+                .insertAdjacentHTML('beforeend', html);
+
+           
+            // 🔥 pega o último valor retornado
+            let qtdEl = container.querySelector('.qtd-retornada:last-of-type');
+            let qtd = parseInt(qtdEl.dataset.qtd);
+
+            console.log("Quantidade recebida:", qtd);
+
+            offset += qtd;
+
+            if (qtd < 3) {
+                acabouComentarios = true;
+                document.getElementById("btnVerMais").style.display = "none";
+            }
+
+        });
+        
+}
+
+function seguir(id_usuario, botao) {
+    fetch("seguir.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "id_usuario=" + id_usuario
+
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.seguindo === true) {
+            botao.className = "bSeguindo";
+            botao.innerText = "Seguindo";
+           
+            //botao.disabled = true;
+        } else {
+            botao.className = "bSeguir";
+            botao.innerText = "Seguir";
+            
+        }
+    });
+}
+
+function adicionarImagem() { //essa função é chamada quando o usuário seleciona uma imagem no input, e adiciona a imagem ao array de imagens, e depois renderiza as imagens na tela
     let input = document.getElementById("fileInput");
 
     for (let i = 0; i < input.files.length; i++) {
-        let file = input.files[i];
-        imagens.push(file);
-
-        // cria container (li)
-        let li = document.createElement("li");
-
-        // cria imagem
-        let img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        img.style.width = "200px";
-        img.classList.add("previewImagens");
-
-        li.appendChild(img);
-
-
-        document.getElementById("listaImgs").appendChild(li);
+        imagens.push(input.files[i]);
     }
 
     input.value = "";
+
+    renderizarImagens();
+}
+
+function removerImg(index) { //essa função é chamada quando o usuário clica no botão de remover, e remove a imagem do array de imagens, e depois renderiza as imagens na tela
+    imagens.splice(index, 1);
+    renderizarImagens();
+}
+
+function renderizarImagens() { //essa função renderiza as imagens na tela, criando elementos img para cada imagem no array de imagens, e adicionando um botão de remover para cada imagem
+    const lista = document.getElementById("listaImgs");
+    lista.innerHTML = "";
+
+    imagens.forEach((file, index) => {
+        let li = document.createElement("li");
+
+        let img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.style.width = "200px";
+
+        let btn = document.createElement("button");
+        btn.innerText = "Remover";
+
+        btn.onclick = () => removerImg(index);
+
+        li.appendChild(img);
+        li.appendChild(btn);
+
+        lista.appendChild(li);
+    });
 }
 
 function postar() {
@@ -54,7 +127,10 @@ function postar() {
         })
         .then(res => res.json()) //pega a resposta do servidor e converte para JSON (bagulho de JS)
         .then(data => { //pega a respota do servidor, que é o conteúdo do post, e insere na página
-
+            if (data.erro) {
+                alert(data.erro);
+                return;
+            }
                 let imagensHTML = "";
 
                     data.imagens.forEach(img => {
@@ -169,6 +245,7 @@ function votar(post_id, tipo) {
         })
         .then(res => res.json())
         .then(data => {
+            
             document.getElementById("upvotes-" + post_id).innerText = data.up;
             document.getElementById("downvotes-" + post_id).innerText = data.down;
         });
@@ -195,6 +272,7 @@ function votarcoment(comentario_id, tipo) {
 
 function postarComentario(post_id) {
 
+
     let input = document.getElementById("comentario-" + post_id);
     let texto = input.value;
 
@@ -207,6 +285,10 @@ function postarComentario(post_id) {
         })
         .then(res => res.json())
         .then(data => {
+             if (data.erro) {
+                alert(data.erro);
+                return;
+            }
             let html = `<div class="comentario">
 
                     <div class="userinfo">
@@ -312,6 +394,8 @@ function mostrarImg(){ //ao clicar no botão de img, aciona o input, que por sua
             img.style.display = "block"; //ativa a exibição da img
             img.style.width = "200px"; 
             img.style.height = "auto"; //esses 2 são tamanho da img
+            const btn = document.createElement("button");
+            btn.innerText = "Remover";
 
             img.style.marginRight = "10px"; //essa é a margem, a img vai para a direita
 

@@ -12,13 +12,17 @@ if (isset($_GET['id'])) {
     
 }
 
+if (isset($_GET['post_id'])) {
+    echo "<button onclick=\"location.href='postinteiro.php?id=" . $_GET['post_id'] . "'\">Voltar para a postagem</button><br>";
+   
+}
+
+echo "<button onclick=\"location.href='sistema.php'\">Voltar para o feed</button><br>";
+echo "<br>";
+
 $sql = "SELECT * FROM usuarios WHERE id = $id";
 $result = mysqli_query($conexao, $sql);
 $usuario = mysqli_fetch_assoc($result);
-
-$sql_posts = "SELECT * FROM postagens WHERE id_usuario = $id";
-$result_posts = mysqli_query($conexao, $sql_posts);
-
 
 $posts = $conexao->query("
     SELECT p.*, u.nome, u.foto_perfil
@@ -117,9 +121,27 @@ exit;
     <script src="perfil.js"></script>
     
 </head>
+
 <body>
     <h1><?= $usuario['nome'] ?></h1>
-    <button onclick="location.href='sistema.php'">Voltar para o feed</button>
+    
+    <!-- <button onclick="seguir(<?= $usuario['id'] ?>, this)">Seguir</button> -->
+     <?php
+     echo "<span class='bSeguir" . $usuario['id'] . "'>";
+                                if ($usuario['id'] != $_SESSION['id']) {
+                                    // Verifica se o usuário logado já segue o autor da postagem
+                                    $id_usuario_logado = $_SESSION['id'];
+                                    $id_usuario_autor = $usuario['id'];
+                                    $seguindo = $conexao->query("SELECT * FROM seguidores WHERE id_seguidor = $id_usuario_logado AND id_seguido = $id_usuario_autor")->num_rows > 0;
+
+                                    if ($seguindo) {
+                                        echo "<button class='bSeguindo' onclick='seguir(" . $usuario['id'] . ", this)'>Seguindo</button>";
+                                    } else {
+                                        echo "<button class='bSeguir' onclick='seguir(" . $usuario['id'] . ", this)'>Seguir</button>";
+                                    }
+                                }
+                            echo "</span>";
+        ?>
     <form id="formPfp" method="POST" enctype="multipart/form-data">
     <input type="file" id="filePfp" style="display: none;"
        name="inputPfp"
@@ -141,6 +163,7 @@ exit;
         //echo $usuario['foto_perfil'];
         ?>
     
+    <span id="seguidores-<?= $usuario['id'] ?>">Seguidores: <?= $usuario['seguidores'] ?? 0 ?></span>
     <h2>Ideias:</h2><br>
     <?php foreach ($posts as $p): ?>
         <?php
@@ -148,63 +171,108 @@ exit;
             
             if ($p['id_usuario'] == $id): ?>
 
-             <?php
-        $comentarios = [];
-
-        $sql = "SELECT comentarios.*, usuarios.nome, usuarios.foto_perfil 
-                FROM comentarios
-                JOIN usuarios ON comentarios.usuario_id = usuarios.id
-                WHERE post_id = {$p['id']}
-                ORDER BY data ASC";
-
-        $resultcoment = $conexao->query($sql);
-
-        while ($row = $resultcoment->fetch_assoc()) {
-            $parent = $row['parent_id'] ?? 0;
-            $comentarios[$parent][] = $row;
-        }
-        ?>
+           
 
 
-            <div class="posts">
-                <div class="userinfo">
-                    <img src='<?= $p['foto_perfil'] ?>' class='pfpimgPost'>
-                    <span class='card-user'><?= $p['nome'] ?></span>
-                    <h2 class='card-title'><?= $p['titulo'] ?></h2>
-                    <p class='card-text'><?= $p['descricao'] ?></p>
-                    <h5 class='card-date'><?= date("d/m/Y H:i", strtotime($p['data'])) ?></h5>
+<div class="acoes-post">
+    
+    <label class="icon-btn">
+        +
+        <input type="file" multiple accept="image/*" hidden>
+    </label>
 
-                    <button onclick="votar(<?= $p['id'] ?>, 1)"><img width="15px" id="arrowup" src="imgs\arrow.webp"></button>
-                        <span>
-                            <span id="upvotes-<?= $p['id'] ?>"><?= $p['upvotes'] ?></span> 
-                        </span> 
+    <button type="button" class="icon-btn" onclick="abrirEmoji()">😊</button>
+    <input type="text" id="campoTexto">
+
+</div>
+
+<div class="posts">
+    <a href='postinteiro.php?id=<?= $p['id'] ?>&perfil_id=<?= $id ?>' class='link-post'></a>
+    <div class="userinfo">
+        <img src='<?= $p['foto_perfil'] ?>' class='pfpimgPost'>
+        <span class='card-user'><?= $p['nome'] ?></span>
+        <h2 class='card-title'><?= $p['titulo'] ?></h2>
+        <p class='card-text'><?= $p['descricao'] ?></p>
+        <h5 class='card-date'><?= date("d/m/Y H:i", strtotime($p['data'])) ?></h5>
+
+        <button class="votaraqui" onclick="votar(<?= $p['id'] ?>, 1)">
+            <img width="15px" src="imgs/arrow.webp">
+        </button>
+        
+        <span>
+             <!--isset = caso exista um valor para os votes, mostre tal valor. Caso contrário, mostre 0-->
+            <span id="upvotes-<?= $p['id'] ?>"><?= isset($p['upvotes']) ? $p['upvotes'] : 0 ?></span> 
+        </span> 
+
+        <button class="votaraqui" onclick="votar(<?= $p['id'] ?>, -1)">
+            <img width="15px" src="imgs/arrowd.jpg">
+        </button>
+        <span>
+            <!--isset = caso exista um valor para os votes, mostre tal valor. Caso contrário, mostre 0-->
+            <span id="downvotes-<?= $p['id'] ?>"><?= isset($p['downvotes']) ? $p['downvotes'] : 0 ?></span>
+        </span>
+    </div>
+
+    <?php foreach ($conexao->query("SELECT nome FROM imagens WHERE id_post = " . $p['id']) as $img): ?>
+        <img src='uploads/<?= $img['nome'] ?>' width='200'>
+    <?php endforeach; ?>
+    <br>
+    <input id="comentario-<?= $p['id'] ?>" placeholder="Deixe um comentário..."> 
+    <button onclick="postarComentario(<?= $p['id'] ?>)">Postar Comentário</button> 
+    <br>
+    <?php
+       $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil, c.usuario_id 
+                        FROM comentarios c 
+                        JOIN usuarios u 
+                        ON c.usuario_id = u.id 
+                        WHERE c.post_id = {$p['id']} 
+                        ORDER BY c.upvotes DESC 
+                        LIMIT 3"); //limita a exibição a 3 comentários, ordenados pelos mais votados. Os demais comentários podem ser vistos na página do post inteiro
                         
-                        <button onclick="votar(<?= $p['id'] ?>, -1)"><img width="15px" id="arrowdown" src="imgs\arrowd.jpg"></button>
-                        <span>
-                            <span id="downvotes-<?= $p['id'] ?>"><?= $p['downvotes'] ?></span>
-                        </span>
-                </div>
+                        $result_total = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil 
+                        FROM comentarios c
+                        JOIN usuarios u 
+                        ON c.usuario_id = u.id 
+                        WHERE c.post_id = {$p['id']} 
+                        ORDER BY c.upvotes DESC"); //query para obter o total de comentários
 
-                <?php foreach ($conexao->query("SELECT nome FROM imagens WHERE id_post = " . $p['id']) as $img): ?>
-                    <img src='uploads/<?= $img['nome'] ?>' width='200'>
-                <?php endforeach; ?>
-                
-                <br>
-                <input id="comentario-<?= $p['id'] ?>" placeholder="Deixe um comentário..."> 
-                <button onclick="postarComentario(<?= $p['id'] ?>)">Postar Comentário</button> 
-                <br>
+                       
+                        
 
-                <div class="comentarios" id="comentarios-<?= $p['id'] ?>">
-                    <?php mostrarComentarios(0, $comentarios); ?>
-                </div>  
+                        $comentarios = [];
 
-                
-            </div>
+                        while ($c = $result->fetch_assoc()) {
+                            $comentarios[$c['parent_id']][] = $c;
+                        }
+                        
+                         mostrarComentarios(NULL, $comentarios);
+
+                          if ($result_total->num_rows > 3) { //verifica se há mais de 3 comentários para mostrar o botão de ver mais
+                            //$comentarios = [];
+
+                            //while ($c = $result->fetch_assoc()) {
+                              //  $comentarios[$c['parent_id']][] = $c;
+                            //}
+                            
+                             //mostrarComentarios(NULL, $comentarios);
+
+                            echo "<br>";
+                            //echo "<button class='ver-mais' onclick='carregarMais({$row['id']}, 3)'>Ver mais comentários</button>"; //botão para carregar mais comentários, começa a partir do offset 3, ou seja, a partir do 4º comentário
+                            echo "<a class='vermaiscoment'href='postinteiro.php?id={$p['id']}'>Mais Comentários</a>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
+                            //echo "<button class='ver-mais' onclick='location.href=\"postinteiro.php?id={$row['id']}\"'>Ver mais comentários</button>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
+                        } if ($result_total->num_rows == 0) {
+                            echo "<p>Seja o primeiro a comentar!</p>"; //caso não haja comentários, mostra essa mensagem
+                        }
+        ?>
+    
+
+    <div class="comentarios" id="comentarios-<?= $p['id'] ?>">
+        <?php mostrarComentarios(0, $comentarios); ?>
+    </div>  
+</div>
         <?php endif; ?>
     <?php endforeach; ?>
 
 
-
-    
 </body>
 </html>
