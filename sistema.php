@@ -54,15 +54,12 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
     
     
     <!-- emi -->
-    <head>
-        <meta charset="UTF-8">
-        <tittle> Isumagi </tittle>
-        <link rel="stylesheet" href="style.css">
-    </head>
+    
     <body>
         <header class="topo">
         
         <h1> Isumagi </h1>
+
         <form id="formPesq" method="GET">
 
         <?php if ($pesquisando) { ?>
@@ -94,6 +91,8 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
             <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!">
             <button type="submit">Buscar</button>
         </form>
+
+        <a href="sair.php">Sair</a>
         
         <a href='perfil.php?id=<?= $_SESSION['id'] ?>'>
             <button class="bNavbar" onclick="location.href='perfil.php'">Perfil</button>
@@ -101,15 +100,24 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         </header>
         
         <?php //print_r($_SESSION); ?>
-        <h1>Boas-vindas, <?php echo $_SESSION['nome']; ?>!</h1><br>
-        <div class="container">
-            <aside class="sidebar">
-                
-                <button class="botao1">Pág inicial</button> 
-                <button class="botao2">Explorar</button> 
-                <button class="botao3">Seguindo</button> 
+        
+            <h1 class="bemvindo">Boas-vindas, <?php echo $_SESSION['nome']; ?></h1><br>
             
-            </aside>
+        
+        <div class="container">
+        
+            <!--<aside class="sidebar">
+                
+            Emilly eu tive que tirar o aside porque tava aparecendo uma 
+            linha aleatória no lado, mas coloquei os botões em coluna e coloquei todos com
+            a mesma class. Se quiser diferenciar eles, usa o id ok-->
+                
+                <button class="botao1" id="b1">Pág inicial</button> 
+                <button class="botao1" id="b2">Explorar </button> 
+                <button class="botao1" id="b3">Seguindo</button> 
+            
+        </div>
+            <!--</aside>-->
             <main class="feed">
                 <div id="posts"></div>
                 

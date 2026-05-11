@@ -16,6 +16,9 @@ if (isset($_GET['post_id'])) {
     echo "<button onclick=\"location.href='postinteiro.php?id=" . $_GET['post_id'] . "'\">Voltar para a postagem</button><br>";
    
 }
+if (isset($_GET['perfil_id'])) {
+    echo "<button onclick=\"location.href='perfil.php?id=" . $_GET['perfil_id'] . "'\">Voltar para o perfil</button><br>";
+}
 
 echo "<button onclick=\"location.href='sistema.php'\">Voltar para o feed</button><br>";
 echo "<br>";
@@ -163,7 +166,11 @@ exit;
         //echo $usuario['foto_perfil'];
         ?>
     
-    <span id="seguidores-<?= $usuario['id'] ?>">Seguidores: <?= $usuario['seguidores'] ?? 0 ?></span>
+
+    <a href="seguidores.php?id=<?= $usuario['id'] ?>">
+        <span id="seguidores-<?= $usuario['id'] ?>">Seguidores: <?= $usuario['seguidores'] ?? 0 ?></span>
+    </a>
+    
     <h2>Ideias:</h2><br>
     <?php foreach ($posts as $p): ?>
         <?php
