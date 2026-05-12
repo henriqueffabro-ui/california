@@ -175,6 +175,11 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                 echo "<input id='resposta-{$c['id']}' placeholder='Responda...'>";
                 echo "<button onclick='postarResposta({$c['id']})'>Postar</button>";
 
+                if($c['usuario_id'] == $_SESSION['id'] || $c['usuario_id'] == $_SESSION['id']){ //verifica se o usuário logado é o autor do post ou do comentário para mostrar os botões de editar e excluir
+                    echo "<br>";
+                    echo "<button onclick='excluirComentario(" . $c['id'] . ")' id='BdeExcluir' class='btn btn-danger'>Excluir</button>"; //se for igual, mostra o botão de excluir
+                }
+
                 echo "<br>";
 
                 // container respostas
@@ -219,7 +224,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                     }
                     
                     else{
-                    $sql = "SELECT postagens.*, usuarios.nome, usuarios.foto_perfil FROM postagens 
+                    $sql = "SELECT postagens.*, usuarios.nome, usuarios.foto_perfil, usuarios.id AS id_usuario FROM postagens 
                             JOIN usuarios ON postagens.id_usuario = usuarios.id 
                             WHERE postagens.titulo LIKE '%$pesquisa%' OR postagens.descricao LIKE '%$pesquisa%' OR usuarios.nome LIKE '%$pesquisa%'"; //consulta SQL para buscar postagens que tenham o termo de pesquisa no título ou na descrição, e também traz o nome e a foto de perfil do usuário que fez a postagem
                     $posts = $conexao->query($sql);
@@ -232,7 +237,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                 }
                 else {
                 $posts = $conexao->query("
-                    SELECT p.*, u.nome, u.foto_perfil 
+                    SELECT p.*, u.nome, u.foto_perfil, u.id AS id_usuario 
                     FROM postagens p
                     JOIN usuarios u ON p.id_usuario = u.id
                     ORDER BY p.data DESC
@@ -318,7 +323,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         }
 
                         
-                        if($row["nome"] == $_SESSION['nome']){ //verifica se o nome do usuário logado é igual ao nome do usuário que fez a postagem
+                        if($row["id_usuario"] == $_SESSION['id']){ //verifica se o ID do usuário logado é igual ao ID do usuário que fez a postagem
                             echo "<button onclick='editarPostagem(" . $row["id"] . ")' id='BdeEditar' class='btn btn-primary'>Editar</button>"; //se for igual, mostra o botão de editar
                             echo "<button onclick='excluirPostagem(" . $row["id"] . ")' id='BdeExcluir' class='btn btn-danger'>Excluir</button>"; //se for igual, mostra o botão de excluir
                         }
@@ -430,6 +435,15 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         <button onclick="cancelar()">Cancelar</button>
     </div>
     </div>
+
+     <div id="confirmBoxComentario" class="confirm-box">
+    <div class="confirm-content">
+        <p>Tem certeza que deseja excluir este comentário?</p>
+        <button onclick="confirmarC()">Sim</button>
+        <button onclick="cancelarC()">Cancelar</button>
+    </div>
+    </div>
+
 
     
     <script src="sistema.js"></script>

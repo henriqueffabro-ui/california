@@ -409,6 +409,7 @@ function editarPostagem(id) {
     window.location.href = 'editarPostagem.php?id=' + id;
 }
 
+
         //function excluirPostagem(id) {
         //    window.location.href = 'excluirPostagem.php?id=' + id;
         //}
@@ -418,6 +419,11 @@ function excluirPostagem(id) {
     document.getElementById('confirmBox').dataset.id = id; // Armazena o ID da postagem a ser excluída
 }
 
+function excluirComentario(id) {
+    document.getElementById('confirmBoxComentario').style.display = 'flex';
+    document.getElementById('confirmBoxComentario').dataset.id = id; // Armazena o ID do comentário a ser excluído
+}
+
 function confirmar() {
     var id = document.getElementById('confirmBox').dataset.id; // Recupera o ID da postagem a ser excluída
     window.location.href = 'excluirPostagem.php?id=' + id;
@@ -425,4 +431,13 @@ function confirmar() {
 
 function cancelar() {
     document.getElementById('confirmBox').style.display = 'none'; // Esconde a caixa de confirmação
+}
+
+function confirmarC() {
+    var id = document.getElementById('confirmBoxComentario').dataset.id; // Recupera o ID do comentário a ser excluído
+    window.location.href = 'excluircoment.php?id=' + id;
+}
+
+function cancelarC() {
+    document.getElementById('confirmBoxComentario').style.display = 'none'; // Esconde a caixa de confirmação
 }
