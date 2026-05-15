@@ -58,7 +58,9 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
     <body>
         <header class="topo">
         
+        <a id="logolink" href="sistema.php">
         <h1> Isumagi </h1>
+        </a>
 
         <form id="formPesq" method="GET">
 
@@ -100,7 +102,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
             
             <?php if ($pesquisando) { ?>
 
-            <h2>➣ Pesquisando: <?= $_GET['pesquisa'] ?? '' ?> </h2>
+            <h2 id="pesquisandopor">➣ Pesquisando: <?= $_GET['pesquisa'] ?? '' ?> </h2>
             <form id="formFiltros" method="GET">
             <input type="hidden" name="pesquisa" value="<?= $_GET['pesquisa'] ?? '' ?>">
             <input id ="filtroUsuarios"type="checkbox" class="filtro" name="filtroUsuarios" <?= isset($_GET['filtroUsuarios']) ? 'checked' : '' ?> value="user">
