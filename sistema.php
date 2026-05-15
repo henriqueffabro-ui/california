@@ -63,17 +63,10 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         <form id="formPesq" method="GET">
 
         <?php if ($pesquisando) { ?>
-       
-            <button id="bVoltarPesq" onclick="location.href='sistema.php'">Voltar</button>
             
-            <form id="formFiltros" method="GET">
-            <input type="hidden" name="pesquisa" value="<?= $_GET['pesquisa'] ?? '' ?>">
-            <input id ="filtroUsuarios"type="checkbox" class="filtro" name="filtroUsuarios" <?= isset($_GET['filtroUsuarios']) ? 'checked' : '' ?> value="user">
-            <label for="filtroUsuarios">Filtrar por usuários</label>
-            <input id="filtroPostagens" type="checkbox" class="filtro" name="filtroPostagens" <?= isset($_GET['filtroPostagens']) ? 'checked' : '' ?> value="post">
-            <label for="filtroPostagens">Filtrar por postagens</label>
-            <button type="submit">Aplicar filtros</button>
-            </form>
+            <button type="button" id="bVoltarPesq" onclick="location.href='sistema.php'">Voltar</button>
+            
+           
 
             
         <?php } 
@@ -87,9 +80,11 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         }
         ?>
 
-            
-            <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!">
-            <button type="submit">Buscar</button>
+        <!--explicando esse value:
+        value="abrephp/caso haja algo dentro do GET 'pesquisa'/ ? = então, use esse valor/ : = caso contrário, mantenha nulo/ fechaphp
+        O value mantém o valor da barra de pesquisa dentro dela mesmo após o usuário já ter enviado-->
+            <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!" value="<?= isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '' ?>">
+            <button type="submit">Buscar ➣</button>
         </form>
 
         <a href="sair.php">Sair</a>
@@ -103,7 +98,18 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         
             <h1 class="bemvindo">Boas-vindas, <?php echo $_SESSION['nome']; ?></h1><br>
             
-        
+            <?php if ($pesquisando) { ?>
+
+            <h2>➣ Pesquisando: <?= $_GET['pesquisa'] ?? '' ?> </h2>
+            <form id="formFiltros" method="GET">
+            <input type="hidden" name="pesquisa" value="<?= $_GET['pesquisa'] ?? '' ?>">
+            <input id ="filtroUsuarios"type="checkbox" class="filtro" name="filtroUsuarios" <?= isset($_GET['filtroUsuarios']) ? 'checked' : '' ?> value="user">
+            <label for="filtroUsuarios">Filtrar por usuários</label>
+            <input id="filtroPostagens" type="checkbox" class="filtro" name="filtroPostagens" <?= isset($_GET['filtroPostagens']) ? 'checked' : '' ?> value="post">
+            <label for="filtroPostagens">Filtrar por postagens</label>
+            <button type="submit">Aplicar filtros</button>
+            </form>
+              <?php } ?>
         <div class="container">
         
             <!--<aside class="sidebar">
