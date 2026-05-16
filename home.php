@@ -17,7 +17,7 @@
     <h3> clique na tela para ativar o som! </h3>
 
     <div class="container">
-        <img src="imgs/bulbinor.png" class="bulbi">
+        <img src="imgs/bulbino.png" class="bulbi">
     </div> 
     <div class="caixa">
         <h2 id="texto"></h2>

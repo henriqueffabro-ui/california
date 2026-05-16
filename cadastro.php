@@ -10,10 +10,14 @@ if(isset($_POST['submit'])){ //se o usuário clicar no botão de submit, o códi
     $email = $_POST['email']; //variáveis que recebem os dados do formulário
     $senha = $_POST['senha'];
 
+    if(empty($nome) || empty($email) || empty($senha)){
+        echo "Preencha todos os campos!";
+    } else {
     $result = mysqli_query($conexao, "INSERT INTO usuarios(nome,email,senha) VALUES ('$nome','$email','$senha')");
     // o result salva as informações no banco de dados
-
+    }
     header('Location: login.php'); //redireciona para a página de login.php 
+    
 }
 
 ?>
@@ -34,9 +38,9 @@ if(isset($_POST['submit'])){ //se o usuário clicar no botão de submit, o códi
     <form action="cadastro.php" method="post">
     <div id="cadastroBox">
         <h1>Cadastro</h1>
-        <input id="UserNome" name="nome" type="text" placeholder="Insira o Nome de Usuário"><br><br>
-        <input id="UserEmail" name="email" type="text" placeholder="Insira o E-mail"><br><br>
-        <input id="UserSenha" name="senha" type="password" placeholder="Insira a Senha">
+        <input id="UserNome" name="nome" type="text" placeholder="Insira o Nome de Usuário" required><br><br>
+        <input id="UserEmail" name="email" type="email" placeholder="Insira o E-mail" required><br><br>
+        <input id="UserSenha" name="senha" type="password" placeholder="Insira a Senha" required>
         <br><br><br>
         <input id="bCriarConta" type="submit" name="submit"></input>
 

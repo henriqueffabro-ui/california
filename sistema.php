@@ -46,7 +46,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema</title>
+    <title>Feed</title>
     <link rel="stylesheet" href="Esistema.css">
     <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
 </head>
@@ -54,29 +54,21 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
     
     
     <!-- emi -->
-    <head>
-        <meta charset="UTF-8">
-        <tittle> Isumagi </tittle>
-        <link rel="stylesheet" href="style.css">
-    </head>
+    
     <body>
         <header class="topo">
         
+        <a id="logolink" href="sistema.php">
         <h1> Isumagi </h1>
+        </a>
+
         <form id="formPesq" method="GET">
 
         <?php if ($pesquisando) { ?>
-       
-            <button id="bVoltarPesq" onclick="location.href='sistema.php'">Voltar</button>
             
-            <form id="formFiltros" method="GET">
-            <input type="hidden" name="pesquisa" value="<?= $_GET['pesquisa'] ?? '' ?>">
-            <input id ="filtroUsuarios"type="checkbox" class="filtro" name="filtroUsuarios" <?= isset($_GET['filtroUsuarios']) ? 'checked' : '' ?> value="user">
-            <label for="filtroUsuarios">Filtrar por usuários</label>
-            <input id="filtroPostagens" type="checkbox" class="filtro" name="filtroPostagens" <?= isset($_GET['filtroPostagens']) ? 'checked' : '' ?> value="post">
-            <label for="filtroPostagens">Filtrar por postagens</label>
-            <button type="submit">Aplicar filtros</button>
-            </form>
+            <button type="button" id="bVoltarPesq" onclick="location.href='sistema.php'">Voltar</button>
+            
+           
 
             
         <?php } 
@@ -90,82 +82,56 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         }
         ?>
 
-            
-            <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!">
-            <button type="submit">Buscar</button>
+        <!--explicando esse value:
+        value="abrephp/caso haja algo dentro do GET 'pesquisa'/ ? = então, use esse valor/ : = caso contrário, mantenha nulo/ fechaphp
+        O value mantém o valor da barra de pesquisa dentro dela mesmo após o usuário já ter enviado-->
+            <input name="pesquisa" type="text" class="pesquisa" placeholder="Pesquise ideias!" value="<?= isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '' ?>">
+            <button type="submit">Buscar ➣</button>
         </form>
+
+        <a href="sair.php">Sair</a>
         
         <a href='perfil.php?id=<?= $_SESSION['id'] ?>'>
             <button class="bNavbar" onclick="location.href='perfil.php'">Perfil</button>
         </a>
         </header>
-        <br><br><br><br>
         
         <?php //print_r($_SESSION); ?>
-        <h1>Boas-vindas, <?php echo $_SESSION['nome']; ?>!</h1><br>
+        
+            <h1 class="bemvindo">Boas-vindas, <?php echo $_SESSION['nome']; ?></h1><br>
+            
+            <?php if ($pesquisando) { ?>
+
+            <h2 id="pesquisandopor">➣ Pesquisando: <?= $_GET['pesquisa'] ?? '' ?> </h2>
+            <form id="formFiltros" method="GET">
+            <input type="hidden" name="pesquisa" value="<?= $_GET['pesquisa'] ?? '' ?>">
+            <input id ="filtroUsuarios"type="checkbox" class="filtro" name="filtroUsuarios" <?= isset($_GET['filtroUsuarios']) ? 'checked' : '' ?> value="user">
+            <label for="filtroUsuarios">Filtrar por usuários</label>
+            <input id="filtroPostagens" type="checkbox" class="filtro" name="filtroPostagens" <?= isset($_GET['filtroPostagens']) ? 'checked' : '' ?> value="post">
+            <label for="filtroPostagens">Filtrar por postagens</label>
+            <button type="submit">Aplicar filtros</button>
+            </form>
+              <?php } ?>
         <div class="container">
-            <aside class="sidebar">
-                <ul>
-                    <li> <button class="botao1">Pág inicial</button> </li>
-                    <li> <button class="botao2">Explorar</button> </li>
-                    <li> <button class="botao3">Seguindo</button> </li>
-                </ul>
-            </aside>
-
-            <main class="feed"></main>
-            <aside class="sidebar-esquerda">
-                <div class="card">
-                    
-                </div>
-            </aside>
+        
+            <!--<aside class="sidebar">
+                
+            Emilly eu tive que tirar o aside porque tava aparecendo uma 
+            linha aleatória no lado, mas coloquei os botões em coluna e coloquei todos com
+            a mesma class. Se quiser diferenciar eles, usa o id ok-->
+                
+                <button class="botao1" id="b1">Pág inicial</button> 
+                <button class="botao1" id="b2">Explorar </button> 
+                <button class="botao1" id="b3">Seguindo</button> 
+            
         </div>
-
-
-        <!--<div class="modal" id="modalPost">
-            <div class="modal-content">
-                <h2> Nova ideia </h2>
-                <input id="titulo" type="text" placeholder="Seu Título aqui!">
-                <textarea id="descricao" placeholder="Descrição"></textarea>
-                <div class="modal-botoes">
-                    <button class="botao4" onclick="criarPost()">Postar</button>
-                    <button class="botao5" onclick="fecharModal()">Canelar</button>
-                </div>
-            </div>
-        </div>-->
-
-    <a href="sair.php">Sair</a>
-
-    <form id="formPost" action="sistema.php" method="post" enctype="multipart/form-data">
-    <div id="loginBox">
-        <h1>Sugerir Ideia</h1>
-        <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia"><br><br>
-        <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia"><br><br>
-
-        <input type="file" id="fileInput" style="display: none;" onchange="adicionarImagem()" name="imagem[]" multiple> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
-
-        <button type="button" onclick="document.getElementById('fileInput').click()"> <!-- aciona o input escondigo -->
-            Selecionar imagem
-        </button>
-
-        <br>
-        
-        
-        <button type="button" id="bPostar" onclick="postar()">Postar</button>
-
-    </div>
-    </form>
-
-    
-    <ul id="listaImgs"></ul>
-    <br>
-    <div id="imgpreview" style="display: flex; gap: 10px; flex-wrap: wrap;"></div> <!-- onde virão as imgs selecionadas -->
-
-    <br>
-    <div id="posts"></div>
-    
-    <div class="card">
-        <!--<div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">-->
-            <?php
+            <!--</aside>-->
+            <main class="feed">
+                <div id="posts"></div>
+                
+                <div class="card">
+                    <!--<div class="card-body" style="border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px;">-->
+                        <?php
 
             function mostrarComentarios($parent_id, $comentarios, $nivel = 0) {
 
@@ -178,11 +144,17 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                     
 
                     echo "<div class='comentario-container' style='margin-left:{$espaco}px'>";
-
+                    
                     echo "<br>";
                     echo "<div class='userinfo'>";
+                    
+                    echo "<a href='perfil.php?id={$c['usuario_id']}'>"; //link para o perfil do usuário que fez o comentário
+                    //echo "<a href='perfil.php?id={$c['usuario_id']}'>"; //link para o perfil do usuário que fez o comentário
                     echo "<img src='" . $c['foto_perfil'] . "' alt='Foto de perfil' class='pfpimgComent'>";
                     echo "<span class='nome_comentario'>{$c['nome']}</span>";
+                    //echo "</a>";
+                    echo "</a>";
+
                     echo "</div>";
 
                     echo "<div class='comentarioContContainer' id='comentario-{$c['id']}'>";
@@ -210,6 +182,11 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                 // Input respostas
                 echo "<input id='resposta-{$c['id']}' placeholder='Responda...'>";
                 echo "<button onclick='postarResposta({$c['id']})'>Postar</button>";
+
+                if($c['usuario_id'] == $_SESSION['id'] || $c['usuario_id'] == $_SESSION['id']){ //verifica se o usuário logado é o autor do post ou do comentário para mostrar os botões de editar e excluir
+                    echo "<br>";
+                    echo "<button onclick='excluirComentario(" . $c['id'] . ")' id='BdeExcluir' class='btn btn-danger'>Excluir</button>"; //se for igual, mostra o botão de excluir
+                }
 
                 echo "<br>";
 
@@ -255,7 +232,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                     }
                     
                     else{
-                    $sql = "SELECT postagens.*, usuarios.nome, usuarios.foto_perfil FROM postagens 
+                    $sql = "SELECT postagens.*, usuarios.nome, usuarios.foto_perfil, usuarios.id AS id_usuario FROM postagens 
                             JOIN usuarios ON postagens.id_usuario = usuarios.id 
                             WHERE postagens.titulo LIKE '%$pesquisa%' OR postagens.descricao LIKE '%$pesquisa%' OR usuarios.nome LIKE '%$pesquisa%'"; //consulta SQL para buscar postagens que tenham o termo de pesquisa no título ou na descrição, e também traz o nome e a foto de perfil do usuário que fez a postagem
                     $posts = $conexao->query($sql);
@@ -268,7 +245,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                 }
                 else {
                 $posts = $conexao->query("
-                    SELECT p.*, u.nome, u.foto_perfil 
+                    SELECT p.*, u.nome, u.foto_perfil, u.id AS id_usuario 
                     FROM postagens p
                     JOIN usuarios u ON p.id_usuario = u.id
                     ORDER BY p.data DESC
@@ -325,7 +302,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         </span>
                         
                         <br>
-                        <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..."> 
+                        <input id="comentario-<?= $row['id'] ?>" placeholder="Deixe um comentário..." required> 
                         <button onclick="postarComentario(<?= $row['id'] ?>)">Postar Comentário</button> 
                         <br>
                         
@@ -354,7 +331,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         }
 
                         
-                        if($row["nome"] == $_SESSION['nome']){ //verifica se o nome do usuário logado é igual ao nome do usuário que fez a postagem
+                        if($row["id_usuario"] == $_SESSION['id']){ //verifica se o ID do usuário logado é igual ao ID do usuário que fez a postagem
                             echo "<button onclick='editarPostagem(" . $row["id"] . ")' id='BdeEditar' class='btn btn-primary'>Editar</button>"; //se for igual, mostra o botão de editar
                             echo "<button onclick='excluirPostagem(" . $row["id"] . ")' id='BdeExcluir' class='btn btn-danger'>Excluir</button>"; //se for igual, mostra o botão de excluir
                         }
@@ -375,11 +352,11 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         //");
 
                         // pega os comentários do post cujo id é igual ao id da postagem atual
-                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil 
+                        $result = $conexao->query(" SELECT c.comentario, c.data, c.id, c.upvotes, c.downvotes, c.parent_id, u.nome, u.foto_perfil, c.usuario_id 
                         FROM comentarios c 
                         JOIN usuarios u 
                         ON c.usuario_id = u.id 
-                        WHERE c.post_id = {$row['id']} AND c.parent_id IS NULL
+                        WHERE c.post_id = {$row['id']} 
                         ORDER BY c.upvotes DESC 
                         LIMIT 3"); //limita a exibição a 3 comentários, ordenados pelos mais votados. Os demais comentários podem ser vistos na página do post inteiro
                         
@@ -387,7 +364,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                         FROM comentarios c
                         JOIN usuarios u 
                         ON c.usuario_id = u.id 
-                        WHERE c.post_id = {$row['id']} AND c.parent_id IS NULL
+                        WHERE c.post_id = {$row['id']} 
                         ORDER BY c.upvotes DESC"); //query para obter o total de comentários
 
                        
@@ -414,7 +391,7 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
                             //echo "<button class='ver-mais' onclick='carregarMais({$row['id']}, 3)'>Ver mais comentários</button>"; //botão para carregar mais comentários, começa a partir do offset 3, ou seja, a partir do 4º comentário
                             echo "<a class='vermaiscoment'href='postinteiro.php?id={$row['id']}'>Mais Comentários</a>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
                             //echo "<button class='ver-mais' onclick='location.href=\"postinteiro.php?id={$row['id']}\"'>Ver mais comentários</button>"; //botão para carregar mais comentários, redireciona para a página do post inteiro onde todos os comentários são exibidos
-                        } else {
+                        } if ($result_total->num_rows == 0) {
                             echo "<p>Seja o primeiro a comentar!</p>"; //caso não haja comentários, mostra essa mensagem
                         }
 
@@ -432,6 +409,33 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
             ?>
         <!--</div>-->
     </div>
+    </main>
+</div>
+
+    <form id="formPost" action="sistema.php" method="post" enctype="multipart/form-data">
+    <div id="loginBox">
+        <h1>Sugerir Ideia</h1>
+        <input id="TituloPost" name="titulo" type="text" placeholder="Nome da Ideia" required><br><br>
+        <input id="DescPost" name="descricao" type="text" placeholder="Descrição da Ideia" required><br><br>
+
+        <input type="file" id="fileInput" style="display: none;" onchange="adicionarImagem()" name="imagem[]" multiple> <!-- esse fica escondigo, e aciona a função mostrarImg. Esse input é acionado pelo button-->
+
+        <button id="addimg" type="button" onclick="document.getElementById('fileInput').click()"> <!-- aciona o input escondigo -->
+            Selecionar imagem
+        </button>
+
+        <br>
+        <div id="imgpreview" style="display: flex; gap: 10px; flex-wrap: wrap;"></div> <!-- onde virão as imgs selecionadas -->
+        
+        <button type="button" id="bPostar" onclick="postar()">Postar</button>
+
+    </div>
+    </form>
+
+    
+    <ul id="listaImgs"></ul>
+
+    <br>
     <div id="confirmBox" class="confirm-box">
     <div class="confirm-content">
         <p>Tem certeza que deseja excluir esta postagem?</p>
@@ -439,6 +443,15 @@ $pesquisando = isset($_GET['pesquisa']) && $_GET['pesquisa'] != "";
         <button onclick="cancelar()">Cancelar</button>
     </div>
     </div>
+
+     <div id="confirmBoxComentario" class="confirm-box">
+    <div class="confirm-content">
+        <p>Tem certeza que deseja excluir este comentário?</p>
+        <button onclick="confirmarC()">Sim</button>
+        <button onclick="cancelarC()">Cancelar</button>
+    </div>
+    </div>
+
 
     
     <script src="sistema.js"></script>

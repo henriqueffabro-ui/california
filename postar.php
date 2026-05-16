@@ -8,6 +8,15 @@ $usuario = $_SESSION['id']; // usuário logado
 $titulo = $conexao->real_escape_string($_POST["titulo"] ?? ''); // título do post, escapado para evitar SQL injection
 $descricao = $conexao->real_escape_string($_POST["descricao"] ?? ''); // descrição do post, escapado para evitar SQL injection
 
+if (empty($titulo) || empty($descricao)) {
+
+    echo json_encode([
+        "erro" => "Preencha todos os campos."
+    ]);
+
+    exit;
+}
+
 $sqlPost = "INSERT INTO postagens (id_usuario, titulo, descricao)
 VALUES ($usuario, '$titulo', '$descricao')";
 

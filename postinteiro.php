@@ -4,7 +4,7 @@ include "config.php";
 
 $id_post = $_GET['id']; // Obtém o ID do usuário a partir da URL
 
-$sql = "SELECT * FROM postagens WHERE id = $id_post"; // Consulta SQL para obter os dados do usuário
+$sql = "SELECT * FROM postagens WHERE id = $id_post"; // Consulta SQL para obter os dados do post com base no ID
 $result = $conexao->query($sql); // Executa a consulta
 $row = $result->fetch_assoc(); // Obtém os dados da postagem
 
@@ -13,7 +13,7 @@ $sql_postador = "SELECT * FROM usuarios WHERE id = $postador_id"; // Consulta SQ
 $result_postador = $conexao->query($sql_postador); // Executa a consulta
 $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário que fez a postagem
 
- function mostrarComentarios($parent_id, $comentarios, $nivel = 0) {
+ function mostrarComentarios($parent_id, $comentarios, $id_post,$nivel = 0) {
 
                 if (!isset($comentarios[$parent_id])) return; //se nao tiver respostas, não executa o código
 
@@ -25,8 +25,12 @@ $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário 
 
                     echo "<br>";
                     echo "<div class='userinfo'>";
+
+                  echo "<a href='perfil.php?id={$c['usuario_id']}&post_id={$id_post}'>"; // Link para o perfil do usuário
                     echo "<img src='" . $c['foto_perfil'] . "' alt='Foto de perfil' class='pfpimgComent'>";
                     echo "<span class='nome_comentario'>{$c['nome']}</span>";
+                    echo "</a>";
+
                     echo "</div>";
 
                     echo "<div id='comentario-{$c['id']}'>";
@@ -61,7 +65,7 @@ $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário 
                 echo "<div id='Aparecerresposta-{$c['id']}' class='respostas'>";
 
                 // recursão, chama a função novamente para fazer respostas de respostas
-                mostrarComentarios($c['id'], $comentarios, $nivel + 1);
+                mostrarComentarios($c['id'], $comentarios, $id_post, $nivel + 1);
 
                 echo "</div>";
 
@@ -69,19 +73,31 @@ $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário 
 
             }
         } 
+    $perfil_id = $_GET['perfil_id'] ?? null;
+    if ($perfil_id) {
+        echo "<button onclick=\"location.href='perfil.php?id={$perfil_id}'\">Voltar para o perfil</button><br>";
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ideia</title>
+    <link rel="stylesheet" href="Esistema.css">
+    <link rel="icon" href="imgs/bulbi.png" type="image/x-icon">
+   
 </head>
 <body>
     <button onclick="location.href='sistema.php'">Voltar para o feed</button>
     <br>
+
+    <a href="perfil.php?id=<?= $row_postador['id'] ?>&post_id=<?= $id_post ?>"> <!-- Link para o perfil do usuário que fez a postagem -->
     <img src="<?= $row_postador['foto_perfil'] ?>" alt="Foto de perfil" width="50px">
     <h1><?= $row_postador['nome'] ?></h1>
+    </a>
+
     <h1><?= $row['titulo'] ?></h1>
     <p><?= $row['descricao'] ?></p>
     <?php 
@@ -98,7 +114,7 @@ $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário 
       <?php
         $comentarios = [];
 
-        $sql = "SELECT comentarios.*, usuarios.nome, usuarios.foto_perfil 
+        $sql = "SELECT comentarios.*, usuarios.nome, usuarios.foto_perfil
                 FROM comentarios
                 JOIN usuarios ON comentarios.usuario_id = usuarios.id
                 WHERE post_id = {$row['id']}
@@ -106,9 +122,9 @@ $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário 
 
         $resultcoment = $conexao->query($sql);
 
-        while ($row = $resultcoment->fetch_assoc()) {
-            $parent = $row['parent_id'] ?? 0;
-            $comentarios[$parent][] = $row;
+        while ($coment = $resultcoment->fetch_assoc()) {
+            $parent = $coment['parent_id'] ?? 0;
+            $comentarios[$parent][] = $coment;
         }
         ?>
 
@@ -118,7 +134,11 @@ $row_postador = $result_postador->fetch_assoc(); // Obtém os dados do usuário 
                 <br>
 
                 <div class="comentarios" id="comentarios-<?= $row['id'] ?>">
-                    <?php mostrarComentarios(0, $comentarios); ?>
+                    <?php mostrarComentarios(0, $comentarios, $id_post); ?>
                 </div>  
+
+              
+
+    <script src="sistema.js"></script>
 </body>
 </html>
